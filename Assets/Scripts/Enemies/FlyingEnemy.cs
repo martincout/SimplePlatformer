@@ -51,7 +51,7 @@ public class FlyingEnemy : Enemy
         }
         //Direction and Movement
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb2d.position).normalized;
-        Vector2 force = direction * speed * Time.deltaTime;
+        Vector2 force = direction * _edata.speed * Time.deltaTime;
         rb2d.AddForce(force);
         //Distance
         float distance = Vector2.Distance(rb2d.position, path.vectorPath[currentWaypoint]);

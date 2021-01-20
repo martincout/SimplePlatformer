@@ -1,26 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Pathfinding;
+using SimplePlatformer.ExpandableAttributes;
 namespace SimplePlatformer.Enemy
 {
     public class Enemy : MonoBehaviour, IDamagable
     {
-        [Header("Stats")]
-        [SerializeField] private float maxHealth;
-        [SerializeField] protected float speed = 200f;
-        [SerializeField] private float damage = 60f;
-        private HealthSystem healthSystem;
+        [Expandable]
+        public EnemyData _edata;
+        protected HealthSystem healthSystem;
+        protected GameObject GFX;
         [Header("Attack")]
-        [SerializeField] private float thrust = 50f;
-        [SerializeField] private float visionRadius;
-        [SerializeField] private float attackRadius;
-        [SerializeField] private float attackRate = 1.2f;
         private float cooldownAttack = 0f;
         [SerializeField] private float attackRange = 0.2f;
         [SerializeField] private Transform attackPoint;
         [Header("Stun")]
-        [SerializeField] private float stunTime = 0.3f;
         [SerializeField] private float noStunTime = 10f;
+        private float thrust = 50f;
         private float startStunTime;
         private bool isStunned = false;
         private bool isAttacking = false;
@@ -33,27 +29,24 @@ namespace SimplePlatformer.Enemy
         protected int currentWaypoint = 0;
         protected bool reachedEndOfPath = false;
         protected float nextWaypointDistance = 3f;
-
-
         [SerializeField] private float rayLength = 0.2f;
         private Transform groundDetector;
-
         public GameObject particle;
         private Animator anim;
         protected Rigidbody2D rb2d;
 
         public virtual void Start()
         {
-            anim = GetComponent<Animator>();
+            GFX = transform.GetChild(0).gameObject;
+            anim = GFX.GetComponent<Animator>();
             rb2d = GetComponent<Rigidbody2D>();
             healthSystem = GetComponent<HealthSystem>();
             seeker = GetComponent<Seeker>();
-
-            startStunTime = stunTime;
-            groundDetector = transform.GetChild(2)?.GetComponent<Transform>();
+            startStunTime = _edata.stunTime;
+            groundDetector = transform.GetChild(3)?.GetComponent<Transform>();
         }
-        
-        
+
+
 
         protected virtual void FixedUpdate()
         {
@@ -66,7 +59,7 @@ namespace SimplePlatformer.Enemy
         private bool CheckGround()
         {
             //float rayLength = Mathf.Abs(deltaMove.x) + skinWidth * 2;
-           
+
             //Vector2 rayOrigin = (directionX == -1 ? raycastOrigins.bottomLeft : raycastOrigins.bottomRight) +
             //    Vector2.up * deltaMove.y;
             Vector2 rayOrigin = groundDetector.position;
@@ -82,7 +75,7 @@ namespace SimplePlatformer.Enemy
         }
         protected virtual void Update()
         {
-            
+
 
             StunTimeReset();
             CooldownAttack();
@@ -112,12 +105,12 @@ namespace SimplePlatformer.Enemy
         {
 
             //Not stunned
-            if (stunTime < 0)
+            if (_edata.stunTime < 0)
             {
-                stunTime -= Time.deltaTime;
-                if (stunTime < -noStunTime)
+                _edata.stunTime -= Time.deltaTime;
+                if (_edata.stunTime < -noStunTime)
                 {
-                    stunTime = startStunTime;
+                    _edata.stunTime = startStunTime;
                 }
             }
         }
@@ -128,7 +121,8 @@ namespace SimplePlatformer.Enemy
         {
             #region Find Player
             //Vision radius
-            Collider2D[] circleVision = Physics2D.OverlapCircleAll(transform.position, visionRadius);
+            Collider2D[] circleVision = Physics2D.OverlapCircleAll(transform.position, _edata.visionRadius, 1 << LayerMask.NameToLayer("Player"));
+            Collider2D[] boxAttackRadius = Physics2D.OverlapBoxAll(transform.position, _edata.attackRadius, 0, 1 << LayerMask.NameToLayer("Player"));
 
             Vector3 target = transform.position;
             bool foundPlayer = false;
@@ -142,9 +136,11 @@ namespace SimplePlatformer.Enemy
                 }
                 foundPlayer = false;
             }
+
+
             if (!foundPlayer)
             {
-                PlayAnimation("enemyIdle");
+                PlayAnimation("skeletonIdle");
                 return;
             }
 
@@ -164,7 +160,7 @@ namespace SimplePlatformer.Enemy
             }
             else
             {
-                if (!isAttacking) PlayAnimation("enemyIdle");
+                if (!isAttacking) PlayAnimation("skeletonIdle");
                 dirX = 0;
             }
 
@@ -184,24 +180,30 @@ namespace SimplePlatformer.Enemy
                 #region Chase and Attack
                 //Flip the sprite
                 Flip(dir);
-                //Chase and Attack
+                //Raycast target checking the vision radius
                 if (raycastTarget.distance < distance)
                 {
-                    if (distance < attackRadius)
+                    //Check if there is a player in the attack radius
+                    if (boxAttackRadius.Length > 0)
                     {
-                        if (!isAttacking)
+                        foreach (Collider2D col in boxAttackRadius)
                         {
-                            isAttacking = true;
-                            anim.Play("enemyAttack");
-                            cooldownAttack = attackRate;
+                            if (col.CompareTag("Player"))
+                            {
+                                if (!isAttacking)
+                                {
+                                    isAttacking = true;
+                                    anim.Play("skeletonAttack");
+                                    cooldownAttack = _edata.attackRate;
+                                }
+                            }
                         }
                     }
-                    else if(!isAttacking)
+                    else
                     {
-                        if (dirX != 0) { anim.Play("enemyWalk"); }
-                        rb2d.velocity = new Vector2(dirX * speed * (50 * Time.deltaTime), GetComponent<Rigidbody2D>().velocity.y);
+                        if (dirX != 0) { anim.Play("skeletonWalk"); }
+                        rb2d.velocity = new Vector2(dirX * _edata.speed * Time.deltaTime, GetComponent<Rigidbody2D>().velocity.y);
                     }
-
                 }
                 #endregion
             }
@@ -221,7 +223,7 @@ namespace SimplePlatformer.Enemy
                 {
                     if (col.GetComponent<IDamagable>() != null)
                     {
-                        col.GetComponent<IDamagable>().TakeDamage(damage, transform.position);
+                        col.GetComponent<IDamagable>().TakeDamage(_edata.damage, transform.position);
                     }
                 }
             }
@@ -235,7 +237,7 @@ namespace SimplePlatformer.Enemy
         {
             if (col.CompareTag("Player") && !itsDying && !LevelManager.instance.isPlayerDead)
             {
-                col.GetComponent<IDamagable>().TakeDamage(damage, transform.position);
+                col.GetComponent<IDamagable>().TakeDamage(_edata.damage, transform.position);
             }
         }
 
@@ -294,7 +296,7 @@ namespace SimplePlatformer.Enemy
 
         private IEnumerator KnockCo(Vector3 playerPos)
         {
-            if (stunTime > 0)
+            if (_edata.stunTime > 0)
             {
                 isStunned = true;
             }
@@ -304,11 +306,11 @@ namespace SimplePlatformer.Enemy
             rb2d.mass = 1;
             rb2d.AddForce(force, ForceMode2D.Impulse);
             rb2d.mass = 999;
-            yield return new WaitForSeconds(stunTime);
+            yield return new WaitForSeconds(_edata.stunTime);
             isStunned = false;
-            if (stunTime > 0)
+            if (_edata.stunTime > 0)
             {
-                stunTime -= 0.1f;
+                _edata.stunTime -= 0.1f;
             }
             rb2d.velocity = new Vector2();
         }
@@ -318,7 +320,7 @@ namespace SimplePlatformer.Enemy
             itsDying = true;
             Physics2D.IgnoreLayerCollision(10, 10);
             rb2d.velocity = new Vector2();
-            anim.Play("enemyDie");
+            anim.Play("skeletonDie");
             yield return new WaitForSeconds(0.55f);
             rb2d.isKinematic = true;
             GetComponent<BoxCollider2D>().enabled = false;
@@ -332,20 +334,20 @@ namespace SimplePlatformer.Enemy
         {
             if (dir.x > 0)
             {
-                transform.localRotation = Quaternion.identity;
+                transform.localScale = new Vector3(1, 1, 1);
             }
             else
             {
-                transform.localRotation = Quaternion.Euler(0, 180, 0);
+                transform.localScale = new Vector3(-1, 1, 1);
             }
         }
 
         void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, visionRadius);
+            Gizmos.DrawWireSphere(transform.position, _edata.visionRadius);
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, attackRadius);
+            Gizmos.DrawWireCube(transform.position, _edata.attackRadius);
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(attackPoint.position, attackRange);
         }
@@ -362,4 +364,6 @@ namespace SimplePlatformer.Enemy
         }
     }
 
+
 }
+
