@@ -90,7 +90,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8702034491002796005}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 19.78, y: -3.42, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -266,6 +266,8 @@ MonoBehaviour:
   attackPoint: {fileID: 1706790442775499563}
   stunTime: 0.3
   noStunTime: 10
+  target: {fileID: 0}
+  rayLength: 0.2
   particle: {fileID: 4845847811503115763, guid: 8b218e29b647a9743af25554be4dc9b6, type: 3}
 --- !u!1 &9000702686615824809
 GameObject:

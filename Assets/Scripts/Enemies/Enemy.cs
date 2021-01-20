@@ -1,17 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using Pathfinding;
 namespace SimplePlatformer.Enemy
 {
     public class Enemy : MonoBehaviour, IDamagable
     {
         [Header("Stats")]
         [SerializeField] private float maxHealth;
-        [SerializeField] private float speed = 5f;
+        [SerializeField] protected float speed = 200f;
         [SerializeField] private float damage = 60f;
         private HealthSystem healthSystem;
-
-
         [Header("Attack")]
         [SerializeField] private float thrust = 50f;
         [SerializeField] private float visionRadius;
@@ -28,24 +26,36 @@ namespace SimplePlatformer.Enemy
         private bool isAttacking = false;
         private bool itsDying = false;
         private float dirX;
+        [Header("PathFinding")]
+        [SerializeField] protected Transform target;
+        protected Path path;
+        protected Seeker seeker;
+        protected int currentWaypoint = 0;
+        protected bool reachedEndOfPath = false;
+        protected float nextWaypointDistance = 3f;
+
 
         [SerializeField] private float rayLength = 0.2f;
         private Transform groundDetector;
 
         public GameObject particle;
         private Animator anim;
-        private Rigidbody2D rb2d;
+        protected Rigidbody2D rb2d;
 
-        public void Start()
+        public virtual void Start()
         {
             anim = GetComponent<Animator>();
             rb2d = GetComponent<Rigidbody2D>();
             healthSystem = GetComponent<HealthSystem>();
-            startStunTime = stunTime;
-            groundDetector = transform.GetChild(2).GetComponent<Transform>();
-        }
+            seeker = GetComponent<Seeker>();
 
-        private void FixedUpdate()
+            startStunTime = stunTime;
+            groundDetector = transform.GetChild(2)?.GetComponent<Transform>();
+        }
+        
+        
+
+        protected virtual void FixedUpdate()
         {
             if (!itsDying && !LevelManager.instance.isPlayerDead)
             {
@@ -70,8 +80,10 @@ namespace SimplePlatformer.Enemy
                 return true;
             }
         }
-        private void Update()
+        protected virtual void Update()
         {
+            
+
             StunTimeReset();
             CooldownAttack();
         }
