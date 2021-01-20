@@ -18,7 +18,7 @@ MonoBehaviour:
   model: {fileID: 7928858964255100155, guid: 83882e7cb27dc2945928f0f671ecf0db, type: 3}
   speed: 200
   visionRadius: 7
-  attackRadius: {x: 2, y: 2.5}
+  attackRadius: {x: 3, y: 2.5}
   attackRange: 1
   attackRate: 1.2
   damage: 60

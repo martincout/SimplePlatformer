@@ -6,7 +6,7 @@ namespace SimplePlatformer.Enemy
 {
     public class Enemy : MonoBehaviour, IDamagable
     {
-        [Expandable]
+        [ExpandableAttribute]
         public EnemyData _edata;
         protected HealthSystem healthSystem;
         protected GameObject GFX;
@@ -14,6 +14,7 @@ namespace SimplePlatformer.Enemy
         private float cooldownAttack = 0f;
         [SerializeField] private float attackRange = 0.2f;
         [SerializeField] private Transform attackPoint;
+        [SerializeField] private bool checkForHitBox = false;
         [Header("Stun")]
         [SerializeField] private float noStunTime = 10f;
         private float thrust = 50f;
@@ -37,22 +38,41 @@ namespace SimplePlatformer.Enemy
 
         public virtual void Start()
         {
-            GFX = transform.GetChild(0).gameObject;
-            anim = GFX.GetComponent<Animator>();
+            anim = GetComponent<Animator>();
             rb2d = GetComponent<Rigidbody2D>();
             healthSystem = GetComponent<HealthSystem>();
             seeker = GetComponent<Seeker>();
             startStunTime = _edata.stunTime;
-            groundDetector = transform.GetChild(3)?.GetComponent<Transform>();
+            groundDetector = transform.GetChild(2)?.GetComponent<Transform>();
         }
 
 
 
         protected virtual void FixedUpdate()
         {
+            CheckHitBox();
             if (!itsDying && !LevelManager.instance.isPlayerDead)
             {
                 Move();
+            }
+        }
+
+        private void CheckHitBox()
+        {
+            if (checkForHitBox)
+            {
+                if (!itsDying)
+                {
+                    Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, 1 << LayerMask.NameToLayer("Player"));
+
+                    foreach (Collider2D col in hits)
+                    {
+                        if (col.GetComponent<IDamagable>() != null)
+                        {
+                            col.GetComponent<IDamagable>().TakeDamage(_edata.damage, transform.position);
+                        }
+                    }
+                }
             }
         }
 
@@ -75,8 +95,6 @@ namespace SimplePlatformer.Enemy
         }
         protected virtual void Update()
         {
-
-
             StunTimeReset();
             CooldownAttack();
         }
@@ -140,7 +158,6 @@ namespace SimplePlatformer.Enemy
 
             if (!foundPlayer)
             {
-                PlayAnimation("skeletonIdle");
                 return;
             }
 
@@ -210,24 +227,6 @@ namespace SimplePlatformer.Enemy
 
         }
 
-        /// <summary>
-        /// Animation Event: Do the Damage
-        /// </summary>
-        private void Hit()
-        {
-            if (!itsDying)
-            {
-                Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, 1 << LayerMask.NameToLayer("Player"));
-
-                foreach (Collider2D col in hits)
-                {
-                    if (col.GetComponent<IDamagable>() != null)
-                    {
-                        col.GetComponent<IDamagable>().TakeDamage(_edata.damage, transform.position);
-                    }
-                }
-            }
-        }
 
         /// <summary>
         /// Damage to the Character
@@ -348,6 +347,10 @@ namespace SimplePlatformer.Enemy
             Gizmos.DrawWireSphere(transform.position, _edata.visionRadius);
             Gizmos.color = Color.red;
             Gizmos.DrawWireCube(transform.position, _edata.attackRadius);
+        }
+
+        void OnDrawGizmos()
+        {
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(attackPoint.position, attackRange);
         }

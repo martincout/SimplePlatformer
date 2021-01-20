@@ -1,11 +1,15 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
+﻿using UnityEngine;
+
+#if UNITY_EDITOR
 using System;
-
-
+using System.Collections.Generic;
+using UnityEditor;
+#endif
 namespace SimplePlatformer.ExpandableAttributes
 {
+    
+
+    #region UNITY_EDITOR
     /// <summary>
     /// Draws the property field for any field marked with ExpandableAttribute.
     /// </summary>
@@ -53,11 +57,6 @@ namespace SimplePlatformer.ExpandableAttributes
         private static Color LIGHTEN_COLOUR = new Color(1.0f, 1.0f, 1.0f, 0.2f);
         #endregion
 
-        /// <summary>
-        /// Cached editor reference.
-        /// </summary>
-        private Editor editor = null;
-
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             float totalHeight = 0.0f;
@@ -70,13 +69,12 @@ namespace SimplePlatformer.ExpandableAttributes
             if (!property.isExpanded)
                 return totalHeight;
 
-            if (editor == null)
-                Editor.CreateCachedEditor(property.objectReferenceValue, null, ref editor);
+            SerializedObject targetObject = new SerializedObject(property.objectReferenceValue);
 
-            if (editor == null)
+            if (targetObject == null)
                 return totalHeight;
 
-            SerializedProperty field = editor.serializedObject.GetIterator();
+            SerializedProperty field = targetObject.GetIterator();
 
             field.NextVisible(true);
 
@@ -85,7 +83,7 @@ namespace SimplePlatformer.ExpandableAttributes
                 totalHeight += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             }
 
-            while (field.NextVisible(true))
+            while (field.NextVisible(false))
             {
                 totalHeight += EditorGUI.GetPropertyHeight(field, true) + EditorGUIUtility.standardVerticalSpacing;
             }
@@ -104,24 +102,17 @@ namespace SimplePlatformer.ExpandableAttributes
             EditorGUI.PropertyField(fieldRect, property, label, true);
 
             if (property.objectReferenceValue == null)
-            {
-                Debug.Log("It's secretly null");
                 return;
-            }
 
             property.isExpanded = EditorGUI.Foldout(fieldRect, property.isExpanded, GUIContent.none, true);
 
             if (!property.isExpanded)
                 return;
 
-            if (editor == null)
-                Editor.CreateCachedEditor(property.objectReferenceValue, null, ref editor);
+            SerializedObject targetObject = new SerializedObject(property.objectReferenceValue);
 
-            if (editor == null)
-            {
-                Debug.Log("Couldn't fetch editor");
+            if (targetObject == null)
                 return;
-            }
 
 
             #region Format Field Rects
@@ -129,11 +120,11 @@ namespace SimplePlatformer.ExpandableAttributes
             Rect marchingRect = new Rect(fieldRect);
 
             Rect bodyRect = new Rect(fieldRect);
-            bodyRect.xMin += EditorGUI.indentLevel * 18;
+            bodyRect.xMin += EditorGUI.indentLevel * 14;
             bodyRect.yMin += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing
                 + OUTER_SPACING;
 
-            SerializedProperty field = editor.serializedObject.GetIterator();
+            SerializedProperty field = targetObject.GetIterator();
             field.NextVisible(true);
 
             marchingRect.y += INNER_SPACING + OUTER_SPACING;
@@ -144,7 +135,7 @@ namespace SimplePlatformer.ExpandableAttributes
                 marchingRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             }
 
-            while (field.NextVisible(true))
+            while (field.NextVisible(false))
             {
                 marchingRect.y += marchingRect.height + EditorGUIUtility.standardVerticalSpacing;
                 marchingRect.height = EditorGUI.GetPropertyHeight(field, true);
@@ -162,7 +153,7 @@ namespace SimplePlatformer.ExpandableAttributes
             EditorGUI.indentLevel++;
 
             int index = 0;
-            field = editor.serializedObject.GetIterator();
+            field = targetObject.GetIterator();
             field.NextVisible(true);
 
             if (SHOW_SCRIPT_FIELD)
@@ -175,7 +166,7 @@ namespace SimplePlatformer.ExpandableAttributes
             }
 
             //Replacement for "editor.OnInspectorGUI ();" so we have more control on how we draw the editor
-            while (field.NextVisible(true))
+            while (field.NextVisible(false))
             {
                 try
                 {
@@ -190,6 +181,8 @@ namespace SimplePlatformer.ExpandableAttributes
 
                 index++;
             }
+
+            targetObject.ApplyModifiedProperties();
 
             EditorGUI.indentLevel--;
             #endregion
@@ -218,5 +211,5 @@ namespace SimplePlatformer.ExpandableAttributes
             }
         }
     }
-
+    #endregion
 }
