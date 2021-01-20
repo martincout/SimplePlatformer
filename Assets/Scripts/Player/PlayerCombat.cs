@@ -12,7 +12,8 @@ namespace SimplePlatformer.Player
         [SerializeField] private float attackRate = 0.3f;
         [SerializeField] private float attackDamage = 10f;
         [SerializeField] private float offsetAttack = 1.4f;
-
+        [SerializeField] private bool checkForHitBox = false;
+        [SerializeField] private int manyHits = 1;
 
         [Header("Hurt")]
 
@@ -26,7 +27,26 @@ namespace SimplePlatformer.Player
             rb2d = GetComponent<Rigidbody2D>();
             render = GetComponent<Renderer>();
         }
-
+        private void FixedUpdate()
+        {
+            if (checkForHitBox)
+            {
+                Collider2D[] hit = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
+                foreach (Collider2D col in hit)
+                {
+                    if (col.GetComponent<IDamagable>() != null && manyHits >= 1)
+                    {
+                        col.GetComponent<IDamagable>().TakeDamage(attackDamage, transform.position);
+                        manyHits -= 1;
+                        //if (!isJumping) StartCoroutine(ImpulseBackwards());
+                    }
+                }
+            }
+            else
+            {
+                manyHits = 0;
+            }
+        }
 
         private void Update()
         {
@@ -62,7 +82,7 @@ namespace SimplePlatformer.Player
             }
             #endregion
             #region Check Collision
-            Collider2D[] hit = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
+            
             if (Time.time > coolDownAttack)
             {
                 isAttacking = false;
@@ -70,7 +90,6 @@ namespace SimplePlatformer.Player
                 if (Input.GetButtonDown("Attack"))
                 {
                     isAttacking = true;
-
 
                     if (!isJumping)
                     {
@@ -88,15 +107,6 @@ namespace SimplePlatformer.Player
                         airAttacked = true;
 
                     }
-                    foreach (Collider2D col in hit)
-                    {
-                        if (col.GetComponent<IDamagable>() != null)
-                        {
-                            col.GetComponent<IDamagable>().TakeDamage(attackDamage, transform.position);
-                            //if (!isJumping) StartCoroutine(ImpulseBackwards());
-                        }
-                    }
-
 
                 }
             }

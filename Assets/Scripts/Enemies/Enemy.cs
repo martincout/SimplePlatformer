@@ -35,6 +35,9 @@ namespace SimplePlatformer.Enemy
         public GameObject particle;
         private Animator anim;
         protected Rigidbody2D rb2d;
+        //How many hits when checking for hit box
+        public int manyHits = 1;
+        private float stunTimeCooldown;
 
         public virtual void Start()
         {
@@ -60,7 +63,7 @@ namespace SimplePlatformer.Enemy
 
         private void CheckHitBox()
         {
-            if (checkForHitBox)
+            if (checkForHitBox )
             {
                 if (!itsDying)
                 {
@@ -68,9 +71,11 @@ namespace SimplePlatformer.Enemy
 
                     foreach (Collider2D col in hits)
                     {
-                        if (col.GetComponent<IDamagable>() != null)
+                        if (col.GetComponent<IDamagable>() != null && manyHits >= 1)
                         {
                             col.GetComponent<IDamagable>().TakeDamage(_edata.damage, transform.position);
+                            
+                            manyHits -= 1;
                         }
                     }
                 }
@@ -126,11 +131,11 @@ namespace SimplePlatformer.Enemy
             //Not stunned
             if (_edata.stunTime > 0)
             {
-                _edata.stunTime -= Time.deltaTime;
+                stunTimeCooldown -= Time.deltaTime;
             }
             else
             {
-                _edata.stunTime = startStunTime;
+                stunTimeCooldown = startStunTime;
             }
         }
 
@@ -246,51 +251,57 @@ namespace SimplePlatformer.Enemy
         #region Take Damage
         public void TakeDamage(float damage, Vector3 attackerPos)
         {
-            healthSystem.DealDamage(damage);
-
-
-            if (healthSystem.GetHealth() > 0)
+            if (!itsDying)
             {
-                SoundManager.instance.Play("skeletonHit");
-                anim.SetTrigger("hurt");
-                if (!isStunned)
+                healthSystem.DealDamage(damage);
+                if (healthSystem.GetHealth() > 0)
                 {
-                    StopCoroutine(KnockCo(attackerPos));
-                    StartCoroutine(KnockCo(attackerPos));
+                    SoundManager.instance.Play("skeletonHit");
+                    anim.Play("skeletonHurt",1,0);
+                    if (!isStunned)
+                    {
+                        StopCoroutine(KnockCo(attackerPos));
+                        StartCoroutine(KnockCo(attackerPos));
+                    }
+                    Vector3 dir = transform.position - attackerPos;
+                    dir = transform.position + dir.normalized;
+                    GameObject instance = Instantiate(particle, dir, Quaternion.identity);
+                    Destroy(instance, 1f);
                 }
-                Vector3 dir = transform.position - attackerPos;
-                dir = transform.position + dir.normalized;
-                GameObject instance = Instantiate(particle, dir, Quaternion.identity);
-                Destroy(instance, 1f);
+                else
+                {
+                    SoundManager.instance.Play("Death");
+                    StopAllCoroutines();
+                    StartCoroutine(DieCo());
+                    GameObject instance = Instantiate(particle, transform.position, Quaternion.identity);
+                    Destroy(instance, 1f);
+                }
             }
-            else
-            {
-                SoundManager.instance.Play("Death");
-                StopAllCoroutines();
-                StartCoroutine(DieCo());
-                GameObject instance = Instantiate(particle, transform.position, Quaternion.identity);
-                Destroy(instance, 1f);
-            }
+            
         }
 
         public void TakeDamage(float damage)
         {
-            healthSystem.DealDamage(damage);
-            GameObject instance = Instantiate(particle, transform.position, Quaternion.identity);
+            if (!itsDying)
+            {
+                healthSystem.DealDamage(damage);
+                GameObject instance = Instantiate(particle, transform.position, Quaternion.identity);
 
-            if (healthSystem.GetHealth() > 0)
-            {
-                SoundManager.instance.Play("skeletonHit");
-                anim.SetTrigger("hurt");
-                Destroy(instance, 1f);
+                if (healthSystem.GetHealth() > 0)
+                {
+                    SoundManager.instance.Play("skeletonHit");
+                    anim.SetTrigger("hurt");
+                    Destroy(instance, 1f);
+                }
+                else
+                {
+                    SoundManager.instance.Play("Death");
+                    StopAllCoroutines();
+                    StartCoroutine(DieCo());
+                    Destroy(instance, 1f);
+                }
             }
-            else
-            {
-                SoundManager.instance.Play("Death");
-                StopAllCoroutines();
-                StartCoroutine(DieCo());
-                Destroy(instance, 1f);
-            }
+            
         }
 
 

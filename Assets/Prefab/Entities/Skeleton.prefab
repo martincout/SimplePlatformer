@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1420334740985765413}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.447, y: 0.781, z: 0}
+  m_LocalPosition: {x: 0.447, y: 0.82, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2176091399308069505}
@@ -198,9 +198,9 @@ BoxCollider2D:
   m_Offset: {x: -0.42120838, y: -0.31431484}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.8461539, y: 2.4615386}
-    newSize: {x: 1.8461539, y: 2.4615386}
+    pivot: {x: 0.5, y: 0.49}
+    oldSize: {x: 1.6923077, y: 2.5384614}
+    newSize: {x: 1.6923077, y: 2.5384614}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -290,7 +290,6 @@ MonoBehaviour:
   attackRange: 0.4
   attackPoint: {fileID: 1706790442775499563}
   checkForHitBox: 0
-  noStunTime: 10
   target: {fileID: 0}
   rayLength: 0.2
   particle: {fileID: 4845847811503115763, guid: 8b218e29b647a9743af25554be4dc9b6, type: 3}

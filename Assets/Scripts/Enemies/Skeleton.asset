@@ -22,4 +22,4 @@ MonoBehaviour:
   attackRange: 1
   attackRate: 1.2
   damage: 60
-  stunTime: 0.20000002
+  stunTime: 0.3
