@@ -9,6 +9,7 @@ namespace SimplePlatformer.Enemy
         [ExpandableAttribute]
         public EnemyData _edata;
         protected HealthSystem healthSystem;
+        //GameObject of the graphics
         protected GameObject GFX;
         [Header("Attack")]
         private float cooldownAttack = 0f;
@@ -16,7 +17,6 @@ namespace SimplePlatformer.Enemy
         [SerializeField] private Transform attackPoint;
         [SerializeField] private bool checkForHitBox = false;
         [Header("Stun")]
-        [SerializeField] private float noStunTime = 10f;
         private float thrust = 50f;
         private float startStunTime;
         private bool isStunned = false;
@@ -38,12 +38,13 @@ namespace SimplePlatformer.Enemy
 
         public virtual void Start()
         {
+            GFX = transform.GetChild(0).gameObject;
             anim = GetComponent<Animator>();
             rb2d = GetComponent<Rigidbody2D>();
             healthSystem = GetComponent<HealthSystem>();
             seeker = GetComponent<Seeker>();
             startStunTime = _edata.stunTime;
-            groundDetector = transform.GetChild(2)?.GetComponent<Transform>();
+            groundDetector = transform.GetChild(3)?.GetComponent<Transform>();
         }
 
 
@@ -123,13 +124,13 @@ namespace SimplePlatformer.Enemy
         {
 
             //Not stunned
-            if (_edata.stunTime < 0)
+            if (_edata.stunTime > 0)
             {
                 _edata.stunTime -= Time.deltaTime;
-                if (_edata.stunTime < -noStunTime)
-                {
-                    _edata.stunTime = startStunTime;
-                }
+            }
+            else
+            {
+                _edata.stunTime = startStunTime;
             }
         }
 
@@ -307,10 +308,6 @@ namespace SimplePlatformer.Enemy
             rb2d.mass = 999;
             yield return new WaitForSeconds(_edata.stunTime);
             isStunned = false;
-            if (_edata.stunTime > 0)
-            {
-                _edata.stunTime -= 0.1f;
-            }
             rb2d.velocity = new Vector2();
         }
 
