@@ -38,13 +38,10 @@ namespace SimplePlatformer.Player
                     {
                         col.GetComponent<IDamagable>().TakeDamage(attackDamage, transform.position);
                         manyHits -= 1;
+                        Debug.Log("hit: " + manyHits);
                         //if (!isJumping) StartCoroutine(ImpulseBackwards());
                     }
                 }
-            }
-            else
-            {
-                manyHits = 0;
             }
         }
 

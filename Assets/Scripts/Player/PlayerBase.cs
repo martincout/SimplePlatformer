@@ -35,9 +35,9 @@ namespace SimplePlatformer.Player
         protected Vector2 axisDir;
 
         //Take damage
-        [SerializeField] private float hurtTime = 0.3f;
+        private float hurtTime = 0.3f;
         internal HealthSystem healthSystem;
-        protected PlayerParticles playerParticles;
+        protected CharacterParticles characterParticles;
         protected Animator anim;
         protected Rigidbody2D rb2d;
         protected Renderer render;
@@ -46,7 +46,7 @@ namespace SimplePlatformer.Player
         {
 
             healthSystem = GetComponent<HealthSystem>();
-            playerParticles = GetComponent<PlayerParticles>();
+            characterParticles = GetComponent<CharacterParticles>();
             anim = GetComponent<Animator>();
             rb2d = GetComponent<Rigidbody2D>();
             render = GetComponent<Renderer>();
@@ -106,7 +106,7 @@ namespace SimplePlatformer.Player
                 //Decrease Health
                 healthSystem.DealDamage(damage);
 
-                playerParticles.PlayParticle(attackerPos);
+                characterParticles.PlayParticle(Type.HURT);
                 //Check
                 if (healthSystem.GetHealth() > 0)
                 {
@@ -138,7 +138,7 @@ namespace SimplePlatformer.Player
                 //Decrease Health
                 healthSystem.DealDamage(damage);
 
-                playerParticles.PlayParticle();
+                characterParticles.PlayParticle(Type.HURT);
                 //Check
                 if (healthSystem.GetHealth() > 0)
                 {
@@ -166,7 +166,7 @@ namespace SimplePlatformer.Player
         public void DieInstantly()
         {
             SoundManager.instance.Play("Death");
-            playerParticles.PlayParticle();
+            characterParticles.PlayParticle(Type.HURT);
             healthSystem.SetHealth(0);
             StopAllCoroutines();
             StartCoroutine(DieCo());
@@ -179,8 +179,8 @@ namespace SimplePlatformer.Player
             rb2d.velocity = Vector2.zero;
             anim.Play("playerDie");
             yield return new WaitForSeconds(0.55f);
-            EventSystem.DeathHandler?.Invoke();
             Destroy(gameObject);
+            EventSystem.DeathHandler?.Invoke();
         }
 
         private IEnumerator StunCo()

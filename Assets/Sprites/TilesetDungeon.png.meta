@@ -446,7 +446,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TilesetDungeon_17
+      name: pot01
       rect:
         serializedVersion: 2
         x: 1216
@@ -467,7 +467,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TilesetDungeon_18
+      name: pot02
       rect:
         serializedVersion: 2
         x: 1280
@@ -488,7 +488,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TilesetDungeon_19
+      name: pot03
       rect:
         serializedVersion: 2
         x: 1344
@@ -509,7 +509,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TilesetDungeon_20
+      name: pot04
       rect:
         serializedVersion: 2
         x: 1408

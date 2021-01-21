@@ -11,7 +11,6 @@ public class HealthSystem : MonoBehaviour
         if (gameObject.CompareTag("Player"))
         {
             healthBar = FindObjectOfType<HealthBar>().GetComponent<HealthBar>();
-
         }
     }
 
