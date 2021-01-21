@@ -314,9 +314,9 @@ namespace SimplePlatformer.Enemy
             isAttacking = false;
             Vector2 forceDirection = transform.position - playerPos;
             Vector2 force = forceDirection.normalized * thrust;
-            rb2d.mass = 1;
+            //rb2d.mass = 1;
             rb2d.AddForce(force, ForceMode2D.Impulse);
-            rb2d.mass = 999;
+            //rb2d.mass = 999;
             yield return new WaitForSeconds(_edata.stunTime);
             isStunned = false;
             rb2d.velocity = new Vector2();

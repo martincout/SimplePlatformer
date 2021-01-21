@@ -239,7 +239,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 999
+  m_Mass: 2
   m_LinearDrag: 20
   m_AngularDrag: 0.05
   m_GravityScale: 15
@@ -293,6 +293,7 @@ MonoBehaviour:
   target: {fileID: 0}
   rayLength: 0.2
   particle: {fileID: 4845847811503115763, guid: 8b218e29b647a9743af25554be4dc9b6, type: 3}
+  manyHits: 1
 --- !u!1 &9000702686615824809
 GameObject:
   m_ObjectHideFlags: 0

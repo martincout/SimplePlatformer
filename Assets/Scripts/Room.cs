@@ -29,7 +29,6 @@ public class Room : MonoBehaviour
 
     private void SetFollow()
     {
-        Debug.Log("working");
         GameObject playerGm = FindObjectOfType<PlayerBase>().gameObject;
         virtualCamera.GetComponent<CinemachineVirtualCamera>().Follow = playerGm.transform;
     }

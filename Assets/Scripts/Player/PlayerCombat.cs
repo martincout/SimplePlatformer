@@ -13,7 +13,10 @@ namespace SimplePlatformer.Player
         [SerializeField] private float attackDamage = 10f;
         [SerializeField] private float offsetAttack = 1.4f;
         [SerializeField] private bool checkForHitBox = false;
-        [SerializeField] private int manyHits = 1;
+        [SerializeField] private float elapsedTakeDamage = 0.7f;
+        private float timeTakeDamage = 0;
+        [SerializeField] private float initialDrag;
+        [SerializeField] private float attackDrag;
 
         [Header("Hurt")]
 
@@ -34,11 +37,10 @@ namespace SimplePlatformer.Player
                 Collider2D[] hit = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
                 foreach (Collider2D col in hit)
                 {
-                    if (col.GetComponent<IDamagable>() != null && manyHits >= 1)
+                    if (col.GetComponent<IDamagable>() != null && timeTakeDamage <= 0)
                     {
                         col.GetComponent<IDamagable>().TakeDamage(attackDamage, transform.position);
-                        manyHits -= 1;
-                        Debug.Log("hit: " + manyHits);
+                        timeTakeDamage = elapsedTakeDamage;
                         //if (!isJumping) StartCoroutine(ImpulseBackwards());
                     }
                 }
@@ -47,7 +49,9 @@ namespace SimplePlatformer.Player
 
         private void Update()
         {
-
+            if(timeTakeDamage > 0) {
+                timeTakeDamage -= Time.deltaTime;
+            }
             if (!isStunned && !itsDying)
             {
                 Attack();
@@ -83,15 +87,14 @@ namespace SimplePlatformer.Player
             if (Time.time > coolDownAttack)
             {
                 isAttacking = false;
-                rb2d.drag = 1;
+                rb2d.drag = initialDrag;
                 if (Input.GetButtonDown("Attack"))
                 {
                     isAttacking = true;
 
                     if (!isJumping)
                     {
-                        //slides on the floor
-                        rb2d.drag = 8;
+                       
                         SoundManager.instance.Play("Swish");
                         coolDownAttack = Time.time + attackRate;
                         anim.Play(PLAYER_ATTACKING);
@@ -104,6 +107,8 @@ namespace SimplePlatformer.Player
                         airAttacked = true;
 
                     }
+                    //don't slide on the floor
+                    rb2d.drag = attackDrag;
 
                 }
             }

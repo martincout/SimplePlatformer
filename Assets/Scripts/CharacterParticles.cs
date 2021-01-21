@@ -8,6 +8,7 @@ public class CharacterParticles : MonoBehaviour
 {
     public GameObject hurtParticle;
     public GameObject footstepsParticle;
+    public Transform footstepsTransform;
 
     public void PlayParticle(Type type)
     {
@@ -15,11 +16,11 @@ public class CharacterParticles : MonoBehaviour
         switch (type)
         {
             case Type.HURT:
-                instance = Instantiate(hurtParticle, transform);
+                instance = Instantiate(hurtParticle, transform.position,Quaternion.identity,transform);
                 Destroy(instance, 1f);
                 break;
             case Type.FOOTSTEP:
-                instance = Instantiate(footstepsParticle, transform);
+                instance = Instantiate(footstepsParticle, transform.position,Quaternion.identity,transform);
                 Destroy(instance, 1f);
                 break;
         }
