@@ -291,7 +291,8 @@ MonoBehaviour:
   attackPoint: {fileID: 1706790442775499563}
   checkForHitBox: 0
   target: {fileID: 0}
-  rayLength: 0.2
+  rayLength: 0.24
+  groundDetector: {fileID: 763645537790649577}
   particle: {fileID: 4845847811503115763, guid: 8b218e29b647a9743af25554be4dc9b6, type: 3}
   manyHits: 1
 --- !u!1 &9000702686615824809

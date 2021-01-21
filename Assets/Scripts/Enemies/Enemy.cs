@@ -31,7 +31,8 @@ namespace SimplePlatformer.Enemy
         protected bool reachedEndOfPath = false;
         protected float nextWaypointDistance = 3f;
         [SerializeField] private float rayLength = 0.2f;
-        private Transform groundDetector;
+        private RaycastHit2D raycastGround;
+        public Transform groundDetector;
         public GameObject particle;
         private Animator anim;
         protected Rigidbody2D rb2d;
@@ -74,7 +75,6 @@ namespace SimplePlatformer.Enemy
                         if (col.GetComponent<IDamagable>() != null && manyHits >= 1)
                         {
                             col.GetComponent<IDamagable>().TakeDamage(_edata.damage, transform.position);
-                            
                             manyHits -= 1;
                         }
                     }
@@ -89,8 +89,9 @@ namespace SimplePlatformer.Enemy
             //Vector2 rayOrigin = (directionX == -1 ? raycastOrigins.bottomLeft : raycastOrigins.bottomRight) +
             //    Vector2.up * deltaMove.y;
             Vector2 rayOrigin = groundDetector.position;
-            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.down, rayLength, 1 << LayerMask.NameToLayer("Ground"));
-            if (!hit)
+            raycastGround = Physics2D.Raycast(rayOrigin, Vector2.down, rayLength, 1 << LayerMask.NameToLayer("Ground"));
+            
+            if (!raycastGround)
             {
                 return false;
             }
@@ -127,9 +128,7 @@ namespace SimplePlatformer.Enemy
 
         private void StunTimeReset()
         {
-
-            //Not stunned
-            if (_edata.stunTime > 0)
+            if (stunTimeCooldown > 0)
             {
                 stunTimeCooldown -= Time.deltaTime;
             }
@@ -164,6 +163,7 @@ namespace SimplePlatformer.Enemy
 
             if (!foundPlayer)
             {
+                PlayAnimation("skeletonIdle");
                 return;
             }
 
@@ -258,6 +258,7 @@ namespace SimplePlatformer.Enemy
                 {
                     SoundManager.instance.Play("skeletonHit");
                     anim.Play("skeletonHurt",1,0);
+                    PlayAnimation("skeletonIdle");
                     if (!isStunned)
                     {
                         StopCoroutine(KnockCo(attackerPos));
@@ -307,7 +308,7 @@ namespace SimplePlatformer.Enemy
 
         private IEnumerator KnockCo(Vector3 playerPos)
         {
-            if (_edata.stunTime > 0)
+            if (stunTimeCooldown > 0)
             {
                 isStunned = true;
             }
@@ -355,6 +356,8 @@ namespace SimplePlatformer.Enemy
             Gizmos.DrawWireSphere(transform.position, _edata.visionRadius);
             Gizmos.color = Color.red;
             Gizmos.DrawWireCube(transform.position, _edata.attackRadius);
+            Gizmos.color = Color.green;
+            Gizmos.DrawRay(groundDetector.position, Vector2.down * rayLength);
         }
 
         void OnDrawGizmos()

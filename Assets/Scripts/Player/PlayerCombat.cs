@@ -5,6 +5,7 @@ namespace SimplePlatformer.Player
     public class PlayerCombat : PlayerBase
     {
 
+
         //Attack    
         [Header("Attack")]
         public Transform attackPoint;
@@ -13,14 +14,26 @@ namespace SimplePlatformer.Player
         [SerializeField] private float attackDamage = 10f;
         [SerializeField] private float offsetAttack = 1.4f;
         [SerializeField] private bool checkForHitBox = false;
-        [SerializeField] private float elapsedTakeDamage = 0.7f;
-        private float timeTakeDamage = 0;
+        //The time elapsed for the next hit with the hit box (attack)
+        [SerializeField] private float timeTakeDamage = 0.7f;
+        [HideInInspector] public float elapsedTakeDamage = 0;
         [SerializeField] private float initialDrag;
         [SerializeField] private float attackDrag;
 
-        [Header("Hurt")]
+        //Combos
+        public enum ComboState
+        {
+            NONE,
+            FIRST,
+            SECOND
+        }
+        private ComboState comboState;
 
-        private float coolDownAttack = 0f;
+        [SerializeField] private float timeNextCombo = 0.2f;
+        [SerializeField] private float timeBtwCombos = 0.3f;
+        private float elapsedNextCombo = 0;
+        private float elapsedAttackRate = 0;
+        private float elapsedBtwCombos = 0;
         public LayerMask enemyLayer;
 
         private void Awake()
@@ -30,6 +43,10 @@ namespace SimplePlatformer.Player
             rb2d = GetComponent<Rigidbody2D>();
             render = GetComponent<Renderer>();
         }
+        private void Start()
+        {
+            comboState = ComboState.NONE;
+        }
         private void FixedUpdate()
         {
             if (checkForHitBox)
@@ -37,10 +54,11 @@ namespace SimplePlatformer.Player
                 Collider2D[] hit = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
                 foreach (Collider2D col in hit)
                 {
-                    if (col.GetComponent<IDamagable>() != null && timeTakeDamage <= 0)
+                    if (col.GetComponent<IDamagable>() != null && elapsedTakeDamage <= 0)
                     {
+                        
                         col.GetComponent<IDamagable>().TakeDamage(attackDamage, transform.position);
-                        timeTakeDamage = elapsedTakeDamage;
+                        elapsedTakeDamage = timeTakeDamage;
                         //if (!isJumping) StartCoroutine(ImpulseBackwards());
                     }
                 }
@@ -49,9 +67,40 @@ namespace SimplePlatformer.Player
 
         private void Update()
         {
-            if(timeTakeDamage > 0) {
-                timeTakeDamage -= Time.deltaTime;
+            //Used to exit the animation state when we are doing combos
+            anim.SetFloat("timeCombo", elapsedNextCombo);
+
+            //Not do damage with the hitbox if already hitted something
+            if (elapsedTakeDamage > 0) {
+                elapsedTakeDamage -= Time.deltaTime;
             }
+            //Combos
+            if (elapsedNextCombo > 0)
+            {
+                elapsedNextCombo -= Time.deltaTime;
+            }
+            //Finished Attacking
+            else if (!comboState.Equals(ComboState.NONE))
+            {
+                isAttacking = false;
+                comboState = ComboState.NONE;
+                elapsedAttackRate = attackRate;
+                rb2d.drag = initialDrag;
+            }
+
+            if (elapsedBtwCombos > 0)
+            {
+                elapsedBtwCombos -= Time.deltaTime;
+            }
+
+            //Attack rate
+            if (elapsedAttackRate > 0)
+            {
+                elapsedAttackRate -= Time.deltaTime;
+            }
+            
+
+            //Attack
             if (!isStunned && !itsDying)
             {
                 Attack();
@@ -83,26 +132,42 @@ namespace SimplePlatformer.Player
             }
             #endregion
             #region Check Collision
-            
-            if (Time.time > coolDownAttack)
+            //Cooldown of the attack finished and if we are not in a Combo
+            if (elapsedAttackRate <= 0 || !comboState.Equals(ComboState.NONE))
             {
-                isAttacking = false;
-                rb2d.drag = initialDrag;
+                //Check for input and if the animation of the combo finished
                 if (Input.GetButtonDown("Attack"))
                 {
                     isAttacking = true;
-
+                    elapsedTakeDamage = 0;
+                    //If i'm grounded
                     if (!isJumping)
                     {
-                       
+                        //Check for the Combo state
+                        switch (comboState)
+                        {
+                            case ComboState.NONE:
+                                anim.Play(PLAYER_ATTACKING);
+                                comboState = ComboState.FIRST;
+                                elapsedNextCombo = timeNextCombo;
+                                
+                                break;
+                            case ComboState.FIRST:
+                                anim.Play(PLAYER_COMBO);
+                                comboState = ComboState.SECOND;
+                                elapsedNextCombo = 0.2f;
+                                
+                                break;
+                        }
                         SoundManager.instance.Play("Swish");
-                        coolDownAttack = Time.time + attackRate;
-                        anim.Play(PLAYER_ATTACKING);
+                        
                     }
+                    //If I'm in the Air
                     else if (!airAttacked)
                     {
+                        comboState = ComboState.FIRST;
                         SoundManager.instance.Play("Swish");
-                        coolDownAttack = Time.time + 0.2f;
+                        elapsedNextCombo = 0.2f;
                         anim.Play(PLAYER_AIRATTACK);
                         airAttacked = true;
 

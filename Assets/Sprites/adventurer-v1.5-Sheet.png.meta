@@ -151,16 +151,16 @@ TextureImporter:
     second: attack7
   - first:
       213: 21300098
-    second: adventurer-v1.5-Sheet_49
+    second: playerAtk2_0
   - first:
       213: 21300100
-    second: adventurer-v1.5-Sheet_50
+    second: playerAtk2_1
   - first:
       213: 21300102
-    second: adventurer-v1.5-Sheet_51
+    second: playerAtk2_2
   - first:
       213: 21300104
-    second: adventurer-v1.5-Sheet_52
+    second: playerAtk2_3
   - first:
       213: 21300106
     second: adventurer-v1.5-Sheet_53
@@ -1457,7 +1457,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: adventurer-v1.5-Sheet_49
+      name: playerAtk2_0
       rect:
         serializedVersion: 2
         x: 0
@@ -1478,7 +1478,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: adventurer-v1.5-Sheet_50
+      name: playerAtk2_1
       rect:
         serializedVersion: 2
         x: 50
@@ -1499,7 +1499,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: adventurer-v1.5-Sheet_51
+      name: playerAtk2_2
       rect:
         serializedVersion: 2
         x: 100
@@ -1520,7 +1520,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: adventurer-v1.5-Sheet_52
+      name: playerAtk2_3
       rect:
         serializedVersion: 2
         x: 150

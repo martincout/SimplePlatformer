@@ -17,6 +17,7 @@ namespace SimplePlatformer.Player
         public static readonly string PLAYER_HURT = "playerHurt";
         public static readonly string PLAYER_INVINCIBLE = "playerInvincible";
         public static readonly string PLAYER_AIRATTACK = "playerAirAttack";
+        public static readonly string PLAYER_COMBO = "playerAttack2";
 
         //States
         protected static bool movePrevent;

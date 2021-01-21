@@ -166,7 +166,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 2
   m_LinearDrag: 1.4
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -369,9 +369,9 @@ MonoBehaviour:
   attackDamage: 10
   offsetAttack: 0.779
   checkForHitBox: 0
-  manyHits: 1
-  initialDrag: 1
-  drag: 8
+  elapsedTakeDamage: 0.7
+  initialDrag: 2
+  attackDrag: 5
   enemyLayer:
     serializedVersion: 2
     m_Bits: 512
@@ -416,4 +416,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hurtParticle: {fileID: 5658987648466605111, guid: 3457e53a1c0697e4a8780b4e658197df, type: 3}
-  footstepsParticle: {fileID: 0}
+  footstepsParticle: {fileID: 2845281067396903470, guid: ff267e505ee99f0488956b154e9b3e13, type: 3}
+  footstepsTransform: {fileID: 640921182}
