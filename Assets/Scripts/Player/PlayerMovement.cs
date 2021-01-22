@@ -12,9 +12,7 @@ namespace SimplePlatformer.Player
         //Movement
         [SerializeField] float speed;
         //Check
-        [SerializeField] private float groundRange;
         public float groundedHeight = 0.5f;
-        public float checkRate = 1.0f; // how often in seconds we check to see if we are grounded
         public float heightOffset = 0.25f; // we dont want to cast from the players feet (may cast underground sometimes), so we offset it a bit
         BoxCollider2D boxCollider2d;
         public LayerMask groundLayer;

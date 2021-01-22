@@ -111,7 +111,7 @@ namespace SimplePlatformer.Player
                 }
             }
             #endregion
-            #region Check Collision
+            #region Check Input
             //Cooldown of the attack finished and if we are not in a Combo
             if (elapsedAttackRate <= 0 || !comboState.Equals(ComboState.NONE))
             {
