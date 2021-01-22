@@ -32,6 +32,7 @@ public class SoundManager : MonoBehaviour
 
         foreach (Sound sound in sounds)
         {
+
             sound.source = gameObject.AddComponent<AudioSource>();
             sound.source.clip = sound.clip;
 
@@ -64,7 +65,13 @@ public class SoundManager : MonoBehaviour
 
         if (!CanPlaySound(sound)) return;
 
+        if (sound.randomPitch)
+        {
+            sound.source.pitch = UnityEngine.Random.Range(sound.pitch, 3f);
+        }
+
         sound.source.Play();
+
     }
 
     public void Stop(string name)

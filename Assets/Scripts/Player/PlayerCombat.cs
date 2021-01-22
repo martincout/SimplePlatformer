@@ -150,16 +150,16 @@ namespace SimplePlatformer.Player
                                 anim.Play(PLAYER_ATTACKING);
                                 comboState = ComboState.FIRST;
                                 elapsedNextCombo = timeNextCombo;
-                                
+                                SoundManager.instance.Play("Swish");
                                 break;
                             case ComboState.FIRST:
                                 anim.Play(PLAYER_COMBO);
                                 comboState = ComboState.SECOND;
                                 elapsedNextCombo = 0.2f;
-                                
+                                SoundManager.instance.Play("Swish");
                                 break;
                         }
-                        SoundManager.instance.Play("Swish");
+                        
                         
                     }
                     //If I'm in the Air

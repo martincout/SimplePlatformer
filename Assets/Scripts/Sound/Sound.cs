@@ -15,5 +15,6 @@ public class Sound
 
     public bool isLoop;
     public bool hasCooldown;
-    public AudioSource source;
+    public bool randomPitch;
+    [HideInInspector] public AudioSource source;
 }
