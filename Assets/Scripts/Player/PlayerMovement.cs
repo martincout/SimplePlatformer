@@ -46,7 +46,7 @@ namespace SimplePlatformer.Player
         public void FixedUpdate()
         {
             CheckGround();
-            if (!isStunned && !isAttacking)
+            if (!isStunned)
             {
                 Move();
             }
@@ -54,9 +54,12 @@ namespace SimplePlatformer.Player
         }
         private void Update()
         {
-            if (!isStunned && !isAttacking)
+            if (!isStunned)
             {
-                AnimationUpdate();
+                if (!isAttacking)
+                {
+                    AnimationUpdate();
+                }
                 Movement();
                 Jump();
             }

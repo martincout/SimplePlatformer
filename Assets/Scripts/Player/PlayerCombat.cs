@@ -13,10 +13,7 @@ namespace SimplePlatformer.Player
         [SerializeField] private float attackRate = 0.3f;
         [SerializeField] private float attackDamage = 10f;
         [SerializeField] private float offsetAttack = 1.4f;
-        [SerializeField] private bool checkForHitBox = false;
         //The time elapsed for the next hit with the hit box (attack)
-        [SerializeField] private float timeTakeDamage = 0.7f;
-        [HideInInspector] public float elapsedTakeDamage = 0;
         [SerializeField] private float initialDrag;
         [SerializeField] private float attackDrag;
 
@@ -29,11 +26,9 @@ namespace SimplePlatformer.Player
         }
         private ComboState comboState;
 
-        [SerializeField] private float timeNextCombo = 0.2f;
-        [SerializeField] private float timeBtwCombos = 0.3f;
+        [SerializeField] private float timeNextCombo = 0.3f;
         private float elapsedNextCombo = 0;
         private float elapsedAttackRate = 0;
-        private float elapsedBtwCombos = 0;
         public LayerMask enemyLayer;
 
         private void Awake()
@@ -47,20 +42,15 @@ namespace SimplePlatformer.Player
         {
             comboState = ComboState.NONE;
         }
-        private void FixedUpdate()
+        public void CheckHitBoxColission()
         {
-            if (checkForHitBox)
+            Collider2D[] hit = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
+            foreach (Collider2D col in hit)
             {
-                Collider2D[] hit = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
-                foreach (Collider2D col in hit)
+                if (col.GetComponent<IDamagable>() != null)
                 {
-                    if (col.GetComponent<IDamagable>() != null && elapsedTakeDamage <= 0)
-                    {
-                        
-                        col.GetComponent<IDamagable>().TakeDamage(attackDamage, transform.position);
-                        elapsedTakeDamage = timeTakeDamage;
-                        //if (!isJumping) StartCoroutine(ImpulseBackwards());
-                    }
+                    col.GetComponent<IDamagable>().TakeDamage(attackDamage, transform.position);
+                    //if (!isJumping) StartCoroutine(ImpulseBackwards());
                 }
             }
         }
@@ -69,11 +59,6 @@ namespace SimplePlatformer.Player
         {
             //Used to exit the animation state when we are doing combos
             anim.SetFloat("timeCombo", elapsedNextCombo);
-
-            //Not do damage with the hitbox if already hitted something
-            if (elapsedTakeDamage > 0) {
-                elapsedTakeDamage -= Time.deltaTime;
-            }
             //Combos
             if (elapsedNextCombo > 0)
             {
@@ -86,11 +71,6 @@ namespace SimplePlatformer.Player
                 comboState = ComboState.NONE;
                 elapsedAttackRate = attackRate;
                 rb2d.drag = initialDrag;
-            }
-
-            if (elapsedBtwCombos > 0)
-            {
-                elapsedBtwCombos -= Time.deltaTime;
             }
 
             //Attack rate
@@ -139,7 +119,6 @@ namespace SimplePlatformer.Player
                 if (Input.GetButtonDown("Attack"))
                 {
                     isAttacking = true;
-                    elapsedTakeDamage = 0;
                     //If i'm grounded
                     if (!isJumping)
                     {
