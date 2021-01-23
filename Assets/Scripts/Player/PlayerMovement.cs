@@ -18,6 +18,8 @@ namespace SimplePlatformer.Player
         public LayerMask groundLayer;
         internal bool isGrounded;
 
+        public ParticleSystem dustFootsteps;
+
         private bool isJumpingAnim = false;
         private bool isFallingAnim = false;
         private bool isAttackingAnim = false;
@@ -34,6 +36,7 @@ namespace SimplePlatformer.Player
             groundLayer = 1 << LayerMask.NameToLayer("Ground");
             boxCollider2d = GetComponent<BoxCollider2D>();
             footsteps = GetComponent<AudioSource>();
+            dustFootsteps = transform.GetChild(1).GetComponent<ParticleSystem>();
         }
 
         public void Start()
@@ -76,6 +79,7 @@ namespace SimplePlatformer.Player
                 if (Input.GetButton("Horizontal"))
                 {
                     anim.Play(PLAYER_WALK);
+                    dustFootsteps.Play();
                 }
                 else
                 {

@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using SimplePlatformer.Enemy;
 
 public class LevelManager : MonoBehaviour
 {
@@ -11,24 +12,20 @@ public class LevelManager : MonoBehaviour
     public GameObject playerPrefab;
     public GameObject deathScreen;
     public GameObject enemyContainer;
-    public List<Vector3> enemiesPositions;
-    public GameObject enemyPrefab;
+    //Enemies positions and prefabs
+    private Dictionary<Vector3, GameObject> enemies;
 
     internal bool isPlayerDead;
 
     public CinemachineVirtualCameraBase virtualCamera;
 
-    private void Awake()
-    {
-        foreach (Transform child in enemyContainer.transform)
-        {
-            enemiesPositions.Add(child.transform.position);
-        }
-        
-    }
-
     private void Start()
     {
+        enemies = new Dictionary<Vector3, GameObject>();
+        foreach (Transform child in enemyContainer.transform)
+        {
+            enemies.Add(child.transform.position, child.GetComponent<Enemy>()._enemyData.prefab);
+        }
         instance = this;
         currentRespawnPoint = RespawnManager.currentRespawn.transform;
         isPlayerDead = false;
@@ -60,9 +57,9 @@ public class LevelManager : MonoBehaviour
     {
         //Set an event to respawn all enemies because every enemy handles his own destruction
         EventSystem.RespawnEnemiesHandler();
-        foreach(Vector3 pos in enemiesPositions)
+        foreach (KeyValuePair<Vector3, GameObject> e in enemies)
         {
-            Instantiate(enemyPrefab,pos,Quaternion.identity,enemyContainer.transform);
+            Instantiate(e.Value, e.Key, Quaternion.identity, enemyContainer.transform);
         }
         PlayerAlive();
         GameObject player = Instantiate(playerPrefab, currentRespawnPoint.position, Quaternion.identity);
@@ -72,7 +69,7 @@ public class LevelManager : MonoBehaviour
         EventSystem.RespawnHandler?.Invoke();
         //Set active here to not show transitions
         deathScreen.SetActive(false);
-    } 
+    }
 
     private void UpdateNewSpawn()
     {

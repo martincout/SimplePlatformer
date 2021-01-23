@@ -26,4 +26,21 @@ public class CharacterParticles : MonoBehaviour
         }
         
     }
+
+    public void PlayParticle(Type type, Vector3 position)
+    {
+        GameObject instance;
+        switch (type)
+        {
+            case Type.HURT:
+                instance = Instantiate(hurtParticle, position, Quaternion.identity, transform);
+                Destroy(instance, 1f);
+                break;
+            case Type.FOOTSTEP:
+                instance = Instantiate(footstepsParticle, position, Quaternion.identity, transform);
+                Destroy(instance, 1f);
+                break;
+        }
+
+    }
 }

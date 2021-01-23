@@ -156,7 +156,7 @@ GameObject:
   - component: {fileID: 7434455240091226597}
   - component: {fileID: 6933457660279832602}
   - component: {fileID: 5304927387947139875}
-  - component: {fileID: 7057303376786925619}
+  - component: {fileID: 7561117721696511652}
   m_Layer: 9
   m_Name: Skeleton
   m_TagString: Enemy
@@ -274,7 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bbff5ec56029fa4da22fd158121444c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7057303376786925619
+--- !u!114 &7561117721696511652
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -283,18 +283,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 8702034491002796005}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e07e7025005b344bb4808dfa4273762, type: 3}
+  m_Script: {fileID: 11500000, guid: dc6930ae19f253c47a5a7d74bdaaf5d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _edata: {fileID: 11400000, guid: a6314c62ef35ea2479994d4a414de202, type: 2}
-  attackRange: 0.4
-  attackPoint: {fileID: 1706790442775499563}
-  checkForHitBox: 0
-  target: {fileID: 0}
-  rayLength: 0.24
-  groundDetector: {fileID: 763645537790649577}
+  _enemyData: {fileID: 11400000, guid: a6314c62ef35ea2479994d4a414de202, type: 2}
   particle: {fileID: 4845847811503115763, guid: 8b218e29b647a9743af25554be4dc9b6, type: 3}
   manyHits: 1
+  attackPoint: {fileID: 1706790442775499563}
+  attackRange: 0.2
+  checkForHitBox: 0
+  rayLength: 0.2
+  groundDetector: {fileID: 763645537790649577}
 --- !u!1 &9000702686615824809
 GameObject:
   m_ObjectHideFlags: 0

@@ -37,6 +37,7 @@ public class Destroyable : MonoBehaviour, IDamagable
         {
             health -= damage;
             anim.Play("potDestroying");
+            SoundManager.instance.Play("JarDestroy");
             Instantiate(particle, transform);
             if (drop != null)
             {
