@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 namespace SimplePlatformer.Player
 {
-    public class PlayerBase : MonoBehaviour, IDamageable
+    public class PlayerBase : MonoBehaviour, IDamageable, IItem
     {
         //Animation Const
         public static readonly string PLAYER_IDLE = "playerIdle";
@@ -28,6 +28,7 @@ namespace SimplePlatformer.Player
         protected static bool itsDying;
         protected static bool invincible;
         protected static bool airAttacked;
+        protected static bool cannotAttack;
 
         //Aux
         protected float invincibleTime = 1f;
@@ -54,6 +55,7 @@ namespace SimplePlatformer.Player
 
         private void Start()
         {
+            cannotAttack = false;
             movePrevent = false;
             isFacingRight = true;
             isJumping = false;
@@ -76,6 +78,7 @@ namespace SimplePlatformer.Player
                 invincible = false;
                 //Alpha to 100% NOT IN INVINCIBLE STATE
                 SetAlpha(1f);
+                cannotAttack = false;
             }
         }
 
@@ -90,7 +93,7 @@ namespace SimplePlatformer.Player
         {
             invincible = true;
             cooldownInvincible = cooldown;
-        } 
+        }
 
         internal void SetAlpha(float alpha)
         {
@@ -101,11 +104,14 @@ namespace SimplePlatformer.Player
 
         public void TakeDamage(float damage, Vector3 attackerPos)
         {
-            if (!invincible)
+            if (!invincible && !itsDying)
             {
+                
                 //Decrease Health
                 healthSystem.DealDamage(damage);
                 characterParticles.PlayParticle(Type.HURT);
+                SetInvincible(invincibleTime);
+                SetAlpha(0.7f);
                 //Check
                 if (healthSystem.GetHealth() > 0)
                 {
@@ -115,8 +121,8 @@ namespace SimplePlatformer.Player
                     if (!isStunned)
                     {
                         StartCoroutine(StunCo());
-                        SetInvincible(invincibleTime);
-                        SetAlpha(0.7f);
+                        cannotAttack = true;
+                        
                     }
                 }
                 else
@@ -142,6 +148,7 @@ namespace SimplePlatformer.Player
         {
             itsDying = true;
             GetComponent<PlayerMovement>().enabled = false;
+            GetComponent<PlayerCombat>().enabled = false;
             rb2d.velocity = Vector2.zero;
             anim.Play("playerDie");
             yield return new WaitForSeconds(0.55f);
@@ -158,11 +165,28 @@ namespace SimplePlatformer.Player
 
         private IEnumerator KnockCo(Vector3 attackerPos)
         {
-            Vector2 forceDirection = transform.position - attackerPos;
-            Vector2 force = forceDirection.normalized; // Thrust * the vector
+            Vector2 forceDirection = transform.TransformDirection(transform.position - attackerPos);
+            if(forceDirection.x > 0)
+            {
+                forceDirection = new Vector2(1, forceDirection.normalized.y);
+            }
+            else
+            {
+                forceDirection = new Vector2(-1, forceDirection.normalized.y);
+
+            }
+            Vector2 force = forceDirection * 30;
             rb2d.AddForce(force, ForceMode2D.Impulse);
             yield return new WaitForSeconds(stunTime);
             rb2d.velocity = new Vector2();
+        }
+
+        public void ItemInteraction(Item item)
+        {
+            if (item.category.Equals(Item.Category.CONSUMABLE))
+            {
+                healthSystem.Heal(item.value);
+            }
         }
     }
 }

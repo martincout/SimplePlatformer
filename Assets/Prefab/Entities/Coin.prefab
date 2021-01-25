@@ -27,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7054386942949191877}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -644357962086140663, guid: 7f86d5bf3bb136b41b98f7bd9ee28e60, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -116,9 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d21b015815c35b649bd1561e471d97dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMeshGameobject: {fileID: 0}
   item: {fileID: 11400000, guid: 5aa054296987cef449cf81de28499946, type: 2}
-  hs: {fileID: 0}
 --- !u!58 &7054386942949191875
 CircleCollider2D:
   m_ObjectHideFlags: 0

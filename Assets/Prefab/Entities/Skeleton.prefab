@@ -260,7 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 182c733c54ea2944aaec17b15eda03ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 60
   healthBar: {fileID: 0}
 --- !u!114 &5304927387947139875
 MonoBehaviour:
@@ -287,10 +287,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyData: {fileID: 11400000, guid: a6314c62ef35ea2479994d4a414de202, type: 2}
+  dropItem: {fileID: 7054386942949191877, guid: a506ae4c056404a4488861b7d5941b9f, type: 3}
   particle: {fileID: 4845847811503115763, guid: 8b218e29b647a9743af25554be4dc9b6, type: 3}
   manyHits: 1
+  friendly: 0
   attackPoint: {fileID: 1706790442775499563}
   attackRange: 0.4
+  visionRadius: 0.2
   checkForHitBox: 0
   rayLength: 0.2
   groundDetector: {fileID: 763645537790649577}

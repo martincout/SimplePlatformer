@@ -102,12 +102,12 @@ namespace SimplePlatformer.Player
             {
                 if (Input.GetAxisRaw("Horizontal") > 0)
                 {
-                    sprRender.flipX = false;
+                    transform.localScale = new Vector3(1, 1, 1);
                     isFacingRight = true;
                 }
                 else
                 {
-                    sprRender.flipX = true;
+                    transform.localScale = new Vector3(-1, 1, 1);
                     isFacingRight = false;
                 }
             }

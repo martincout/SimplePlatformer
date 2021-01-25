@@ -12,7 +12,7 @@ namespace SimplePlatformer.Player
         [SerializeField] private float attackRange = 0.1f;
         [SerializeField] private float attackRate = 0.3f;
         [SerializeField] private float attackDamage = 10f;
-        [SerializeField] private float offsetAttack = 1.4f;
+        [SerializeField] private float offsetAttack = 0.5f;
         //The time elapsed for the next hit with the hit box (attack)
         [SerializeField] private float initialDrag;
         [SerializeField] private float attackDrag;
@@ -81,7 +81,7 @@ namespace SimplePlatformer.Player
             
 
             //Attack
-            if (!isStunned && !itsDying)
+            if (!isStunned && !itsDying && !cannotAttack)
             {
                 Attack();
             }
@@ -97,20 +97,7 @@ namespace SimplePlatformer.Player
         }
         private void Attack()
         {
-            #region Flip Attack Point
-            float axisRaw = Input.GetAxisRaw("Horizontal");
-            if (axisRaw != 0 && !isAttacking)
-            {
-                if (axisRaw > 0)
-                {
-                    attackPoint.localPosition = new Vector3(offsetAttack, 0, attackPoint.position.z);
-                }
-                else
-                {
-                    attackPoint.localPosition = new Vector3(-offsetAttack, 0, attackPoint.position.z);
-                }
-            }
-            #endregion
+            
             #region Check Input
             //Cooldown of the attack finished and if we are not in a Combo
             if (elapsedAttackRate <= 0 || !comboState.Equals(ComboState.NONE))
@@ -129,13 +116,11 @@ namespace SimplePlatformer.Player
                                 anim.Play(PLAYER_ATTACKING);
                                 comboState = ComboState.FIRST;
                                 elapsedNextCombo = timeNextCombo;
-                                SoundManager.instance.Play("Swish");
                                 break;
                             case ComboState.FIRST:
                                 anim.Play(PLAYER_COMBO);
                                 comboState = ComboState.SECOND;
                                 elapsedNextCombo = 0.2f;
-                                SoundManager.instance.Play("Swish");
                                 break;
                         }
                         
@@ -145,7 +130,7 @@ namespace SimplePlatformer.Player
                     else if (!airAttacked)
                     {
                         comboState = ComboState.FIRST;
-                        SoundManager.instance.Play("Swish");
+                        
                         elapsedNextCombo = 0.2f;
                         anim.Play(PLAYER_AIRATTACK);
                         airAttacked = true;
@@ -157,6 +142,11 @@ namespace SimplePlatformer.Player
                 }
             }
             #endregion
+        }
+
+        public void SwishSound()
+        {
+            SoundManager.instance.Play("Swish");
         }
 
         //private IEnumerator ImpulseBackwards()

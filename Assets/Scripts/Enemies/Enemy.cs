@@ -9,11 +9,13 @@ namespace SimplePlatformer.Enemy
         [ExpandableAttribute]
         public EnemyData _enemyData;
         protected HealthSystem healthSystem;
+        [Header("Item")]
+        public float dropChance = 0.50f;
+        public GameObject dropItem;
         //GameObject of the graphics
         protected GameObject GFX;
         [Header("Attack")]
         protected float cooldownAttack = 0f;
-
 
         [Header("Stun")]
 
@@ -35,6 +37,7 @@ namespace SimplePlatformer.Enemy
         //How many hits when checking for hit box
         public int manyHits = 1;
         private float stunTimeCooldown;
+        public bool friendly;
 
         protected virtual void Start()
         {
@@ -49,7 +52,7 @@ namespace SimplePlatformer.Enemy
         protected virtual void FixedUpdate()
         {
 
-            if (!itsDying && !LevelManager.instance.isPlayerDead)
+            if (!itsDying && !LevelManager.instance.isPlayerDead && !friendly)
             {
                 Move();
             }
@@ -139,31 +142,12 @@ namespace SimplePlatformer.Enemy
                 else
                 {
                     Die();
+                    
                 }
             }
 
         }
 
-        public void TakeDamage(float damage)
-        {
-            if (!itsDying)
-            {
-                healthSystem.DealDamage(damage);
-
-
-                if (healthSystem.GetHealth() > 0)
-                {
-                    SoundManager.instance.Play("skeletonHit");
-                    anim.SetTrigger("hurt");
-                    PlayHurtParticle();
-                }
-                else
-                {
-                    Die();
-                }
-            }
-
-        }
 
         protected void Die()
         {
@@ -171,7 +155,10 @@ namespace SimplePlatformer.Enemy
             SoundManager.instance.Play("Death");
             StopAllCoroutines();
             StartCoroutine(DieCo());
-            
+            if (dropItem != null)
+            {
+                Instantiate(dropItem, transform);
+            }
         }
 
         private void PlayHurtParticle()
@@ -190,11 +177,18 @@ namespace SimplePlatformer.Enemy
                 isStunned = true;
             }
             isAttacking = false;
-            Vector2 forceDirection = transform.position - playerPos;
-            Vector2 force = forceDirection.normalized * _enemyData.thrust;
-            //rb2d.mass = 1;
+            Vector2 forceDirection = transform.TransformDirection(transform.position - playerPos);
+            if(forceDirection.x > 0)
+            {
+                forceDirection = new Vector2(1, forceDirection.y);
+            }
+            else
+            {
+                forceDirection = new Vector2(-1, forceDirection.y);
+
+            }
+            Vector2 force = forceDirection * _enemyData.thrust;
             rb2d.AddForce(force, ForceMode2D.Impulse);
-            //rb2d.mass = 999;
             yield return new WaitForSeconds(_enemyData.stunTime);
             isStunned = false;
             rb2d.velocity = new Vector2();
@@ -203,12 +197,10 @@ namespace SimplePlatformer.Enemy
         private IEnumerator DieCo()
         {
             itsDying = true;
-            Physics2D.IgnoreLayerCollision(10, 10);
             rb2d.velocity = new Vector2();
             anim.Play("skeletonDie");
             yield return new WaitForSeconds(0.55f);
             rb2d.isKinematic = true;
-
             GetComponent<Collider2D>().enabled = false;
             enabled = false;
 

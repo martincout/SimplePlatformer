@@ -16,5 +16,9 @@ public class Sound
     public bool isLoop;
     public bool hasCooldown;
     public bool randomPitch;
+    [Range(0, 3)]
+    public float MinRandomPitch = 1;
+    [Range(0, 3)]
+    public float MaxRandomPitch = 3;
     [HideInInspector] public AudioSource source;
 }

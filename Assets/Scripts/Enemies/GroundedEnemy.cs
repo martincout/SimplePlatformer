@@ -7,6 +7,7 @@ namespace SimplePlatformer.Enemy
     {
         [SerializeField] private Transform attackPoint;
         [SerializeField] private float attackRange = 0.2f;
+        [SerializeField] private float visionRadius = 0.2f;
         [HideInInspector] public bool checkForHitBox = false;
         [SerializeField] private float rayLength = 0.2f;
         private RaycastHit2D raycastGround;
@@ -14,6 +15,7 @@ namespace SimplePlatformer.Enemy
 
         protected override void Start() {
             base.Start();
+            visionRadius = _enemyData.visionRadius;
             groundDetector = transform.GetChild(3)?.GetComponent<Transform>();
         }
 
@@ -21,7 +23,7 @@ namespace SimplePlatformer.Enemy
         {
             #region Find Player
             //Vision radius
-            Collider2D[] circleVision = Physics2D.OverlapCircleAll(transform.position, _enemyData.visionRadius, 1 << LayerMask.NameToLayer("Player"));
+            Collider2D[] circleVision = Physics2D.OverlapCircleAll(transform.position, visionRadius, 1 << LayerMask.NameToLayer("Player"));
             Collider2D[] boxAttackRadius = Physics2D.OverlapBoxAll(transform.position, _enemyData.attackRadius, 0, 1 << LayerMask.NameToLayer("Player"));
 
             Vector3 targetPos = transform.position;
@@ -41,7 +43,12 @@ namespace SimplePlatformer.Enemy
             if (!foundPlayer)
             {
                 anim.Play(_enemyData.animation.enemyIdle);
+                visionRadius = _enemyData.visionRadius;
                 return;
+            }
+            else
+            {
+                visionRadius += 5;
             }
 
             RaycastHit2D raycastTarget = Physics2D.Raycast(transform.position, targetPos);
