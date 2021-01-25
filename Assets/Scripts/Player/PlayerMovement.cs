@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SimplePlatformer.Player
 {
-    public class PlayerMovement : PlayerBase, IDamagable
+    public class PlayerMovement : PlayerBase
     {
         //Jump
         [SerializeField] private float fallMultiplier = 2f;

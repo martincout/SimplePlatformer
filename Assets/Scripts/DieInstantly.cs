@@ -6,9 +6,9 @@ public class DieInstantly : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<IDamagable>() != null)
+        if (collision.GetComponent<IDamageable>() != null)
         {
-            collision.GetComponent<IDamagable>().DieInstantly();
+            collision.GetComponent<IDamageable>().DieInstantly();
         }
     }
 }

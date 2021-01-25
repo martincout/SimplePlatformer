@@ -66,7 +66,7 @@ public class LevelManager : MonoBehaviour
         //Set the follow to the actual virtual camera (don't know why I did this)
         virtualCamera.Follow = player.transform;
         //Set the follow to all virtual cameras with the respawn Event
-        EventSystem.RespawnHandler?.Invoke();
+        EventSystem.RespawnHandler(player);
         //Set active here to not show transitions
         deathScreen.SetActive(false);
     }

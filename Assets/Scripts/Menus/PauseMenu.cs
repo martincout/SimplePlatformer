@@ -24,9 +24,9 @@ public class PauseMenu : MonoBehaviour
         EventSystem.RespawnHandler -= UpdatePlayer;
     }
 
-    private void UpdatePlayer()
+    private void UpdatePlayer(GameObject playerGO)
     {
-        player = FindObjectOfType<PlayerBase>().gameObject;
+        player = playerGO;
     }
 
     private void Update()

@@ -159,9 +159,9 @@ namespace SimplePlatformer.Enemy
 
                     foreach (Collider2D col in hits)
                     {
-                        if (col.GetComponent<IDamagable>() != null && manyHits >= 1)
+                        if (col.GetComponent<IDamageable>() != null && manyHits >= 1)
                         {
-                            col.GetComponent<IDamagable>().TakeDamage(_enemyData.damage, transform.position);
+                            col.GetComponent<IDamageable>().TakeDamage(_enemyData.damage, transform.position);
                             manyHits -= 1;
                         }
                     }

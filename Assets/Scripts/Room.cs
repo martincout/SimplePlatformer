@@ -6,6 +6,7 @@ using SimplePlatformer.Player;
 public class Room : MonoBehaviour
 {
     private GameObject virtualCamera;
+    private bool diedFromVoid = false;
 
     private void Awake()
     {
@@ -22,15 +23,16 @@ public class Room : MonoBehaviour
     private void OnEnable()
     {
         EventSystem.RespawnHandler += SetFollow;
+        EventSystem.SetDeathFromVoid += SetDeathFromVoid;
     }private void OnDisable()
     {
         EventSystem.RespawnHandler -= SetFollow;
+        EventSystem.SetDeathFromVoid -= SetDeathFromVoid;
     }
 
-    private void SetFollow()
+    private void SetFollow(GameObject playerGO)
     {
-        GameObject playerGm = FindObjectOfType<PlayerBase>().gameObject;
-        virtualCamera.GetComponent<CinemachineVirtualCamera>().Follow = playerGm.transform;
+        virtualCamera.GetComponent<CinemachineVirtualCamera>().Follow = playerGO.transform;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -38,18 +40,21 @@ public class Room : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             virtualCamera.SetActive(true);
-            LevelManager.instance.virtualCamera = GetComponent<CinemachineVirtualCamera>();
 
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && !diedFromVoid)
         {
             virtualCamera.SetActive(false);
 
         }
     }
 
+    private void SetDeathFromVoid()
+    {
+        diedFromVoid = !diedFromVoid;
+    }
 
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 namespace SimplePlatformer.Player
 {
-    public class PlayerBase : MonoBehaviour, IDamagable
+    public class PlayerBase : MonoBehaviour, IDamageable
     {
         //Animation Const
         public static readonly string PLAYER_IDLE = "playerIdle";
@@ -36,7 +36,7 @@ namespace SimplePlatformer.Player
         protected Vector2 axisDir;
 
         //Take damage
-        private float hurtTime = 0.3f;
+        private float stunTime = 0.3f;
         internal HealthSystem healthSystem;
         protected CharacterParticles characterParticles;
         protected Animator anim;
@@ -45,7 +45,6 @@ namespace SimplePlatformer.Player
 
         private void Awake()
         {
-
             healthSystem = GetComponent<HealthSystem>();
             characterParticles = GetComponent<CharacterParticles>();
             anim = GetComponent<Animator>();
@@ -106,7 +105,6 @@ namespace SimplePlatformer.Player
             {
                 //Decrease Health
                 healthSystem.DealDamage(damage);
-
                 characterParticles.PlayParticle(Type.HURT);
                 //Check
                 if (healthSystem.GetHealth() > 0)
@@ -129,39 +127,6 @@ namespace SimplePlatformer.Player
                     StartCoroutine(DieCo());
                 }
             }
-
-        }
-        public  void TakeDamage(float damage)
-        {
-
-            if (!invincible)
-            {
-                //Decrease Health
-                healthSystem.DealDamage(damage);
-
-                characterParticles.PlayParticle(Type.HURT);
-                //Check
-                if (healthSystem.GetHealth() > 0)
-                {
-                    SoundManager.instance.Play("Damage");
-                    anim.Play(PLAYER_HURT);
-                    if (!isStunned)
-                    {
-                        StartCoroutine(StunCo());
-                        SetInvincible(invincibleTime);
-                        Color c = render.material.color;
-                        c.a = 0.7f;
-                        render.material.color = c;
-                    }
-                }
-                else
-                {
-                    SoundManager.instance.Play("Death");
-                    StopAllCoroutines();
-                    StartCoroutine(DieCo());
-                }
-            }
-
         }
 
         public void DieInstantly()
@@ -187,20 +152,18 @@ namespace SimplePlatformer.Player
         private IEnumerator StunCo()
         {
             isStunned = true;
-            yield return new WaitForSeconds(hurtTime);
+            yield return new WaitForSeconds(stunTime);
             isStunned = false;
         }
 
         private IEnumerator KnockCo(Vector3 attackerPos)
         {
             Vector2 forceDirection = transform.position - attackerPos;
-            Vector2 force = forceDirection.normalized * 10; // Thrust * the vector
+            Vector2 force = forceDirection.normalized; // Thrust * the vector
             rb2d.AddForce(force, ForceMode2D.Impulse);
-            yield return new WaitForSeconds(hurtTime);
+            yield return new WaitForSeconds(stunTime);
             rb2d.velocity = new Vector2();
         }
-
-        
     }
 }
 

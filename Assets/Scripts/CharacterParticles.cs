@@ -8,7 +8,6 @@ public class CharacterParticles : MonoBehaviour
 {
     public GameObject hurtParticle;
     public GameObject footstepsParticle;
-    public Transform footstepsTransform;
 
     public void PlayParticle(Type type)
     {

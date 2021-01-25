@@ -4,7 +4,7 @@ using Pathfinding;
 using SimplePlatformer.ExpandableAttributes;
 namespace SimplePlatformer.Enemy
 {
-    public class Enemy : MonoBehaviour, IDamagable
+    public class Enemy : MonoBehaviour, IDamageable
     {
         [ExpandableAttribute]
         public EnemyData _enemyData;
@@ -110,7 +110,7 @@ namespace SimplePlatformer.Enemy
         {
             if (col.CompareTag("Player") && !itsDying && !LevelManager.instance.isPlayerDead)
             {
-                col.GetComponent<IDamagable>().TakeDamage(_enemyData.damage, transform.position);
+                col.GetComponent<IDamageable>().TakeDamage(_enemyData.damage, transform.position);
             }
         }
 

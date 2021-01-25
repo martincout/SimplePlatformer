@@ -47,9 +47,9 @@ namespace SimplePlatformer.Player
             Collider2D[] hit = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
             foreach (Collider2D col in hit)
             {
-                if (col.GetComponent<IDamagable>() != null)
+                if (col.GetComponent<IDamageable>() != null)
                 {
-                    col.GetComponent<IDamagable>().TakeDamage(attackDamage, transform.position);
+                    col.GetComponent<IDamageable>().TakeDamage(attackDamage, transform.position);
                     //if (!isJumping) StartCoroutine(ImpulseBackwards());
                 }
             }

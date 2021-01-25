@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Destroyable : MonoBehaviour, IDamagable
+public class Destroyable : MonoBehaviour, IDamageable
 {
     private Animator anim;
     public float health;
@@ -17,19 +17,14 @@ public class Destroyable : MonoBehaviour, IDamagable
 
     public void DieInstantly()
     {
-        //
+        //NOTHING
     }
 
     public void TakeDamage(float damage, Vector3 attackerPos)
     {
         DestroyObject(damage);
-
     }
 
-    public void TakeDamage(float damage)
-    {
-        DestroyObject(damage);
-    }
 
     public void DestroyObject(float damage)
     {
