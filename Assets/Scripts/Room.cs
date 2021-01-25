@@ -38,6 +38,7 @@ public class Room : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             virtualCamera.SetActive(true);
+            LevelManager.instance.virtualCamera = GetComponent<CinemachineVirtualCamera>();
 
         }
     }

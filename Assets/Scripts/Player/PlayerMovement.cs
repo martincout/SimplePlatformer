@@ -76,7 +76,7 @@ namespace SimplePlatformer.Player
             Flip();
             if (!isJumpingAnim && isGrounded && !isAttackingAnim)
             {
-                if (Input.GetButton("Horizontal"))
+                if (axisDir.x != 0)
                 {
                     anim.Play(PLAYER_WALK);
                     dustFootsteps.Play();
