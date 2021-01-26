@@ -14,7 +14,7 @@ namespace SimplePlatformer.Player
         //Check
         public float groundedHeight = 0.5f;
         public float heightOffset = 0.25f; // we dont want to cast from the players feet (may cast underground sometimes), so we offset it a bit
-        BoxCollider2D boxCollider2d;
+        CapsuleCollider2D capsuleCollider;
         public LayerMask groundLayer;
         internal bool isGrounded;
 
@@ -34,7 +34,7 @@ namespace SimplePlatformer.Player
             rb2d = GetComponent<Rigidbody2D>();
             sprRender = GetComponent<SpriteRenderer>();
             groundLayer = 1 << LayerMask.NameToLayer("Ground");
-            boxCollider2d = GetComponent<BoxCollider2D>();
+            capsuleCollider = GetComponent<CapsuleCollider2D>();
             footsteps = GetComponent<AudioSource>();
             dustFootsteps = transform.GetChild(1).GetComponent<ParticleSystem>();
         }
@@ -127,7 +127,7 @@ namespace SimplePlatformer.Player
 
         private void CheckGround()
         {
-            RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider2d.bounds.center, boxCollider2d.bounds.size, 0f, Vector2.down, heightOffset, groundLayer);
+            RaycastHit2D raycastHit = Physics2D.BoxCast(capsuleCollider.bounds.center, capsuleCollider.bounds.size, 0f, Vector2.down, heightOffset, groundLayer);
             Color rayColor;
             if (raycastHit.collider != null)
             {
@@ -140,9 +140,9 @@ namespace SimplePlatformer.Player
                 isGrounded = false;
                 rayColor = Color.red;
             }
-            Debug.DrawRay(boxCollider2d.bounds.center + new Vector3(boxCollider2d.bounds.extents.x, 0), Vector2.down * (boxCollider2d.bounds.extents.y + heightOffset), rayColor);
-            Debug.DrawRay(boxCollider2d.bounds.center - new Vector3(boxCollider2d.bounds.extents.x, 0), Vector2.down * (boxCollider2d.bounds.extents.y + heightOffset), rayColor);
-            Debug.DrawRay(boxCollider2d.bounds.center - new Vector3(boxCollider2d.bounds.extents.x, boxCollider2d.bounds.extents.y + heightOffset), Vector2.right * (boxCollider2d.bounds.extents.x * 2f), rayColor);
+            Debug.DrawRay(capsuleCollider.bounds.center + new Vector3(capsuleCollider.bounds.extents.x, 0), Vector2.down * (capsuleCollider.bounds.extents.y + heightOffset), rayColor);
+            Debug.DrawRay(capsuleCollider.bounds.center - new Vector3(capsuleCollider.bounds.extents.x, 0), Vector2.down * (capsuleCollider.bounds.extents.y + heightOffset), rayColor);
+            Debug.DrawRay(capsuleCollider.bounds.center - new Vector3(capsuleCollider.bounds.extents.x, capsuleCollider.bounds.extents.y + heightOffset), Vector2.right * (capsuleCollider.bounds.extents.x * 2f), rayColor);
 
         }
 
