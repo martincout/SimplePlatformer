@@ -30,6 +30,7 @@ namespace SimplePlatformer.Player
         private float elapsedNextCombo = 0;
         private float elapsedAttackRate = 0;
         public LayerMask enemyLayer;
+        public LayerMask damageableLayer;
 
         private void Awake()
         {
@@ -44,7 +45,7 @@ namespace SimplePlatformer.Player
         }
         public void CheckHitBoxColission()
         {
-            Collider2D[] hit = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
+            Collider2D[] hit = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer | damageableLayer);
             foreach (Collider2D col in hit)
             {
                 if (col.GetComponent<IDamageable>() != null)

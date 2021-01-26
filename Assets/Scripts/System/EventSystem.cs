@@ -2,6 +2,10 @@
 using UnityEngine;
 public static class EventSystem
 {
+    /// <summary>
+    /// Handles the death of the player. Usually waits a couple of seconds for the death animation
+    /// </summary>
+    /// <param> </param>
     public static Action DeathHandler;
     public static Action<GameObject> RespawnHandler; 
     public static Action NewSpawnHandler;

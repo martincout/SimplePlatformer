@@ -5,24 +5,42 @@ namespace SimplePlatformer.Enemy
 {
     public class FlyingEnemy : Enemy
     {
-        [SerializeField] protected Transform target;
+        
         protected Path path;
         protected Seeker seeker;
+        protected float timeBtwShoots;
+        public float startTimeBtwShoots = 2f;
+        public float retreatDistance = 5f;
+        public float stoppingDistance = 4f;
+        public GameObject projectile;
+        float distanceToPlayer;
+
+
         protected override void Start()
         {
             base.Start();
+            timeBtwShoots = startTimeBtwShoots;
             seeker = GetComponent<Seeker>();
+            distanceToPlayer = Vector2.Distance(transform.position, target.position); 
             InvokeRepeating("UpdatePath", 0, .5f);
         }
 
         public void UpdatePath()
         {
+            if (notFollow || distanceToPlayer > _enemyData.visionRadius && friendly)
+            {
+                return;
+            }
+
             if (seeker.IsDone())
             {
                 seeker.StartPath(rb2d.position, target.position, OnPathComplete);
             }
 
         }
+
+
+
 
         void OnPathComplete(Path p)
         {
@@ -81,7 +99,58 @@ namespace SimplePlatformer.Enemy
         }
         protected override void Update()
         {
-            //nothing
+            base.Update();
+
+            if (target != null && !friendly)
+            {
+                distanceToPlayer = Vector2.Distance(transform.position, target.position);
+
+                if (distanceToPlayer > stoppingDistance)
+                {
+                    notFollow = false;
+                }
+                else if (distanceToPlayer < stoppingDistance && distanceToPlayer > retreatDistance)
+                {
+                    StopFollowing();
+                }
+                else if (distanceToPlayer < retreatDistance)
+                {
+                    StopFollowing();
+                }
+                if (timeBtwShoots <= 0 && distanceToPlayer < _enemyData.visionRadius)
+                {
+                    Instantiate(projectile, transform.position, Quaternion.identity);
+                    timeBtwShoots = startTimeBtwShoots;
+                }
+                else
+                {
+                    timeBtwShoots -= Time.deltaTime;
+                }
+
+            }
+
+           
+
+
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, stoppingDistance);
+        }
+
+        private void StopFollowing()
+        {
+
+            notFollow = true;
+            if (!isStunned)
+            {
+
+                rb2d.velocity = Vector2.zero;
+            }
+
+
         }
     }
 

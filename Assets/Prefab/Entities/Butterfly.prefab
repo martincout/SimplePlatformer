@@ -62,6 +62,7 @@ GameObject:
   - component: {fileID: 4770503915963321077}
   - component: {fileID: 1863575878936858800}
   - component: {fileID: 1948539883}
+  - component: {fileID: 359877584}
   m_Layer: 9
   m_Name: Butterfly
   m_TagString: Untagged
@@ -117,9 +118,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyData: {fileID: 11400000, guid: 4ab00294849a1564b8ff29a86b1c527b, type: 2}
-  particle: {fileID: 0}
-  manyHits: 1
+  dropChance: 0.5
+  dropItem: {fileID: 0}
   target: {fileID: 0}
+  particle: {fileID: 4845847811503115763, guid: 8b218e29b647a9743af25554be4dc9b6, type: 3}
+  manyHits: 1
+  friendly: 0
+  startTimeBtwShoots: 2
+  retreatDistance: 4
+  stoppingDistance: 3.66
+  projectile: {fileID: 3653012882268135329, guid: 67e74e85b03c1c84bbeefe3dd2660ebd, type: 3}
 --- !u!114 &1240864235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,7 +176,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &1863575878936858800
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -179,7 +187,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -197,8 +205,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 182c733c54ea2944aaec17b15eda03ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 999
+  maxHealth: 30
   healthBar: {fileID: 0}
+--- !u!114 &359877584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5599430386791468312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bbff5ec56029fa4da22fd158121444c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5599430387977599997
 GameObject:
   m_ObjectHideFlags: 0

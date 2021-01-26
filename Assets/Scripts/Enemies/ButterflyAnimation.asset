@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af898af7520b9cd4a94a8160a6ca82df, type: 3}
   m_Name: ButterflyAnimation
   m_EditorClassIdentifier: 
-  enemyIdle: 
+  enemyIdle: butterflyIdle
   enemyMovement: butterflyMove
   enemyAttack: 
   enemyHurt: butterflyHurt
+  enemyDeath: butterflyDie

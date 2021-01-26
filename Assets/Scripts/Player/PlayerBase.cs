@@ -25,7 +25,7 @@ namespace SimplePlatformer.Player
         protected static bool isJumping;
         protected static bool isAttacking;
         protected static bool isStunned;
-        protected static bool itsDying;
+        [HideInInspector] public static bool itsDying;
         protected static bool invincible;
         protected static bool airAttacked;
         protected static bool cannotAttack;
@@ -43,6 +43,13 @@ namespace SimplePlatformer.Player
         protected Animator anim;
         protected Rigidbody2D rb2d;
         protected Renderer render;
+
+        public bool GetPlayerItsDying()
+        {
+            return itsDying;
+        }
+
+        
 
         private void Awake()
         {

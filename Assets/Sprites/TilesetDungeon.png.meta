@@ -1,7 +1,13 @@
 fileFormatVersion: 2
 guid: 7f86d5bf3bb136b41b98f7bd9ee28e60
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: -357622718894266940
+    second: cellRed
+  - first:
+      213: -2955122633699412558
+    second: cellBlue
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -4200,6 +4206,48 @@ TextureImporter:
       bones: []
       spriteID: 5f2810859b68e6b00800000000000000
       internalID: 823743912458945269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cellRed
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 512
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c5a2bc2808790bf0800000000000000
+      internalID: -357622718894266940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cellBlue
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b531ae1f9b4df6d0800000000000000
+      internalID: -2955122633699412558
       vertices: []
       indices: 
       edges: []

@@ -18,7 +18,7 @@ MonoBehaviour:
   model: {fileID: -7664605693119280686, guid: c75d6312447d8d0438599deac31e0b52, type: 3}
   prefab: {fileID: 5599430386791468312, guid: 0799890dd8e71a044959329c5278331e, type: 3}
   speed: 300
-  visionRadius: 9
+  visionRadius: 14.08
   attackRadius: {x: 2, y: 2}
   attackRange: 0
   attackRate: 1.2

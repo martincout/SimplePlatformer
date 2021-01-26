@@ -16,3 +16,4 @@ MonoBehaviour:
   enemyMovement: skeletonWalk
   enemyAttack: skeletonAttack
   enemyHurt: skeletonHurt
+  enemyDeath: skeletonDie

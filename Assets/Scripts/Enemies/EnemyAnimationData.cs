@@ -10,5 +10,6 @@ namespace SimplePlatformer.Enemy
         public string enemyMovement;
         public string enemyAttack;
         public string enemyHurt;
+        public string enemyDeath;
     }
 }

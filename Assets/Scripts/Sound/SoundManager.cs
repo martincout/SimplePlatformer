@@ -39,6 +39,7 @@ public class SoundManager : MonoBehaviour
             sound.source.volume = sound.volume;
             sound.source.pitch = sound.pitch;
             sound.source.loop = sound.isLoop;
+            sound.source.priority = sound.priority;
 
             if (sound.hasCooldown)
             {

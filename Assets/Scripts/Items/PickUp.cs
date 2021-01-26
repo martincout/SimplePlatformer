@@ -70,7 +70,7 @@ public class PickUp : MonoBehaviour
     private IEnumerator WaitForPickup()
     {
         
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.5f);
         canPickUp = true;
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using Pathfinding;
 using SimplePlatformer.ExpandableAttributes;
+using SimplePlatformer.Player;
 namespace SimplePlatformer.Enemy
 {
     public class Enemy : MonoBehaviour, IDamageable
@@ -17,6 +18,9 @@ namespace SimplePlatformer.Enemy
         [Header("Attack")]
         protected float cooldownAttack = 0f;
 
+        [SerializeField] protected Transform target;
+
+
         [Header("Stun")]
 
         private float startStunTime;
@@ -24,9 +28,6 @@ namespace SimplePlatformer.Enemy
         protected bool isAttacking = false;
         protected bool itsDying = false;
         protected float dirX;
-        [Header("PathFinding")]
-
-
         protected int currentWaypoint = 0;
         protected bool reachedEndOfPath = false;
         protected float nextWaypointDistance = 3f;
@@ -35,9 +36,13 @@ namespace SimplePlatformer.Enemy
         protected Animator anim;
         protected Rigidbody2D rb2d;
         //How many hits when checking for hit box
-        public int manyHits = 1;
+        [HideInInspector] public int manyHits = 1;
         private float stunTimeCooldown;
         public bool friendly;
+        /// <summary>
+        /// Don't follow the Player if enabled. Updates itself when the player die or this enemy die
+        /// </summary>
+        protected bool notFollow = false;
 
         protected virtual void Start()
         {
@@ -49,10 +54,24 @@ namespace SimplePlatformer.Enemy
 
         }
 
+        private void OnEnable()
+        {
+            EventSystem.RespawnHandler += UpdatePlayer;
+        }
+        private void OnDisable()
+        {
+            EventSystem.RespawnHandler -= UpdatePlayer;
+        }
+
+        private void UpdatePlayer(GameObject player)
+        {
+            target = player.transform;
+        }
+
         protected virtual void FixedUpdate()
         {
 
-            if (!itsDying && !LevelManager.instance.isPlayerDead && !friendly)
+            if (!notFollow && !friendly)
             {
                 Move();
             }
@@ -60,6 +79,7 @@ namespace SimplePlatformer.Enemy
 
         protected virtual void Update()
         {
+            notFollow = itsDying || LevelManager.instance.isPlayerDead || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBase>().GetPlayerItsDying();
             StunTimeReset();
             CooldownAttack();
         }
@@ -111,7 +131,7 @@ namespace SimplePlatformer.Enemy
         /// <param name="col"></param>
         private void OnTriggerEnter2D(Collider2D col)
         {
-            if (col.CompareTag("Player") && !itsDying && !LevelManager.instance.isPlayerDead)
+            if (col.CompareTag("Player") && !notFollow)
             {
                 col.GetComponent<IDamageable>().TakeDamage(_enemyData.damage, transform.position);
             }
@@ -157,7 +177,7 @@ namespace SimplePlatformer.Enemy
             StartCoroutine(DieCo());
             if (dropItem != null)
             {
-                Instantiate(dropItem, transform);
+                Instantiate(dropItem, new Vector2(transform.position.x, Mathf.Round(transform.position.y + 0.2f)), Quaternion.identity);
             }
         }
 
@@ -198,7 +218,7 @@ namespace SimplePlatformer.Enemy
         {
             itsDying = true;
             rb2d.velocity = new Vector2();
-            anim.Play("skeletonDie");
+            anim.Play(_enemyData.animation.enemyDeath);
             yield return new WaitForSeconds(0.55f);
             rb2d.isKinematic = true;
             GetComponent<Collider2D>().enabled = false;

@@ -16,6 +16,8 @@ public class Sound
     public bool isLoop;
     public bool hasCooldown;
     public bool randomPitch;
+    public int priority = 127;
+
     [Range(0, 3)]
     public float MinRandomPitch = 1;
     [Range(0, 3)]

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class RespawnEnemy : MonoBehaviour
+public class RespawnEntity : MonoBehaviour
 {
     private void OnEnable()
     {
