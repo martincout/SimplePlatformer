@@ -39,6 +39,8 @@ namespace SimplePlatformer.Enemy
         [HideInInspector] public int manyHits = 1;
         private float stunTimeCooldown;
         public bool friendly;
+        protected GameObject playerGO;
+
         /// <summary>
         /// Don't follow the Player if enabled. Updates itself when the player die or this enemy die
         /// </summary>
@@ -46,6 +48,7 @@ namespace SimplePlatformer.Enemy
 
         protected virtual void Start()
         {
+            playerGO = GameObject.FindGameObjectWithTag("Player");
             GFX = transform.GetChild(0).gameObject;
             anim = GetComponent<Animator>();
             rb2d = GetComponent<Rigidbody2D>();
@@ -103,7 +106,7 @@ namespace SimplePlatformer.Enemy
         }
 
 
-        private void PlayAnimation(string name)
+        protected void PlayAnimation(string name)
         {
             if (anim.GetCurrentAnimatorStateInfo(0).IsName(name)) { return; }
             anim.Play(name);
@@ -239,13 +242,25 @@ namespace SimplePlatformer.Enemy
 
         #endregion
 
-        protected void Flip(Vector3 dir)
+        protected void Flip()
         {
-            if (dir.x > 0)
+            if (rb2d.velocity.x > 0)
             {
                 transform.localScale = new Vector3(1, 1, 1);
             }
-            else
+            else if(rb2d.velocity.x < 0)
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
+        }
+        
+        protected void Flip(float _dirX)
+        {
+            if (_dirX > 0)
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+            else if(_dirX < 0)
             {
                 transform.localScale = new Vector3(-1, 1, 1);
             }

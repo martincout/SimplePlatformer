@@ -1,16 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Cinemachine;
-using SimplePlatformer.Player;
 public class Room : MonoBehaviour
 {
     private GameObject virtualCamera;
-    private bool diedFromVoid = false;
+    //Don't disable the camera when we fall
+    [HideInInspector] public bool diedFromVoid;
 
     private void Awake()
     {
-        
         foreach (Transform eachChild in transform)
         {
             if (eachChild.GetComponent<CinemachineVirtualCamera>())
@@ -23,11 +20,9 @@ public class Room : MonoBehaviour
     private void OnEnable()
     {
         EventSystem.RespawnHandler += SetFollow;
-        EventSystem.SetDeathFromVoid += SetDeathFromVoid;
     }private void OnDisable()
     {
         EventSystem.RespawnHandler -= SetFollow;
-        EventSystem.SetDeathFromVoid -= SetDeathFromVoid;
     }
 
     private void SetFollow(GameObject playerGO)
@@ -39,6 +34,7 @@ public class Room : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            LevelManager.instance.UpdateCurrentRoom(gameObject);
             virtualCamera.SetActive(true);
 
         }
@@ -48,13 +44,10 @@ public class Room : MonoBehaviour
         if (collision.CompareTag("Player") && !diedFromVoid)
         {
             virtualCamera.SetActive(false);
-
         }
+        //set to false because we already had died by the time
+        diedFromVoid = false;
     }
 
-    private void SetDeathFromVoid()
-    {
-        diedFromVoid = !diedFromVoid;
-    }
 
 }

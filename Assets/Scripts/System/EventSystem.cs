@@ -7,7 +7,13 @@ public static class EventSystem
     /// </summary>
     /// <param> </param>
     public static Action DeathHandler;
+    /// <summary>
+    /// Handles the player respawn. After it gets Instantiated
+    /// </summary>
     public static Action<GameObject> RespawnHandler; 
+    /// <summary>
+    /// Player got a new Respawn waypoint
+    /// </summary>
     public static Action NewSpawnHandler;
     public static Action RespawnEnemiesHandler;
     public static Action SetDeathFromVoid;

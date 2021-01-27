@@ -5,17 +5,27 @@ public class Lever : Interactable
 {
     public Sprite leverOnSprite;
     public List<GameObject> doors;
+    public DoorMecanism triggerMecanism;
     public override void Interact()
     {
         base.Interact();
         GetComponent<SpriteRenderer>().sprite = leverOnSprite;
-        if(doors != null)
+        if(triggerMecanism == null)
         {
-            foreach(GameObject door in doors)
+            if (doors != null)
             {
-                door.GetComponent<CellDoor>().Interact();
+                foreach (GameObject door in doors)
+                {
+                    door.GetComponent<CellDoor>().Interact();
+                }
             }
         }
+        else
+        {
+            triggerMecanism.Play(doors);
+        }
+        
+        
     }
 
 }

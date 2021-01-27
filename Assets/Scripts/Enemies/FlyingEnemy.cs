@@ -14,6 +14,7 @@ namespace SimplePlatformer.Enemy
         public float stoppingDistance = 4f;
         public GameObject projectile;
         float distanceToPlayer;
+        RaycastHit2D hitPlayer;
 
 
         protected override void Start()
@@ -21,13 +22,15 @@ namespace SimplePlatformer.Enemy
             base.Start();
             timeBtwShoots = startTimeBtwShoots;
             seeker = GetComponent<Seeker>();
-            distanceToPlayer = Vector2.Distance(transform.position, target.position); 
+            distanceToPlayer = Vector2.Distance(transform.position, target.position);
+            hitPlayer = Physics2D.Raycast(transform.position, target.position);
             InvokeRepeating("UpdatePath", 0, .5f);
         }
 
         public void UpdatePath()
         {
-            if (notFollow || distanceToPlayer > _enemyData.visionRadius || friendly)
+            
+            if (notFollow || distanceToPlayer > _enemyData.visionRadius ||  friendly || hitPlayer != false && hitPlayer.transform.CompareTag("Player") )
             {
                 return;
             }
@@ -99,34 +102,40 @@ namespace SimplePlatformer.Enemy
         protected override void Update()
         {
             base.Update();
-
-            if (target != null && !friendly)
+            if(target != null)
             {
-                distanceToPlayer = Vector2.Distance(transform.position, target.position);
+                hitPlayer = Physics2D.Raycast(transform.position, target.position);
 
-                if (distanceToPlayer > stoppingDistance)
+                if (!friendly && !hitPlayer.transform.CompareTag("Player"))
                 {
-                    notFollow = false;
-                }
-                else if (distanceToPlayer < stoppingDistance && distanceToPlayer > retreatDistance)
-                {
-                    StopFollowing();
-                }
-                else if (distanceToPlayer < retreatDistance)
-                {
-                    StopFollowing();
-                }
-                if (timeBtwShoots <= 0 && distanceToPlayer < _enemyData.visionRadius)
-                {
-                    Instantiate(projectile, transform.position, Quaternion.identity);
-                    timeBtwShoots = startTimeBtwShoots;
-                }
-                else
-                {
-                    timeBtwShoots -= Time.deltaTime;
-                }
+                    //Distance
+                    distanceToPlayer = Vector2.Distance(transform.position, target.position);
 
+                    if (distanceToPlayer > stoppingDistance)
+                    {
+                        notFollow = false;
+                    }
+                    else if (distanceToPlayer < stoppingDistance && distanceToPlayer > retreatDistance)
+                    {
+                        StopFollowing();
+                    }
+                    else if (distanceToPlayer < retreatDistance)
+                    {
+                        StopFollowing();
+                    }
+                    if (timeBtwShoots <= 0 && distanceToPlayer < _enemyData.visionRadius)
+                    {
+                        Instantiate(projectile, transform.position, Quaternion.identity);
+                        timeBtwShoots = startTimeBtwShoots;
+                    }
+                    else
+                    {
+                        timeBtwShoots -= Time.deltaTime;
+                    }
+
+                }
             }
+            
 
            
 

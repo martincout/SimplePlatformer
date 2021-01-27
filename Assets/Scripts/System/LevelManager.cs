@@ -14,10 +14,16 @@ public class LevelManager : MonoBehaviour
     public GameObject enemyContainer;
     //Enemies positions and prefabs
     private Dictionary<Vector3, GameObject> enemies;
+    public Room currentRoom;
 
     internal bool isPlayerDead;
 
     public CinemachineVirtualCameraBase virtualCamera;
+
+    public void UpdateCurrentRoom(GameObject room)
+    {
+        currentRoom = room.GetComponent<Room>();
+    }
 
     private void Start()
     {

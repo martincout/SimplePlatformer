@@ -3,22 +3,25 @@ using UnityEngine;
 
 public class DeathFromVoid : MonoBehaviour
 {
+    public float waitToDie = 0.5f;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
-        EventSystem.SetDeathFromVoid();
-        StartCoroutine( Die(collision));
+        if (collision.CompareTag("Player"))
+        {
+            LevelManager.instance.currentRoom.diedFromVoid = true;
+            StartCoroutine(Die(collision));
+        }
     }
 
     private IEnumerator Die(Collider2D collider)
     {
-       yield return new WaitForSeconds(0.1f);
-        if (collider.CompareTag("Player"))
+        yield return new WaitForSeconds(waitToDie);
+
+        if (collider.GetComponent<IDamageable>() != null)
         {
-            if (collider.GetComponent<IDamageable>() != null)
-            {
-                collider.GetComponent<IDamageable>().DieInstantly();
-            }
+            collider.GetComponent<IDamageable>().DieInstantly();
         }
+
     }
 }
