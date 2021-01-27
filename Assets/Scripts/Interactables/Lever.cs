@@ -13,7 +13,7 @@ public class Lever : Interactable
         {
             foreach(GameObject door in doors)
             {
-                Destroy(door);
+                door.GetComponent<CellDoor>().Interact();
             }
         }
     }

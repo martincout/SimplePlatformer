@@ -27,12 +27,11 @@ namespace SimplePlatformer.Enemy
 
         public void UpdatePath()
         {
-            if (notFollow || distanceToPlayer > _enemyData.visionRadius && friendly)
+            if (notFollow || distanceToPlayer > _enemyData.visionRadius || friendly)
             {
                 return;
             }
-
-            if (seeker.IsDone())
+            if (seeker.IsDone() && target != null)
             {
                 seeker.StartPath(rb2d.position, target.position, OnPathComplete);
             }

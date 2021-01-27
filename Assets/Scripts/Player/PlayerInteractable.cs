@@ -17,7 +17,8 @@ namespace SimplePlatformer.Player
             if (interact != null && interact.GetComponent<Interactable>() != null && !interact.GetComponent<Interactable>().interacted)
             {
                 buttonOffset = interact.GetComponent<Interactable>().buttonOffset;
-                if (!btnInstantiated)
+                //Instantiate the Button UI (closer to interact doesn't instantiate the button UI)
+                if (!btnInstantiated && !interact.GetComponent<Interactable>().closerToInteract)
                 {
                     //Position of the Button Interact
                     Vector3 pos = new Vector3(interact.transform.position.x, interact.transform.position.y + buttonOffset, -1);
@@ -25,21 +26,37 @@ namespace SimplePlatformer.Player
                     btnInstantiated = true;
                 }
 
+                if (interact.GetComponent<Interactable>().closerToInteract)
+                {
+                    interact.GetComponent<Interactable>().Interact();
+                }
+
+                //Check INPUT
                 if (Input.GetButtonDown("Interact"))
                 {
                     //Interact
                     interact.GetComponent<Interactable>().Interact();
-                    Destroy(buttonRef);
+                    DestroyButton(buttonRef);
                     btnInstantiated = false;
                 }
             }
-            if(interact == null && btnInstantiated)
+            //Destroy UI BUTTON 
+            if (interact == null  && btnInstantiated)
             {
-                Destroy(buttonRef);
+                DestroyButton(buttonRef);
                 btnInstantiated = false;
             }
 
 
+        }
+
+        private void DestroyButton(GameObject btn)
+        {
+            if (buttonRef != null)
+            {
+                Destroy(btn);
+
+            }
         }
 
         private void OnDrawGizmosSelected()

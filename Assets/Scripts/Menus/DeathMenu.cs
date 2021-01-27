@@ -13,6 +13,7 @@ public class DeathMenu : MonoBehaviour
     {
         deathMenuGm.SetActive(true);
         LeanTween.alpha(blackScreen.GetComponent<Image>().rectTransform, 1f, 1f).setEase(LeanTweenType.linear);
+        
 
     }
 }

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GameStatus : MonoBehaviour
 {
@@ -32,7 +34,17 @@ public class GameStatus : MonoBehaviour
 
     protected int score = 0;
 
+    /// <summary>
+    /// Type of key and quantity
+    /// </summary>
+    protected Dictionary<KeyColor,int> keys;
+
     static GameStatus instance;
+
+    public Dictionary<KeyColor,int> GetKeys()
+    {
+        return keys;
+    }
 
     public static GameStatus GetInstance()
     {
@@ -63,8 +75,67 @@ public class GameStatus : MonoBehaviour
 
         // If we get here, the we are "the one". Let's act like it.
         instance = this;    // We are a Highlander
-        GameObject.DontDestroyOnLoad(this.gameObject);  // Become immortal
+        DontDestroyOnLoad(this.gameObject);  // Become immortal
 
+        InitializeKeys();
+
+    }
+
+    /// <summary>
+    /// Initialize the keys Dictionary.
+    /// Adds every KeyColor into the list and set it to zero (amount of keys)
+    /// </summary>
+    private void InitializeKeys()
+    {
+
+        if (keys == null)
+        {
+            keys = new Dictionary<KeyColor, int>();
+        }
+
+        foreach (KeyColor kc in (KeyColor[]) Enum.GetValues(typeof(KeyColor)))
+        {
+            keys.Add(kc,0);
+        }
+    }
+
+    /// <summary>
+    /// Increments the amount of keys in the color passed
+    /// </summary>
+    /// <param name="kc"></param>
+    public void AddKey(KeyColor kc)
+    {
+        if (keys == null)
+        {
+            keys = new Dictionary<KeyColor, int>();
+        }
+
+        if (keys.ContainsKey(kc))
+        {
+            keys[kc] += 1;
+        }
+        EventSystem.UpdateKeysHandler();
+        
+    }
+
+    /// <summary>
+    /// Decreases the amount of keys of that Color by 1.
+    /// </summary>
+    /// <param name="kc"></param>
+    /// <returns bool ></returns> Returns true if not zero
+    public bool DeleteKey(KeyColor kc)
+    {
+        if (keys.ContainsKey(kc) && keys[kc] > 0)
+        {
+            keys[kc] -= 1;
+            EventSystem.UpdateKeysHandler();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        
     }
 
     void OnDestroy()

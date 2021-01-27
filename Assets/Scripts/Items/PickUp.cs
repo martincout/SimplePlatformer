@@ -59,6 +59,9 @@ public class PickUp : MonoBehaviour
                 //Just adding the value of the item as a health amount
                 collision.GetComponent<IItem>().ItemInteraction(item);
                 break;
+            case Item.Category.KEY:
+                GameStatus.GetInstance().AddKey(((Key)item).color);
+                break;
         }
 
         Destroy(gameObject);

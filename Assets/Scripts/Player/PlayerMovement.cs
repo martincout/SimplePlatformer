@@ -36,7 +36,7 @@ namespace SimplePlatformer.Player
             groundLayer = 1 << LayerMask.NameToLayer("Ground");
             capsuleCollider = GetComponent<CapsuleCollider2D>();
             footsteps = GetComponent<AudioSource>();
-            dustFootsteps = transform.GetChild(1).GetComponent<ParticleSystem>();
+            dustFootsteps = transform.GetChild(2).GetComponent<ParticleSystem>();
         }
 
         public void Start()
@@ -90,7 +90,7 @@ namespace SimplePlatformer.Player
             {
                 anim.Play(PLAYER_JUMP);
             }
-            if (rb2d.velocity.y < -0.2)
+            if (rb2d.velocity.y < -0.2 && !isGrounded)
             {
                 anim.Play(PLAYER_FALLING);
             }

@@ -57,7 +57,7 @@ namespace SimplePlatformer.Player
             characterParticles = GetComponent<CharacterParticles>();
             anim = GetComponent<Animator>();
             rb2d = GetComponent<Rigidbody2D>();
-            render = GetComponent<Renderer>();
+            render = transform.GetChild(0).GetComponent<Renderer>();
         }
 
         private void Start()

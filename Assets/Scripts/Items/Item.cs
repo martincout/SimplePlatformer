@@ -7,7 +7,8 @@ public class Item : ScriptableObject
     public enum Category
     {
         COIN,
-        CONSUMABLE
+        CONSUMABLE,
+        KEY
     }
 
     public string itemName;

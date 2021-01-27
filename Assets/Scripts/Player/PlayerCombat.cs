@@ -12,7 +12,6 @@ namespace SimplePlatformer.Player
         [SerializeField] private float attackRange = 0.1f;
         [SerializeField] private float attackRate = 0.3f;
         [SerializeField] private float attackDamage = 10f;
-        [SerializeField] private float offsetAttack = 0.5f;
         //The time elapsed for the next hit with the hit box (attack)
         [SerializeField] private float initialDrag;
         [SerializeField] private float attackDrag;

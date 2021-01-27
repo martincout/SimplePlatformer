@@ -8,6 +8,18 @@ TextureImporter:
   - first:
       213: -2955122633699412558
     second: cellBlue
+  - first:
+      213: -344927156898856652
+    second: cellBlue1
+  - first:
+      213: 2703920073661504268
+    second: cellRed1
+  - first:
+      213: 8335957216534444121
+    second: blueKey
+  - first:
+      213: -5223729815921311345
+    second: redKey
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -1187,7 +1199,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TilesetDungeon_52
+      name: goldKey
       rect:
         serializedVersion: 2
         x: 896
@@ -1502,7 +1514,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TilesetDungeon_67
+      name: grayKey
       rect:
         serializedVersion: 2
         x: 896
@@ -4248,6 +4260,90 @@ TextureImporter:
       bones: []
       spriteID: 2b531ae1f9b4df6d0800000000000000
       internalID: -2955122633699412558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cellBlue1
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43188ab0492963bf0800000000000000
+      internalID: -344927156898856652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cellRed1
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 640
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c0b54a32bf0468520800000000000000
+      internalID: 2703920073661504268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blueKey
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 958b3623ce44fa370800000000000000
+      internalID: 8335957216534444121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redKey
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f81c46fa8659187b0800000000000000
+      internalID: -5223729815921311345
       vertices: []
       indices: 
       edges: []

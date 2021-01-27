@@ -11,4 +11,8 @@ public static class EventSystem
     public static Action NewSpawnHandler;
     public static Action RespawnEnemiesHandler;
     public static Action SetDeathFromVoid;
+    /// <summary>
+    /// Updates the Keys obtained
+    /// </summary>
+    public static Action UpdateKeysHandler;
 }

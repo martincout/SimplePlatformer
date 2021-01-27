@@ -6,7 +6,11 @@ public abstract class Interactable : MonoBehaviour
     public bool interactOneTime;
     public bool interacted;
     public float buttonOffset;
+    // To Interact automatically when entity get closer
+    public bool closerToInteract;
     public AudioClip sound;
+
+    private bool soundPlayed;
 
     public virtual void Interact()
     {
@@ -17,19 +21,21 @@ public abstract class Interactable : MonoBehaviour
     {
         if (interactOneTime)
         {
-            interacted = !interacted;
+            interacted = true;
         }
     }
 
     public virtual void PlaySound()
     {
-        if (sound != null)
+        if (sound != null && !soundPlayed)
         {
+            soundPlayed = true;
             GameObject audioGm = new GameObject("Interactable Sound");
             AudioSource source = audioGm.AddComponent<AudioSource>();
             source.PlayOneShot(sound);
             Destroy(audioGm, 2f);
         }
+
 
     }
 }

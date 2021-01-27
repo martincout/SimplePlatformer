@@ -15,3 +15,4 @@ MonoBehaviour:
   itemName: Coin
   value: 1
   particleGameobject: {fileID: 135774779694850163, guid: 3151c66f58727b04ebc3bd127fe59f66, type: 3}
+  category: 0
