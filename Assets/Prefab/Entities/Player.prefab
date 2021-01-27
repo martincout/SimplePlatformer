@@ -275,7 +275,6 @@ MonoBehaviour:
   attackRange: 0.72
   attackRate: 0.3
   attackDamage: 10
-  offsetAttack: 0.779
   initialDrag: 1.5
   attackDrag: 3
   timeNextCombo: 0.4

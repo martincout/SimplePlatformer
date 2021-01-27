@@ -32,7 +32,7 @@ public class PotsRespawner : MonoBehaviour
     {
         foreach(Vector3 potPos in potsPos)
         {
-            Instantiate(potPrefab, potPos, Quaternion.identity);
+            Instantiate(potPrefab, potPos, Quaternion.identity,transform);
         }
 
     }

@@ -98,7 +98,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactOneTime: 1
   interacted: 0
+  buttonOffset: 0
+  closerToInteract: 0
+  sound: {fileID: 0}
   leverOnSprite: {fileID: 8943757783767630458, guid: 7f86d5bf3bb136b41b98f7bd9ee28e60, type: 3}
+  doors: []
 --- !u!61 &7384902344006134284
 BoxCollider2D:
   m_ObjectHideFlags: 0
