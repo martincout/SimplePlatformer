@@ -24,6 +24,7 @@ namespace SimplePlatformer.Enemy
         [Header("Stun")]
 
         private float startStunTime;
+        private float stunTimeCooldown = 0;
         protected bool isStunned = false;
         protected bool isAttacking = false;
         protected bool itsDying = false;
@@ -37,7 +38,7 @@ namespace SimplePlatformer.Enemy
         protected Rigidbody2D rb2d;
         //How many hits when checking for hit box
         [HideInInspector] public int manyHits = 1;
-        private float stunTimeCooldown;
+       
         public bool friendly;
         protected GameObject playerGO;
 
@@ -54,6 +55,7 @@ namespace SimplePlatformer.Enemy
             rb2d = GetComponent<Rigidbody2D>();
             healthSystem = GetComponent<HealthSystem>();
             startStunTime = _enemyData.stunTime;
+            cooldownAttack = 0;
 
         }
 
@@ -116,11 +118,12 @@ namespace SimplePlatformer.Enemy
         {
             if (stunTimeCooldown > 0)
             {
+                isStunned = true;
                 stunTimeCooldown -= Time.deltaTime;
             }
             else
             {
-                stunTimeCooldown = startStunTime;
+                isStunned = false;
             }
         }
 
@@ -195,10 +198,7 @@ namespace SimplePlatformer.Enemy
 
         private IEnumerator KnockCo(Vector3 playerPos)
         {
-            if (stunTimeCooldown > 0)
-            {
-                isStunned = true;
-            }
+            stunTimeCooldown = startStunTime;
             isAttacking = false;
             Vector2 forceDirection = transform.TransformDirection(transform.position - playerPos);
             if(forceDirection.x > 0)
@@ -213,7 +213,6 @@ namespace SimplePlatformer.Enemy
             Vector2 force = forceDirection * _enemyData.thrust;
             rb2d.AddForce(force, ForceMode2D.Impulse);
             yield return new WaitForSeconds(_enemyData.stunTime);
-            isStunned = false;
             rb2d.velocity = new Vector2();
         }
 
@@ -270,6 +269,8 @@ namespace SimplePlatformer.Enemy
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, _enemyData.visionRadius);
+            Gizmos.color = Color.white;
+            Gizmos.DrawWireSphere(transform.position, _enemyData.visionRadiusUpgrade);
             Gizmos.color = Color.red;
             Gizmos.DrawWireCube(transform.position, _enemyData.attackRadius);
 

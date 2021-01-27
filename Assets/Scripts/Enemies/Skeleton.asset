@@ -19,10 +19,11 @@ MonoBehaviour:
   prefab: {fileID: 8702034491002796005, guid: f5c7f7edc3ca3fd4c8b87fe827d2a042, type: 3}
   speed: 500
   visionRadius: 7
+  visionRadiusUpgrade: 10
   attackRadius: {x: 2.88, y: 2.5}
   attackRange: 0.4
   attackRate: 1
   damage: 60
-  stunTime: 0.5
+  stunTime: 0.2
   thrust: 50
   animation: {fileID: 11400000, guid: 2416708f92654d44ba7a0dfc69125c46, type: 2}

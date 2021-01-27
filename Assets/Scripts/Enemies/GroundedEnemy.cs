@@ -85,13 +85,21 @@ namespace SimplePlatformer.Enemy
 
             if (!foundPlayer)
             {
-                Flip();
-                Patrolling();
+                visionRadius = _enemyData.visionRadius;
+                if (!patrolDisabled)
+                {
+                    Flip();
+                    Patrolling();
+                }
+                else
+                {
+                    PlayAnimation(_enemyData.animation.enemyIdle);
+                }
                 return;
             }
             else
             {
-                visionRadius += 5;
+                visionRadius = _enemyData.visionRadiusUpgrade;
             }
 
             #endregion
@@ -159,18 +167,16 @@ namespace SimplePlatformer.Enemy
         {
             if (!patrolDisabled)
             {
-                //400f
-                float patrollingVel = 0f;
                 PlayAnimation(_enemyData.animation.enemyMovement);
                 if (visionRadius != _enemyData.visionRadius) visionRadius = _enemyData.visionRadius;
                 //Change direction
                 if (headingRight)
                 {
-                    rb2d.velocity = new Vector2(1 * _enemyData.speed * Time.deltaTime - patrollingVel, GetComponent<Rigidbody2D>().velocity.y);
+                    rb2d.velocity = new Vector2(1 * _enemyData.speed/2 * Time.deltaTime , GetComponent<Rigidbody2D>().velocity.y);
                 }
                 else
                 {
-                    rb2d.velocity = new Vector2(-1 * _enemyData.speed * Time.deltaTime + patrollingVel, GetComponent<Rigidbody2D>().velocity.y);
+                    rb2d.velocity = new Vector2(-1 * _enemyData.speed / 2 * Time.deltaTime, GetComponent<Rigidbody2D>().velocity.y);
                 }
             }
 

@@ -87,18 +87,6 @@ namespace SimplePlatformer.Enemy
             Flip();
         }
 
-        private void Flip()
-        {
-            if (rb2d.velocity.x >= 0.01f)
-            {
-                transform.localScale = new Vector3(1f, 1f, 1f);
-            }
-            else if (rb2d.velocity.x <= -0.01f)
-            {
-                transform.localScale = new Vector3(-1f, 1f, 1f);
-
-            }
-        }
         protected override void Update()
         {
             base.Update();
