@@ -111,23 +111,31 @@ namespace SimplePlatformer.Enemy
                     {
                         StopFollowing();
                     }
-                    if (timeBtwShoots <= 0 && distanceToPlayer < _enemyData.visionRadius)
-                    {
-                        Instantiate(projectile, transform.position, Quaternion.identity);
-                        timeBtwShoots = startTimeBtwShoots;
-                    }
-                    else
-                    {
-                        timeBtwShoots -= Time.deltaTime;
-                    }
+
+
+                    Shoot();
+                    
 
                 }
             }
+
+        }
+
+        private void Shoot()
+        {
+            if (!itsDying)
+            {
+                if (timeBtwShoots <= 0 && distanceToPlayer < _enemyData.visionRadius)
+                {
+                    Instantiate(projectile, transform.position, Quaternion.identity);
+                    timeBtwShoots = startTimeBtwShoots;
+                }
+                else
+                {
+                    timeBtwShoots -= Time.deltaTime;
+                }
+            }
             
-
-           
-
-
         }
 
         private void OnDrawGizmos()

@@ -56,6 +56,7 @@ namespace SimplePlatformer.Enemy
             healthSystem = GetComponent<HealthSystem>();
             startStunTime = _enemyData.stunTime;
             cooldownAttack = 0;
+            healthSystem.SetMaxHealth(_enemyData.maxHealth);
 
         }
 
@@ -153,7 +154,7 @@ namespace SimplePlatformer.Enemy
                 healthSystem.DealDamage(damage);
                 if (healthSystem.GetHealth() > 0)
                 {
-                    SoundManager.instance.Play("skeletonHit");
+                    SoundManager.instance.Play(_enemyData.soundName);
                     anim.Play(_enemyData.animation.enemyHurt, 1, 0);
                     PlayAnimation(_enemyData.animation.enemyIdle);
                     if (!isStunned)

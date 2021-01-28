@@ -31,6 +31,10 @@ public class HealthSystem : MonoBehaviour
     {
         currentHealth = hp;
     }
+    public void SetMaxHealth(float maxHp)
+    {
+        maxHealth = maxHp;
+    }
 
     public float GetHealth()
     {

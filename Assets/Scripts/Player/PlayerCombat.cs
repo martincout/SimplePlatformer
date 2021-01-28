@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace SimplePlatformer.Player
 {
@@ -50,6 +51,10 @@ namespace SimplePlatformer.Player
                 if (col.GetComponent<IDamageable>() != null)
                 {
                     col.GetComponent<IDamageable>().TakeDamage(attackDamage, transform.position);
+                    if (col.GetComponent<FallingCellCage>())
+                    {
+                        Knockback(col.transform.position, 15f);
+                    }
                     //if (!isJumping) StartCoroutine(ImpulseBackwards());
                 }
             }
@@ -78,7 +83,7 @@ namespace SimplePlatformer.Player
             {
                 elapsedAttackRate -= Time.deltaTime;
             }
-            
+
 
             //Attack
             if (!isStunned && !itsDying && !cannotAttack)
@@ -97,7 +102,7 @@ namespace SimplePlatformer.Player
         }
         private void Attack()
         {
-            
+
             #region Check Input
             //Cooldown of the attack finished and if we are not in a Combo
             if (elapsedAttackRate <= 0 || !comboState.Equals(ComboState.NONE))
@@ -123,14 +128,14 @@ namespace SimplePlatformer.Player
                                 elapsedNextCombo = 0.2f;
                                 break;
                         }
-                        
-                        
+
+
                     }
                     //If I'm in the Air
                     else if (!airAttacked)
                     {
                         comboState = ComboState.FIRST;
-                        
+
                         elapsedNextCombo = 0.2f;
                         anim.Play(PLAYER_AIRATTACK);
                         airAttacked = true;
@@ -148,24 +153,6 @@ namespace SimplePlatformer.Player
         {
             SoundManager.instance.Play("Swish");
         }
-
-        //private IEnumerator ImpulseBackwards()
-        //{
-        //    //The force it's greater as the velocity of the player increases to apply more impulse backwards
-        //    float velocityX = rb2d.velocity.x;
-        //    float force = 1.4f + Mathf.Abs(velocityX);
-
-        //    if (isFacingRight)
-        //    {
-        //        rb2d.AddForce(new Vector2(-force, 0), ForceMode2D.Impulse);
-        //    }
-        //    else
-        //    {
-        //        rb2d.AddForce(new Vector2(force, 0), ForceMode2D.Impulse);
-        //    }
-        //    yield return new WaitForSeconds(0.1f);
-        //    axisDir = Vector2.zero;
-        //}
 
     }
 

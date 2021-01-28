@@ -12,18 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f7e255625b84e47b1590148fb7f6b1, type: 3}
   m_Name: Skeleton
   m_EditorClassIdentifier: 
+  model: {fileID: 7928858964255100155, guid: 83882e7cb27dc2945928f0f671ecf0db, type: 3}
+  prefab: {fileID: 8702034491002796005, guid: f5c7f7edc3ca3fd4c8b87fe827d2a042, type: 3}
   enemyName: Skeleton
   description: Melee enemy
   maxHealth: 50
-  model: {fileID: 7928858964255100155, guid: 83882e7cb27dc2945928f0f671ecf0db, type: 3}
-  prefab: {fileID: 8702034491002796005, guid: f5c7f7edc3ca3fd4c8b87fe827d2a042, type: 3}
+  damage: 60
   speed: 500
   visionRadius: 7
   visionRadiusUpgrade: 10
   attackRadius: {x: 2.88, y: 2.5}
   attackRange: 0.4
   attackRate: 1
-  damage: 60
   stunTime: 0.2
   thrust: 50
+  soundName: skeletonHit
   animation: {fileID: 11400000, guid: 2416708f92654d44ba7a0dfc69125c46, type: 2}

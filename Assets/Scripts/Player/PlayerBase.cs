@@ -44,6 +44,8 @@ namespace SimplePlatformer.Player
         protected Rigidbody2D rb2d;
         protected Renderer render;
 
+        private readonly float thrust = 30f;
+
         public bool GetPlayerItsDying()
         {
             return itsDying;
@@ -124,19 +126,13 @@ namespace SimplePlatformer.Player
                 {
                     SoundManager.instance.Play("Damage");
                     anim.Play(PLAYER_HURT);
-                    StartCoroutine(KnockCo(attackerPos));
-                    if (!isStunned)
-                    {
-                        StartCoroutine(StunCo());
-                        cannotAttack = true;
-                        
-                    }
+                    Knockback(attackerPos, thrust);
                 }
                 else
                 {
                     SoundManager.instance.Play("Death");
                     StopAllCoroutines();
-                    StartCoroutine(KnockCo(attackerPos));
+                    Knockback(attackerPos, thrust);
                     StartCoroutine(DieCo());
                 }
             }
@@ -163,6 +159,16 @@ namespace SimplePlatformer.Player
             EventSystem.DeathHandler?.Invoke();
         }
 
+        protected void Knockback(Vector3 attackerPos, float thrust)
+        {
+            if (!isStunned)
+            {
+                StartCoroutine(StunCo());
+                cannotAttack = true;
+            }
+            StartCoroutine(KnockCo(attackerPos, thrust));
+        }
+
         private IEnumerator StunCo()
         {
             isStunned = true;
@@ -170,20 +176,24 @@ namespace SimplePlatformer.Player
             isStunned = false;
         }
 
-        private IEnumerator KnockCo(Vector3 attackerPos)
+        private IEnumerator KnockCo(Vector3 attackerPos, float _thrust)
         {
+            //The force it's greater as the velocity of the player increases to apply more impulse backwards
+            float velocityX = rb2d.velocity.x;
+            float force = Mathf.Abs(velocityX) + _thrust;
+
             Vector2 forceDirection = transform.TransformDirection(transform.position - attackerPos);
+
             if(forceDirection.x > 0)
             {
-                forceDirection = new Vector2(1, forceDirection.normalized.y);
+                forceDirection = new Vector2(force, forceDirection.normalized.y);
             }
             else
             {
-                forceDirection = new Vector2(-1, forceDirection.normalized.y);
+                forceDirection = new Vector2(-force, forceDirection.normalized.y);
 
             }
-            Vector2 force = forceDirection * 30;
-            rb2d.AddForce(force, ForceMode2D.Impulse);
+            rb2d.AddForce(forceDirection, ForceMode2D.Impulse);
             yield return new WaitForSeconds(stunTime);
             rb2d.velocity = new Vector2();
         }

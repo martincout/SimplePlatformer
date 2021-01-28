@@ -24,10 +24,10 @@ namespace SimplePlatformer.Enemy
         public float stunTime = 0.3f;
         public float thrust = 50f;
 
+        public string soundName;
+
         [Expandable]
         public EnemyAnimationData animation;
-
-        public 
     }
 
 }
