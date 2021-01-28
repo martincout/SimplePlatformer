@@ -5,7 +5,7 @@ namespace SimplePlatformer.Enemy
 {
     public class FlyingEnemy : Enemy
     {
-        
+
         protected Path path;
         protected Seeker seeker;
         protected float timeBtwShoots;
@@ -14,35 +14,31 @@ namespace SimplePlatformer.Enemy
         public float stoppingDistance = 4f;
         public GameObject projectile;
         float distanceToPlayer;
-        RaycastHit2D hitPlayer;
-
+        public bool noShooting;
 
         protected override void Start()
         {
             base.Start();
             timeBtwShoots = startTimeBtwShoots;
             seeker = GetComponent<Seeker>();
-            distanceToPlayer = Vector2.Distance(transform.position, target.position);
-            hitPlayer = Physics2D.Raycast(transform.position, target.position);
+            distanceToPlayer = Vector3.Distance(transform.position, target.transform.position);
             InvokeRepeating("UpdatePath", 0, .5f);
         }
 
         public void UpdatePath()
         {
-            
-            if (notFollow || distanceToPlayer > _enemyData.visionRadius ||  friendly || hitPlayer != false && hitPlayer.transform.CompareTag("Player") )
+            if (!FollowPlayer() && distanceToPlayer > currentVisionRadius && distanceToPlayer > stoppingDistance)
             {
+                path = null;
                 return;
             }
             if (seeker.IsDone() && target != null)
             {
-                seeker.StartPath(rb2d.position, target.position, OnPathComplete);
+                seeker.StartPath(rb2d.position, target.transform.position, OnPathComplete);
             }
 
+
         }
-
-
-
 
         void OnPathComplete(Path p)
         {
@@ -60,9 +56,9 @@ namespace SimplePlatformer.Enemy
 
         protected override void FixedUpdate()
         {
+
             //No path
-            if (path == null)
-                return;
+            if (path == null) return;
             //Check reached end of path
             if (currentWaypoint >= path.vectorPath.Count)
             {
@@ -90,42 +86,50 @@ namespace SimplePlatformer.Enemy
         protected override void Update()
         {
             base.Update();
-            if(target != null)
-            {
-                hitPlayer = Physics2D.Raycast(transform.position, target.position);
-
-                if (!friendly && !hitPlayer.transform.CompareTag("Player"))
-                {
-                    //Distance
-                    distanceToPlayer = Vector2.Distance(transform.position, target.position);
-
-                    if (distanceToPlayer > stoppingDistance)
-                    {
-                        notFollow = false;
-                    }
-                    else if (distanceToPlayer < stoppingDistance && distanceToPlayer > retreatDistance)
-                    {
-                        StopFollowing();
-                    }
-                    else if (distanceToPlayer < retreatDistance)
-                    {
-                        StopFollowing();
-                    }
 
 
-                    Shoot();
-                    
-
-                }
+            if (FollowPlayer()) {
+                sawPlayer = true;
             }
+
+            if (target != null && !friendly)
+            {
+
+                distanceToPlayer = Vector3.Distance(transform.position, target.transform.position);
+                //Distance
+
+                if(sawPlayer)
+                {
+                    currentVisionRadius = _enemyData.visionRadiusUpgrade;
+                }
+                else
+                {
+                    StopFollowing();
+                }
+
+                if (distanceToPlayer > stoppingDistance)
+                {
+                    notFollow = false;
+                }
+                else if (distanceToPlayer < stoppingDistance && distanceToPlayer > retreatDistance)
+                {
+                    StopFollowing();
+                }
+                else if (distanceToPlayer < retreatDistance)
+                {
+                    StopFollowing();
+                }
+                Shoot();
+            }
+
 
         }
 
         private void Shoot()
         {
-            if (!itsDying)
+            if (!itsDying && !noShooting)
             {
-                if (timeBtwShoots <= 0 && distanceToPlayer < _enemyData.visionRadius)
+                if (timeBtwShoots <= 0 && distanceToPlayer < currentVisionRadius)
                 {
                     Instantiate(projectile, transform.position, Quaternion.identity);
                     timeBtwShoots = startTimeBtwShoots;
@@ -135,26 +139,23 @@ namespace SimplePlatformer.Enemy
                     timeBtwShoots -= Time.deltaTime;
                 }
             }
-            
+
         }
 
         private void OnDrawGizmos()
         {
-            Gizmos.color = Color.blue;
+            Gizmos.color = Color.white;
             Gizmos.DrawWireSphere(transform.position, stoppingDistance);
         }
 
         private void StopFollowing()
         {
-
+            path = null;
             notFollow = true;
             if (!isStunned)
             {
-
                 rb2d.velocity = Vector2.zero;
             }
-
-
         }
     }
 

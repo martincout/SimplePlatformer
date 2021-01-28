@@ -5,8 +5,6 @@ namespace SimplePlatformer.Player
 {
     public class PlayerCombat : PlayerBase
     {
-
-
         //Attack    
         [Header("Attack")]
         public Transform attackPoint;

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1726086586}
   - component: {fileID: 1726086587}
   m_Layer: 0
-  m_Name: bodyHitbox
+  m_Name: bodyHitCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,10 +124,12 @@ MonoBehaviour:
   particle: {fileID: 4845847811503115763, guid: 8b218e29b647a9743af25554be4dc9b6, type: 3}
   manyHits: 1
   friendly: 0
+  bodyHitCollider: {fileID: 1726086587}
   startTimeBtwShoots: 2
   retreatDistance: 4
   stoppingDistance: 3.66
   projectile: {fileID: 3653012882268135329, guid: 67e74e85b03c1c84bbeefe3dd2660ebd, type: 3}
+  noShooting: 0
 --- !u!114 &1240864235
 MonoBehaviour:
   m_ObjectHideFlags: 0

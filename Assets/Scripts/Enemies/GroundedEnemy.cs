@@ -7,16 +7,15 @@ namespace SimplePlatformer.Enemy
     {
         [SerializeField] private Transform attackPoint;
         [SerializeField] private float attackRange = 0.2f;
-        [SerializeField] private float visionRadius = 0.2f;
         [HideInInspector] public bool checkForHitBox = false;
         [SerializeField] private float rayLength = 0.2f;
         public bool headingRight;
         private RaycastHit2D raycastGround;
         private RaycastHit2D raycastWall;
         public Transform groundDetector;
-        public bool patrolDisabled;
         bool foundPlayer;
         private Vector3 raycastDir;
+        
 
         /// <summary>
         /// Position of the BoxCollider in the world space. Used to check wall collisions
@@ -26,7 +25,6 @@ namespace SimplePlatformer.Enemy
         protected override void Start()
         {
             base.Start();
-            visionRadius = _enemyData.visionRadius;
             groundDetector = transform.GetChild(3)?.GetComponent<Transform>();
             CheckHeadingDirection();
         }
@@ -47,7 +45,7 @@ namespace SimplePlatformer.Enemy
 
             #region Find Player
             //Vision radius
-            Collider2D[] circleVision = Physics2D.OverlapCircleAll(transform.position, visionRadius, 1 << LayerMask.NameToLayer("Player"));
+            Collider2D[] circleVision = Physics2D.OverlapCircleAll(transform.position, currentVisionRadius, 1 << LayerMask.NameToLayer("Player"));
             Collider2D[] boxAttackRadius = Physics2D.OverlapBoxAll(transform.position, _enemyData.attackRadius, 0, 1 << LayerMask.NameToLayer("Player"));
 
             Vector3 targetPos = playerGO.transform.position;
@@ -85,8 +83,8 @@ namespace SimplePlatformer.Enemy
 
             if (!foundPlayer)
             {
-                visionRadius = _enemyData.visionRadius;
-                if (!patrolDisabled)
+                currentVisionRadius = _enemyData.visionRadius;
+                if (patrollingEnabled)
                 {
                     Flip();
                     Patrolling();
@@ -99,7 +97,7 @@ namespace SimplePlatformer.Enemy
             }
             else
             {
-                visionRadius = _enemyData.visionRadiusUpgrade;
+                currentVisionRadius = _enemyData.visionRadiusUpgrade;
             }
 
             #endregion
@@ -115,7 +113,7 @@ namespace SimplePlatformer.Enemy
                 #region Chase and Attack
 
                 //Raycast target checking the vision radius
-                if (distance < visionRadius)
+                if (distance < currentVisionRadius)
                 {
                     //Check if there is a player in the attack radius
                     if (boxAttackRadius.Length > 0)
@@ -165,10 +163,10 @@ namespace SimplePlatformer.Enemy
 
         private void Patrolling()
         {
-            if (!patrolDisabled)
+            if (patrollingEnabled)
             {
                 PlayAnimation(_enemyData.animation.enemyMovement);
-                if (visionRadius != _enemyData.visionRadius) visionRadius = _enemyData.visionRadius;
+                if (currentVisionRadius != _enemyData.visionRadius) currentVisionRadius = _enemyData.visionRadius;
                 //Change direction
                 if (headingRight)
                 {

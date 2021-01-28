@@ -7,49 +7,68 @@ namespace SimplePlatformer.Enemy
 {
     public class Enemy : MonoBehaviour, IDamageable
     {
-        [ExpandableAttribute]
+        [Expandable]
         public EnemyData _enemyData;
         protected HealthSystem healthSystem;
+        /// <summary>
+        /// Items Drop
+        /// </summary>
         [Header("Item")]
         public float dropChance = 0.50f;
         public GameObject dropItem;
-        //GameObject of the graphics
-        protected GameObject GFX;
+
         [Header("Attack")]
         protected float cooldownAttack = 0f;
-
-        [SerializeField] protected Transform target;
-
-
-        [Header("Stun")]
-
+        [SerializeField] protected GameObject target;
         private float startStunTime;
         private float stunTimeCooldown = 0;
         protected bool isStunned = false;
         protected bool isAttacking = false;
+        //How many hits when checking for hit box
+        [HideInInspector] public int manyHits = 1;
+        protected float currentVisionRadius;
+
+        [Header("Stun")]
         protected bool itsDying = false;
         protected float dirX;
         protected int currentWaypoint = 0;
         protected bool reachedEndOfPath = false;
         protected float nextWaypointDistance = 3f;
 
+        //Components
         public GameObject particle;
-        protected Animator anim;
+        public Animator anim;
         protected Rigidbody2D rb2d;
-        //How many hits when checking for hit box
-        [HideInInspector] public int manyHits = 1;
-       
-        public bool friendly;
         protected GameObject playerGO;
+        public Collider2D bodyHitCollider;
+        protected GameObject GFX;
+        protected RaycastHit2D hitPlayer;
 
         /// <summary>
-        /// Don't follow the Player if enabled. Updates itself when the player die or this enemy die
+        /// Three main State Behaviours.
         /// </summary>
-        protected bool notFollow = false;
+        protected enum State
+        {
+            NONE,
+            PATROLLING,
+            CHASING,
+            FRIENDLY
+        }
+        protected State currentState;
+
+        /// <summary>
+        /// Custom Behaviours of the Enemy
+        /// </summary>
+        public bool friendly;
+        protected bool notFollow;
+        protected bool sawPlayer;
+        protected bool isPatrolling;
+        protected bool patrollingEnabled;
 
         protected virtual void Start()
         {
             playerGO = GameObject.FindGameObjectWithTag("Player");
+            target = playerGO;
             GFX = transform.GetChild(0).gameObject;
             anim = GetComponent<Animator>();
             rb2d = GetComponent<Rigidbody2D>();
@@ -57,6 +76,65 @@ namespace SimplePlatformer.Enemy
             startStunTime = _enemyData.stunTime;
             cooldownAttack = 0;
             healthSystem.SetMaxHealth(_enemyData.maxHealth);
+            currentVisionRadius = _enemyData.visionRadius;
+            SetInitialState();
+        }
+
+        /// <summary>
+        /// Set the Initial state acording to custom behaviours, if one of them is true
+        /// </summary>
+        private void SetInitialState()
+        {
+            if (friendly)
+            {
+                currentState = State.FRIENDLY;
+            }
+            else
+            {
+                if (patrollingEnabled)
+                {
+                    currentState = State.PATROLLING;
+                }
+                else
+                {
+                    currentState = State.NONE;
+                }
+            }
+        }
+
+        protected bool FollowPlayer()
+        {
+            if (notFollow)
+            {
+                return false;
+            };
+            int mask1 = 1 << LayerMask.NameToLayer("Player");
+            int mask2 = 1 << LayerMask.NameToLayer("Ground");
+            if (target != null)
+            {
+                //working
+                hitPlayer = Physics2D.Raycast(transform.position, target.transform.position - transform.position, Mathf.Infinity, mask1 | mask2);
+                if (hitPlayer)
+                {
+                    if (hitPlayer.collider.gameObject.CompareTag("Player"))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            else
+            {
+                return false;
+            }
 
         }
 
@@ -71,7 +149,7 @@ namespace SimplePlatformer.Enemy
 
         private void UpdatePlayer(GameObject player)
         {
-            target = player.transform;
+            target = player;
         }
 
         protected virtual void FixedUpdate()
@@ -138,7 +216,7 @@ namespace SimplePlatformer.Enemy
         /// <param name="col"></param>
         private void OnTriggerEnter2D(Collider2D col)
         {
-            if (col.CompareTag("Player") && !notFollow)
+            if (col.CompareTag("Player") && itsDying || LevelManager.instance.isPlayerDead)
             {
                 col.GetComponent<IDamageable>().TakeDamage(_enemyData.damage, transform.position);
             }
@@ -169,7 +247,7 @@ namespace SimplePlatformer.Enemy
                 else
                 {
                     Die();
-                    
+
                 }
             }
 
@@ -202,7 +280,7 @@ namespace SimplePlatformer.Enemy
             stunTimeCooldown = startStunTime;
             isAttacking = false;
             Vector2 forceDirection = transform.TransformDirection(transform.position - playerPos);
-            if(forceDirection.x > 0)
+            if (forceDirection.x > 0)
             {
                 forceDirection = new Vector2(1, forceDirection.y);
             }
@@ -222,9 +300,9 @@ namespace SimplePlatformer.Enemy
             itsDying = true;
             rb2d.velocity = new Vector2();
             anim.Play(_enemyData.animation.enemyDeath);
+            bodyHitCollider.enabled = false;
             yield return new WaitForSeconds(0.55f);
             rb2d.isKinematic = true;
-            GetComponent<Collider2D>().enabled = false;
             enabled = false;
 
         }
@@ -248,19 +326,19 @@ namespace SimplePlatformer.Enemy
             {
                 transform.localScale = new Vector3(1, 1, 1);
             }
-            else if(rb2d.velocity.x < 0)
+            else if (rb2d.velocity.x < 0)
             {
                 transform.localScale = new Vector3(-1, 1, 1);
             }
         }
-        
+
         protected void Flip(float _dirX)
         {
             if (_dirX > 0)
             {
                 transform.localScale = new Vector3(1, 1, 1);
             }
-            else if(_dirX < 0)
+            else if (_dirX < 0)
             {
                 transform.localScale = new Vector3(-1, 1, 1);
             }
@@ -274,7 +352,12 @@ namespace SimplePlatformer.Enemy
             Gizmos.DrawWireSphere(transform.position, _enemyData.visionRadiusUpgrade);
             Gizmos.color = Color.red;
             Gizmos.DrawWireCube(transform.position, _enemyData.attackRadius);
+            Gizmos.color = Color.yellow;
+            if (playerGO != null)
+            {
+                Gizmos.DrawLine(transform.position, playerGO.transform.position);
 
+            }
         }
 
 

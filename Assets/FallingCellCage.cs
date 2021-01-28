@@ -19,7 +19,6 @@ public class FallingCellCage : MonoBehaviour, IDamageable
     public void TakeDamage(float damage, Vector3 attackerPosition)
     {
         hs.DealDamage(damage);
-        Debug.Log("damage");
         if(hs.GetHealth() <= 0)
         {
             GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
