@@ -1,19 +1,31 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using System.Collections;
 
 public class DeathMenu : MonoBehaviour
 {
     public GameObject deathMenuGm;
-    public GameObject blackScreen;
-    public GameObject[] UIElements = new GameObject[3];
-    void OnEnable() => EventSystem.DeathHandler += DisplayMenu;
+    public GameObject deathScreenGO;
+    void OnEnable() => EventSystem.DeathHandler += DisplayDeathMenu;
 
-    void OnDisable() => EventSystem.DeathHandler -= DisplayMenu;
-    public void DisplayMenu()
+    void OnDisable() => EventSystem.DeathHandler -= DisplayDeathMenu;
+    public void DisplayDeathMenu()
     {
-        deathMenuGm.SetActive(true);
-        LeanTween.alpha(blackScreen.GetComponent<Image>().rectTransform, 1f, 1f).setEase(LeanTweenType.linear);
-        
+        StartCoroutine(
+                Fade());
+    }
 
+    private IEnumerator Fade()
+    {
+        CanvasGroup canvasGroup = deathScreenGO.GetComponent<CanvasGroup>();
+
+        canvasGroup.alpha = 0f;
+
+
+        float duration = 1f;
+        LeanTween.alphaCanvas(canvasGroup, 1.0f, duration);
+        yield return new WaitForSeconds(duration);
+        canvasGroup.interactable = true;
     }
 }
