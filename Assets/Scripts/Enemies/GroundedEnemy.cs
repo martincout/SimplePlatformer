@@ -206,6 +206,10 @@ namespace SimplePlatformer.Enemy
                     anim.Play(_enemyData.animation.enemyMovement);
                     rb2d.velocity = new Vector2(dirX * _enemyData.speed * Time.deltaTime, GetComponent<Rigidbody2D>().velocity.y);
                 }
+                else
+                {
+                    rb2d.velocity = Vector2.zero;
+                }
             }
 
         }
