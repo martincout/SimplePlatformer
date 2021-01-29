@@ -9,7 +9,7 @@ namespace SimplePlatformer.Enemy
         [SerializeField] private float attackRange = 0.2f;
         [HideInInspector] public bool checkForHitBox = false;
         [SerializeField] private float rayLength = 0.2f;
-        
+
         private RaycastHit2D raycastGround;
         private RaycastHit2D raycastWall;
         public Transform groundDetector;
@@ -120,7 +120,7 @@ namespace SimplePlatformer.Enemy
 
             if (!currentState.Equals(State.NONE) && !currentState.Equals(State.FRIENDLY))
             {
-                
+
                 //PATROLLING
                 if (currentState.Equals(State.CHASING))
                 {
@@ -198,8 +198,14 @@ namespace SimplePlatformer.Enemy
             }
             else
             {
-                if (dirX != 0 && !isAttacking) { anim.Play(_enemyData.animation.enemyMovement); }
-                rb2d.velocity = new Vector2(dirX * _enemyData.speed * Time.deltaTime, GetComponent<Rigidbody2D>().velocity.y);
+                //Update Movement 
+                //Check the Direction X of the target and don't update the movement if it's attacking because otherwise, it'll follow
+                //the player in the attacking animation.
+                if (dirX != 0 && !isAttacking && CheckGround())
+                {
+                    anim.Play(_enemyData.animation.enemyMovement);
+                    rb2d.velocity = new Vector2(dirX * _enemyData.speed * Time.deltaTime, GetComponent<Rigidbody2D>().velocity.y);
+                }
             }
 
         }
@@ -262,8 +268,8 @@ namespace SimplePlatformer.Enemy
             base.Update();
             //Updates center of the box collider
             BoxColliderCenter = new Vector2(GetComponent<BoxCollider2D>().bounds.center.x, GetComponent<BoxCollider2D>().bounds.center.y - 0.2f);
-            
-            if(playerGO != null) UpdateState();
+
+            if (playerGO != null) UpdateState();
         }
 
         /// <summary>
