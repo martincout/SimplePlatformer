@@ -29,7 +29,6 @@ namespace SimplePlatformer.Enemy
         protected float currentVisionRadius;
 
         [Header("Stun")]
-        protected bool itsDying = false;
         protected float dirX;
         protected int currentWaypoint = 0;
         protected bool reachedEndOfPath = false;
@@ -44,7 +43,6 @@ namespace SimplePlatformer.Enemy
         protected GameObject GFX;
         protected RaycastHit2D hitPlayer;
         protected float distanceToTarget;
-        public bool headingRight;
 
         /// <summary>
         /// Three main State Behaviours.
@@ -54,7 +52,8 @@ namespace SimplePlatformer.Enemy
             NONE,
             PATROLLING,
             CHASING,
-            FRIENDLY
+            FRIENDLY,
+            DEATH
         }
         protected State currentState;
 
@@ -66,6 +65,7 @@ namespace SimplePlatformer.Enemy
         protected bool sawPlayer;
         protected bool isPatrolling;
         public bool patrollingEnabled = true;
+        public bool headingRight;
 
         protected virtual void Start()
         {
@@ -101,6 +101,7 @@ namespace SimplePlatformer.Enemy
                 {
                     currentState = State.NONE;
                 }
+                
             }
         }
 
@@ -118,7 +119,9 @@ namespace SimplePlatformer.Enemy
                 hitPlayer = Physics2D.Raycast(transform.position, target.transform.position - transform.position, Mathf.Infinity, mask1 | mask2);
                 if (hitPlayer)
                 {
-                    if (hitPlayer.collider.gameObject.CompareTag("Player"))
+                    distanceToTarget = Vector2.Distance(transform.position, playerGO.transform.position);
+                    //If it is the player and if it is in the range of vision
+                    if (hitPlayer.collider.gameObject.CompareTag("Player") && distanceToTarget < currentVisionRadius)
                     {
                         return true;
                     }
@@ -165,7 +168,7 @@ namespace SimplePlatformer.Enemy
 
         protected virtual void Update()
         {
-            notFollow = itsDying || LevelManager.instance.isPlayerDead || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBase>().GetPlayerItsDying();
+            notFollow = currentState.Equals(State.DEATH) || LevelManager.instance.isPlayerDead || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBase>().GetPlayerItsDying();
             StunTimeReset();
             CooldownAttack();
         }
@@ -218,7 +221,7 @@ namespace SimplePlatformer.Enemy
         /// <param name="col"></param>
         private void OnTriggerEnter2D(Collider2D col)
         {
-            if (col.CompareTag("Player") && itsDying || LevelManager.instance.isPlayerDead)
+            if (col.CompareTag("Player") && currentState.Equals(State.DEATH) && !LevelManager.instance.isPlayerDead)
             {
                 col.GetComponent<IDamageable>().TakeDamage(_enemyData.damage, transform.position);
             }
@@ -229,7 +232,7 @@ namespace SimplePlatformer.Enemy
         #region Take Damage
         public void TakeDamage(float damage, Vector3 attackerPos)
         {
-            if (!itsDying)
+            if (!currentState.Equals(State.DEATH))
             {
                 healthSystem.DealDamage(damage);
                 if (healthSystem.GetHealth() > 0)
@@ -258,6 +261,7 @@ namespace SimplePlatformer.Enemy
 
         protected void Die()
         {
+            currentState = State.DEATH;
             PlayHurtParticle();
             SoundManager.instance.Play("Death");
             StopAllCoroutines();
@@ -299,7 +303,6 @@ namespace SimplePlatformer.Enemy
 
         private IEnumerator DieCo()
         {
-            itsDying = true;
             rb2d.velocity = new Vector2();
             anim.Play(_enemyData.animation.enemyDeath);
             bodyHitCollider.enabled = false;

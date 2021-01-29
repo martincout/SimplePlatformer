@@ -86,8 +86,6 @@ namespace SimplePlatformer.Enemy
         protected override void Update()
         {
             base.Update();
-
-
             if (FollowPlayer()) {
                 sawPlayer = true;
             }
@@ -127,7 +125,7 @@ namespace SimplePlatformer.Enemy
 
         private void Shoot()
         {
-            if (!itsDying && !noShooting)
+            if (!noShooting && sawPlayer)
             {
                 if (timeBtwShoots <= 0 && distanceToPlayer < currentVisionRadius)
                 {

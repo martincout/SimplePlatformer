@@ -28,106 +28,25 @@ namespace SimplePlatformer.Enemy
         }
 
         /// <summary>
-        /// Guardar temportalmente el Movimiento y Patrulla del enemigo
-        /// </summary>
-        private void TempFunc()
-        {
-            //#region Check Ground 
-            //if (!CheckGround() || CheckWall())
-            //{
-            //    CheckHeadingDirection();
-            //    if (!isAttacking) anim.Play(_enemyData.animation.enemyIdle);
-            //    //Updates the direction of the player. If it is patrolling doesn't apply the direction
-            //    dirX = 0;
-
-            //}
-            //else
-            //{
-            //    //Updates the direction of the player. If it is patrolling doesn't apply the direction
-            //    dirX = dir.x;
-            //}
-            //#endregion
-
-            //#region Patrol
-
-            //if (!playerFound)
-            //{
-            //    currentVisionRadius = _enemyData.visionRadius;
-            //    if (patrollingEnabled)
-            //    {
-            //        Flip();
-            //        Patrolling();
-            //    }
-            //    else
-            //    {
-            //        PlayAnimation(_enemyData.animation.enemyIdle);
-            //    }
-            //    return;
-            //}
-            //else
-            //{
-            //    currentVisionRadius = _enemyData.visionRadiusUpgrade;
-            //}
-
-            //#endregion
-
-            ////Flip the sprite. Working. Don't ask why
-            //Flip(dirX);
-
-            ////Raycast to player
-            //Debug.DrawLine(transform.position, playerGO.transform.position);
-
-            //if (!isStunned && !isAttacking)
-            //{
-            //    #region Chase and Attack
-            //    Collider2D[] boxAttackRadius = Physics2D.OverlapBoxAll(transform.position, _enemyData.attackRadius, 0, 1 << LayerMask.NameToLayer("Player"));
-
-            //    //Raycast target checking the vision radius
-            //    if (distance < currentVisionRadius)
-            //    {
-            //        //Check if there is a player in the attack radius
-            //        if (boxAttackRadius.Length > 0)
-            //        {
-            //            foreach (Collider2D col in boxAttackRadius)
-            //            {
-            //                if (col.CompareTag("Player"))
-            //                {
-            //                    if (!isAttacking)
-            //                    {
-            //                        isAttacking = true;
-            //                        anim.Play(_enemyData.animation.enemyAttack);
-            //                        cooldownAttack = _enemyData.attackRate;
-            //                    }
-            //                }
-            //            }
-            //        }
-            //        else
-            //        {
-            //            if (dirX != 0) { anim.Play(_enemyData.animation.enemyMovement); }
-            //            rb2d.velocity = new Vector2(dirX * _enemyData.speed * Time.deltaTime, GetComponent<Rigidbody2D>().velocity.y);
-            //        }
-            //    }
-            //    #endregion
-            //}
-        }
-
-        /// <summary>
         /// Movement Behaviour. Gets updated every frame
         /// Handles the following and patrolling Behaviour of the enemy.
         /// </summary>
         protected override void Move()
         {
-
+            if (gameObject.name.Equals("Skeleton"))
+            {
+                Debug.Log(currentState.ToString());
+            }
             if (!currentState.Equals(State.NONE) && !currentState.Equals(State.FRIENDLY))
             {
 
-                //PATROLLING
+                //CHASING
                 if (currentState.Equals(State.CHASING))
                 {
                     Chasing();
                 }
-                //CHASING
-                else
+                //PATROLLING
+                else if(currentState.Equals(State.PATROLLING))
                 {
                     Patrolling();
                 }
@@ -263,17 +182,22 @@ namespace SimplePlatformer.Enemy
 
         protected override void FixedUpdate()
         {
-            base.FixedUpdate();
-            CheckHitBox();
+            if (!currentState.Equals(State.DEATH))
+            {
+                base.FixedUpdate();
+                CheckHitBox();
+            }
         }
 
         protected override void Update()
         {
-            base.Update();
-            //Updates center of the box collider
-            BoxColliderCenter = new Vector2(GetComponent<BoxCollider2D>().bounds.center.x, GetComponent<BoxCollider2D>().bounds.center.y - 0.2f);
-
-            if (playerGO != null) UpdateState();
+            if (!currentState.Equals(State.DEATH))
+            {
+                base.Update();
+                //Updates center of the box collider
+                BoxColliderCenter = new Vector2(GetComponent<BoxCollider2D>().bounds.center.x, GetComponent<BoxCollider2D>().bounds.center.y - 0.2f);
+                UpdateState();
+            }
         }
 
         /// <summary>
@@ -282,22 +206,38 @@ namespace SimplePlatformer.Enemy
         /// </summary>
         protected void UpdateState()
         {
-            if (!currentState.Equals(State.FRIENDLY))
+            if (playerGO != null)
             {
-                if (patrollingEnabled)
+                if (!currentState.Equals(State.FRIENDLY))
                 {
-                    distanceToTarget = Vector2.Distance(transform.position, playerGO.transform.position);
-                    //Out of vision
-                    if (distanceToTarget > currentVisionRadius)
+                    if (patrollingEnabled)
                     {
-                        currentState = State.PATROLLING;
+                        distanceToTarget = Vector2.Distance(transform.position, playerGO.transform.position);
+                        //Out of vision
+                        if (FollowPlayer())
+                        {
+                            currentState = State.CHASING;
+                        }
+                        else
+                        {
+                            currentState = State.PATROLLING;
+                        }
+                    }
+                    else if (FollowPlayer())
+                    {
+                        sawPlayer = true;
                     }
                     else
+                    {
+                        currentState = State.NONE;
+                        sawPlayer = false;
+                    }
+
+                    if (sawPlayer)
                     {
                         currentState = State.CHASING;
                     }
                 }
-
             }
         }
 
@@ -305,19 +245,17 @@ namespace SimplePlatformer.Enemy
         {
             if (checkForHitBox)
             {
-                if (!itsDying)
-                {
-                    Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, 1 << LayerMask.NameToLayer("Player"));
+                Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, 1 << LayerMask.NameToLayer("Player"));
 
-                    foreach (Collider2D col in hits)
+                foreach (Collider2D col in hits)
+                {
+                    if (col.GetComponent<IDamageable>() != null && manyHits >= 1)
                     {
-                        if (col.GetComponent<IDamageable>() != null && manyHits >= 1)
-                        {
-                            col.GetComponent<IDamageable>().TakeDamage(_enemyData.damage, transform.position);
-                            manyHits -= 1;
-                        }
+                        col.GetComponent<IDamageable>().TakeDamage(_enemyData.damage, transform.position);
+                        manyHits -= 1;
                     }
                 }
+
             }
         }
     }
