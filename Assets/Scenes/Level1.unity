@@ -36430,7 +36430,7 @@ PrefabInstance:
       objectReference: {fileID: 574011894}
     - target: {fileID: 5599430386791468315, guid: 0799890dd8e71a044959329c5278331e, type: 3}
       propertyPath: friendly
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5599430386791468315, guid: 0799890dd8e71a044959329c5278331e, type: 3}
       propertyPath: noShooting
@@ -37002,7 +37002,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7561117721696511652, guid: f5c7f7edc3ca3fd4c8b87fe827d2a042, type: 3}
       propertyPath: patrollingEnabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8702034491002796005, guid: f5c7f7edc3ca3fd4c8b87fe827d2a042, type: 3}
       propertyPath: m_Name

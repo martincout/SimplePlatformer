@@ -168,7 +168,18 @@ namespace SimplePlatformer.Enemy
 
         private bool CheckWall()
         {
+            //Check direction
+            if (headingRight)
+            {
+                raycastDir = Vector3.right;
+            }
+            else
+            {
+                raycastDir = Vector3.left;
+            }
+            //Raycast
             raycastWall = Physics2D.Raycast(BoxColliderCenter, raycastDir, 2, 1 << LayerMask.NameToLayer("Ground"));
+
             if (raycastWall)
             {
                 return true;

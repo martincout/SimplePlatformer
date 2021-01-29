@@ -87,7 +87,6 @@ namespace SimplePlatformer.Player
                 invincible = false;
                 //Alpha to 100% NOT IN INVINCIBLE STATE
                 SetAlpha(1f);
-                cannotAttack = false;
             }
         }
 
@@ -164,7 +163,6 @@ namespace SimplePlatformer.Player
             if (!isStunned)
             {
                 StartCoroutine(StunCo());
-                cannotAttack = true;
             }
             StartCoroutine(KnockCo(attackerPos, thrust));
         }
