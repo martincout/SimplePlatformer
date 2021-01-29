@@ -101,7 +101,7 @@ namespace SimplePlatformer.Enemy
                 {
                     currentState = State.NONE;
                 }
-                
+
             }
         }
 
@@ -221,7 +221,7 @@ namespace SimplePlatformer.Enemy
         /// <param name="col"></param>
         private void OnTriggerEnter2D(Collider2D col)
         {
-            if (col.CompareTag("Player") && currentState.Equals(State.DEATH) && !LevelManager.instance.isPlayerDead)
+            if (col.CompareTag("Player") && !currentState.Equals(State.DEATH) && !LevelManager.instance.isPlayerDead)
             {
                 col.GetComponent<IDamageable>().TakeDamage(_enemyData.damage, transform.position);
             }
@@ -339,11 +339,11 @@ namespace SimplePlatformer.Enemy
 
         protected void FlipByVelocity()
         {
-            if (rb2d.velocity.x > 0)
+            if (rb2d.velocity.x > 0.02f)
             {
                 transform.localScale = new Vector3(1, 1, 1);
             }
-            else if (rb2d.velocity.x < 0)
+            else if (rb2d.velocity.x < 0.02f)
             {
                 transform.localScale = new Vector3(-1, 1, 1);
             }

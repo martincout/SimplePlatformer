@@ -33,20 +33,15 @@ namespace SimplePlatformer.Enemy
         /// </summary>
         protected override void Move()
         {
-            if (gameObject.name.Equals("Skeleton"))
-            {
-                Debug.Log(currentState.ToString());
-            }
             if (!currentState.Equals(State.NONE) && !currentState.Equals(State.FRIENDLY))
             {
-
                 //CHASING
                 if (currentState.Equals(State.CHASING))
                 {
                     Chasing();
                 }
                 //PATROLLING
-                else if(currentState.Equals(State.PATROLLING))
+                else if (currentState.Equals(State.PATROLLING))
                 {
                     Patrolling();
                 }
@@ -127,6 +122,13 @@ namespace SimplePlatformer.Enemy
                 }
                 else
                 {
+                    //Idle animation only if we have no ground, because otherwise the enemy will keep walking when it's not suppose to do.
+                    //Not play idle animation when attacking because it will cancel the attack animation
+                    if (!CheckGround() && !isAttacking)
+                    {
+                        anim.Play(_enemyData.animation.enemyIdle);
+
+                    }
                     rb2d.velocity = Vector2.zero;
                 }
             }
@@ -223,7 +225,6 @@ namespace SimplePlatformer.Enemy
                 {
                     if (patrollingEnabled)
                     {
-                        distanceToTarget = Vector2.Distance(transform.position, playerGO.transform.position);
                         //Out of vision
                         if (FollowPlayer())
                         {
@@ -247,6 +248,7 @@ namespace SimplePlatformer.Enemy
                     if (sawPlayer)
                     {
                         currentState = State.CHASING;
+                        currentVisionRadius = _enemyData.visionRadiusUpgrade;
                     }
                 }
             }
