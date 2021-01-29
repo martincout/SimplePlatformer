@@ -9,13 +9,12 @@ namespace SimplePlatformer.Enemy
         [SerializeField] private float attackRange = 0.2f;
         [HideInInspector] public bool checkForHitBox = false;
         [SerializeField] private float rayLength = 0.2f;
-        public bool headingRight;
+        
         private RaycastHit2D raycastGround;
         private RaycastHit2D raycastWall;
         public Transform groundDetector;
-        bool foundPlayer;
         private Vector3 raycastDir;
-        
+
 
         /// <summary>
         /// Position of the BoxCollider in the world space. Used to check wall collisions
@@ -26,7 +25,90 @@ namespace SimplePlatformer.Enemy
         {
             base.Start();
             groundDetector = transform.GetChild(3)?.GetComponent<Transform>();
-            CheckHeadingDirection();
+        }
+
+        /// <summary>
+        /// Guardar temportalmente el Movimiento y Patrulla del enemigo
+        /// </summary>
+        private void TempFunc()
+        {
+            //#region Check Ground 
+            //if (!CheckGround() || CheckWall())
+            //{
+            //    CheckHeadingDirection();
+            //    if (!isAttacking) anim.Play(_enemyData.animation.enemyIdle);
+            //    //Updates the direction of the player. If it is patrolling doesn't apply the direction
+            //    dirX = 0;
+
+            //}
+            //else
+            //{
+            //    //Updates the direction of the player. If it is patrolling doesn't apply the direction
+            //    dirX = dir.x;
+            //}
+            //#endregion
+
+            //#region Patrol
+
+            //if (!playerFound)
+            //{
+            //    currentVisionRadius = _enemyData.visionRadius;
+            //    if (patrollingEnabled)
+            //    {
+            //        Flip();
+            //        Patrolling();
+            //    }
+            //    else
+            //    {
+            //        PlayAnimation(_enemyData.animation.enemyIdle);
+            //    }
+            //    return;
+            //}
+            //else
+            //{
+            //    currentVisionRadius = _enemyData.visionRadiusUpgrade;
+            //}
+
+            //#endregion
+
+            ////Flip the sprite. Working. Don't ask why
+            //Flip(dirX);
+
+            ////Raycast to player
+            //Debug.DrawLine(transform.position, playerGO.transform.position);
+
+            //if (!isStunned && !isAttacking)
+            //{
+            //    #region Chase and Attack
+            //    Collider2D[] boxAttackRadius = Physics2D.OverlapBoxAll(transform.position, _enemyData.attackRadius, 0, 1 << LayerMask.NameToLayer("Player"));
+
+            //    //Raycast target checking the vision radius
+            //    if (distance < currentVisionRadius)
+            //    {
+            //        //Check if there is a player in the attack radius
+            //        if (boxAttackRadius.Length > 0)
+            //        {
+            //            foreach (Collider2D col in boxAttackRadius)
+            //            {
+            //                if (col.CompareTag("Player"))
+            //                {
+            //                    if (!isAttacking)
+            //                    {
+            //                        isAttacking = true;
+            //                        anim.Play(_enemyData.animation.enemyAttack);
+            //                        cooldownAttack = _enemyData.attackRate;
+            //                    }
+            //                }
+            //            }
+            //        }
+            //        else
+            //        {
+            //            if (dirX != 0) { anim.Play(_enemyData.animation.enemyMovement); }
+            //            rb2d.velocity = new Vector2(dirX * _enemyData.speed * Time.deltaTime, GetComponent<Rigidbody2D>().velocity.y);
+            //        }
+            //    }
+            //    #endregion
+            //}
         }
 
         /// <summary>
@@ -35,150 +117,90 @@ namespace SimplePlatformer.Enemy
         /// </summary>
         protected override void Move()
         {
-            #region Direction & Distance
-            //Calculate the current distance to the target
-            float distance = Vector3.Distance(playerGO.transform.position, transform.position);
-            //Direction: Returns a normalized vector (1,-1)
-            Vector3 dir = (playerGO.transform.position - transform.position).normalized;
 
-            #endregion
-
-            #region Find Player
-            //Vision radius
-            Collider2D[] circleVision = Physics2D.OverlapCircleAll(transform.position, currentVisionRadius, 1 << LayerMask.NameToLayer("Player"));
-            Collider2D[] boxAttackRadius = Physics2D.OverlapBoxAll(transform.position, _enemyData.attackRadius, 0, 1 << LayerMask.NameToLayer("Player"));
-
-            Vector3 targetPos = playerGO.transform.position;
-            foundPlayer = false;
-
-            foreach (Collider2D col in circleVision)
+            if (!currentState.Equals(State.NONE) && !currentState.Equals(State.FRIENDLY))
             {
-                if (col.CompareTag("Player"))
-                {
-                    foundPlayer = true;
-                    break;
-                }
-                foundPlayer = false;
-            }
-
-            #endregion
-
-            #region Check Ground 
-            if (!CheckGround() || CheckWall())
-            {
-                CheckHeadingDirection();
-                if (!isAttacking) anim.Play(_enemyData.animation.enemyIdle);
-                //Updates the direction of the player. If it is patrolling doesn't apply the direction
-                dirX = 0;
                 
-            }
-            else
-            {
-                //Updates the direction of the player. If it is patrolling doesn't apply the direction
-                dirX = dir.x;
-            }
-            #endregion
-
-            #region Patrol
-
-            if (!foundPlayer)
-            {
-                currentVisionRadius = _enemyData.visionRadius;
-                if (patrollingEnabled)
+                //PATROLLING
+                if (currentState.Equals(State.CHASING))
                 {
-                    Flip();
+                    Chasing();
+                }
+                //CHASING
+                else
+                {
                     Patrolling();
-                }
-                else
-                {
-                    PlayAnimation(_enemyData.animation.enemyIdle);
-                }
-                return;
-            }
-            else
-            {
-                currentVisionRadius = _enemyData.visionRadiusUpgrade;
-            }
-
-            #endregion
-
-            //Flip the sprite. Working. Don't ask why
-            Flip(dirX);
-
-            //Raycast to player
-            Debug.DrawLine(transform.position, targetPos);
-
-            if (!isStunned && !isAttacking)
-            {
-                #region Chase and Attack
-
-                //Raycast target checking the vision radius
-                if (distance < currentVisionRadius)
-                {
-                    //Check if there is a player in the attack radius
-                    if (boxAttackRadius.Length > 0)
-                    {
-                        foreach (Collider2D col in boxAttackRadius)
-                        {
-                            if (col.CompareTag("Player"))
-                            {
-                                if (!isAttacking)
-                                {
-                                    isAttacking = true;
-                                    anim.Play(_enemyData.animation.enemyAttack);
-                                    cooldownAttack = _enemyData.attackRate;
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (dirX != 0) { anim.Play(_enemyData.animation.enemyMovement); }
-                        rb2d.velocity = new Vector2(dirX * _enemyData.speed * Time.deltaTime, GetComponent<Rigidbody2D>().velocity.y);
-                    }
-                }
-                #endregion
-            }
-
-        }
-
-        private void CheckHeadingDirection()
-        {
-            if (!foundPlayer)
-            {
-                if (headingRight)
-                {
-                    headingRight = false;
-                    Flip();
-                    raycastDir = Vector3.left;
-                }
-                else
-                {
-                    headingRight = true;
-                    Flip();
-                    raycastDir = Vector3.right;
                 }
             }
         }
 
         private void Patrolling()
         {
-            if (patrollingEnabled)
+            PlayAnimation(_enemyData.animation.enemyMovement);
+            if (currentVisionRadius != _enemyData.visionRadius) currentVisionRadius = _enemyData.visionRadius;
+
+            //If we have no ground, we change the direction and keep patrolling to the oposite direction
+            if (!CheckGround() || CheckWall())
             {
-                PlayAnimation(_enemyData.animation.enemyMovement);
-                if (currentVisionRadius != _enemyData.visionRadius) currentVisionRadius = _enemyData.visionRadius;
-                //Change direction
+                //Change Direction
                 if (headingRight)
                 {
-                    rb2d.velocity = new Vector2(1 * _enemyData.speed/2 * Time.deltaTime , GetComponent<Rigidbody2D>().velocity.y);
+                    headingRight = false;
+                    FlipByHeadingDirection(headingRight);
+                    raycastDir = Vector3.left;
                 }
                 else
                 {
-                    rb2d.velocity = new Vector2(-1 * _enemyData.speed / 2 * Time.deltaTime, GetComponent<Rigidbody2D>().velocity.y);
+                    headingRight = true;
+                    FlipByHeadingDirection(headingRight);
+                    raycastDir = Vector3.right;
                 }
             }
+            else
+            {
+                FlipByVelocity();
+            }
 
+            //Change direction
+            if (headingRight)
+            {
+                //Speed divided by two to make the enemy slower.
+                rb2d.velocity = new Vector2(1 * _enemyData.speed / 2 * Time.deltaTime, GetComponent<Rigidbody2D>().velocity.y);
+            }
+            else
+            {
+                rb2d.velocity = new Vector2(-1 * _enemyData.speed / 2 * Time.deltaTime, GetComponent<Rigidbody2D>().velocity.y);
+            }
+        }
 
+        private void Chasing()
+        {
+            Collider2D[] boxAttackRadius = Physics2D.OverlapBoxAll(transform.position, _enemyData.attackRadius, 0, 1 << LayerMask.NameToLayer("Player"));
+            Vector3 dir = (playerGO.transform.position - transform.position).normalized;
+            dirX = dir.x;
+            FlipByTargetDirection(dirX);
+
+            //Check if there is a player in the attack radius
+            if (boxAttackRadius.Length > 0)
+            {
+                foreach (Collider2D col in boxAttackRadius)
+                {
+                    if (col.CompareTag("Player"))
+                    {
+                        if (!isAttacking)
+                        {
+                            isAttacking = true;
+                            anim.Play(_enemyData.animation.enemyAttack);
+                            cooldownAttack = _enemyData.attackRate;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (dirX != 0 && !isAttacking) { anim.Play(_enemyData.animation.enemyMovement); }
+                rb2d.velocity = new Vector2(dirX * _enemyData.speed * Time.deltaTime, GetComponent<Rigidbody2D>().velocity.y);
+            }
 
         }
 
@@ -240,6 +262,33 @@ namespace SimplePlatformer.Enemy
             base.Update();
             //Updates center of the box collider
             BoxColliderCenter = new Vector2(GetComponent<BoxCollider2D>().bounds.center.x, GetComponent<BoxCollider2D>().bounds.center.y - 0.2f);
+            
+            if(playerGO != null) UpdateState();
+        }
+
+        /// <summary>
+        /// Updates the currentState of the enemy. Check the distance between the target and this enemy. And also set
+        /// Custom Behaviours (example: frienldly)
+        /// </summary>
+        protected void UpdateState()
+        {
+            if (!currentState.Equals(State.FRIENDLY))
+            {
+                if (patrollingEnabled)
+                {
+                    distanceToTarget = Vector2.Distance(transform.position, playerGO.transform.position);
+                    //Out of vision
+                    if (distanceToTarget > currentVisionRadius)
+                    {
+                        currentState = State.PATROLLING;
+                    }
+                    else
+                    {
+                        currentState = State.CHASING;
+                    }
+                }
+
+            }
         }
 
         protected void CheckHitBox()

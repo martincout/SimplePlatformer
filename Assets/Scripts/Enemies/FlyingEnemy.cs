@@ -80,7 +80,7 @@ namespace SimplePlatformer.Enemy
             {
                 currentWaypoint++;
             }
-            Flip();
+            FlipByVelocity();
         }
 
         protected override void Update()

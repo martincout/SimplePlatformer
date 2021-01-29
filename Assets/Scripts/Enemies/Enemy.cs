@@ -43,6 +43,8 @@ namespace SimplePlatformer.Enemy
         public Collider2D bodyHitCollider;
         protected GameObject GFX;
         protected RaycastHit2D hitPlayer;
+        protected float distanceToTarget;
+        public bool headingRight;
 
         /// <summary>
         /// Three main State Behaviours.
@@ -63,7 +65,7 @@ namespace SimplePlatformer.Enemy
         protected bool notFollow;
         protected bool sawPlayer;
         protected bool isPatrolling;
-        protected bool patrollingEnabled;
+        public bool patrollingEnabled = true;
 
         protected virtual void Start()
         {
@@ -320,7 +322,19 @@ namespace SimplePlatformer.Enemy
 
         #endregion
 
-        protected void Flip()
+        protected void FlipByHeadingDirection(bool _headingRight)
+        {
+            if (_headingRight)
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+            else
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
+        }
+
+        protected void FlipByVelocity()
         {
             if (rb2d.velocity.x > 0)
             {
@@ -332,7 +346,7 @@ namespace SimplePlatformer.Enemy
             }
         }
 
-        protected void Flip(float _dirX)
+        protected void FlipByTargetDirection(float _dirX)
         {
             if (_dirX > 0)
             {
