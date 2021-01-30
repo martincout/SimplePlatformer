@@ -51,7 +51,7 @@ namespace SimplePlatformer.Player
             return itsDying;
         }
 
-        
+
 
         private void Awake()
         {
@@ -114,7 +114,7 @@ namespace SimplePlatformer.Player
         {
             if (!invincible && !itsDying)
             {
-                
+
                 //Decrease Health
                 healthSystem.DealDamage(damage);
                 characterParticles.PlayParticle(Type.HURT);
@@ -163,8 +163,8 @@ namespace SimplePlatformer.Player
             if (!isStunned)
             {
                 StartCoroutine(StunCo());
+                StartCoroutine(KnockCo(attackerPos, thrust));
             }
-            StartCoroutine(KnockCo(attackerPos, thrust));
         }
 
         private IEnumerator StunCo()
@@ -182,7 +182,7 @@ namespace SimplePlatformer.Player
 
             Vector2 forceDirection = transform.TransformDirection(transform.position - attackerPos);
 
-            if(forceDirection.x > 0)
+            if (forceDirection.x > 0)
             {
                 forceDirection = new Vector2(force, forceDirection.normalized.y);
             }

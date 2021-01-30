@@ -15,6 +15,10 @@ namespace SimplePlatformer.Enemy
         public GameObject projectile;
         float distanceToPlayer;
         public bool noShooting;
+        protected bool isShooting = false;
+        private float cooldownCharginAttack;
+        //cooldown for the flying enemy, only using attack rate as the waiting time
+        protected float cooldownChargingAttack = 0f;
 
         protected override void Start()
         {
@@ -86,8 +90,15 @@ namespace SimplePlatformer.Enemy
         protected override void Update()
         {
             base.Update();
-            if (FollowPlayer()) {
+            CooldownChargedAttack();
+            if (FollowPlayer())
+            {
                 sawPlayer = true;
+            }
+
+            if(timeBtwShoots > 0)
+            {
+                timeBtwShoots -= Time.deltaTime;
             }
 
             if (target != null && !friendly)
@@ -126,19 +137,39 @@ namespace SimplePlatformer.Enemy
 
         }
 
+        protected void CooldownChargedAttack()
+        {
+            //Cooldown Attack
+            if (cooldownChargingAttack > 0)
+            {
+                cooldownChargingAttack -= Time.deltaTime;
+            }
+        }
+
+        protected void RunCooldownChargedTimer()
+        {
+            cooldownCharginAttack = _enemyData.attackRate;
+        }
+
         private void Shoot()
         {
             if (!noShooting && sawPlayer)
             {
-                if (timeBtwShoots <= 0 && distanceToPlayer < currentVisionRadius)
+                if (!isAttacking && timeBtwShoots <= 0)
                 {
-                    Instantiate(projectile, transform.position, Quaternion.identity);
-                    timeBtwShoots = startTimeBtwShoots;
+                    isAttacking = true;
+                    RunCooldownChargedTimer();
                 }
-                else
+
+                if(isAttacking && cooldownChargingAttack <= 0)
                 {
-                    timeBtwShoots -= Time.deltaTime;
+                    GameObject instance = Instantiate(projectile, transform.position, Quaternion.identity);
+                    instance.GetComponent<Projectile>().speed = _enemyData.projectileSpeed;
+                    instance.GetComponent<Projectile>().damage = _enemyData.projectileDamage;
+                    RunCooldownChargedTimer();
+                    isAttacking = false;
                 }
+
             }
 
         }

@@ -26,6 +26,8 @@ namespace SimplePlatformer.Enemy
 
         public string soundName;
 
+        public float projectileSpeed;
+        public float projectileDamage;
         [Expandable]
         public EnemyAnimationData animation;
     }

@@ -19,11 +19,13 @@ namespace SimplePlatformer.Enemy
 
         [Header("Attack")]
         protected float cooldownAttack = 0f;
+        
         [SerializeField] protected GameObject target;
         private float startStunTime;
         private float stunTimeCooldown = 0;
         protected bool isStunned = false;
         protected bool isAttacking = false;
+        
         //How many hits when checking for hit box
         [HideInInspector] public int manyHits = 1;
         protected float currentVisionRadius;
@@ -66,6 +68,7 @@ namespace SimplePlatformer.Enemy
         protected bool isPatrolling;
         public bool patrollingEnabled = true;
         public bool headingRight;
+        
 
         protected virtual void Start()
         {
@@ -171,12 +174,20 @@ namespace SimplePlatformer.Enemy
             notFollow = currentState.Equals(State.DEATH) || LevelManager.instance.isPlayerDead || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBase>().GetPlayerItsDying();
             StunTimeReset();
             CooldownAttack();
+            
         }
 
         protected virtual void Move()
         {
             //NOTHING
         }
+
+        protected void RunCooldownAttackTimer()
+        {
+            cooldownAttack = _enemyData.attackRate;
+        }
+
+        
 
         protected void CooldownAttack()
         {
@@ -190,6 +201,8 @@ namespace SimplePlatformer.Enemy
                 isAttacking = false;
             }
         }
+
+        
 
 
         protected void PlayAnimation(string name)

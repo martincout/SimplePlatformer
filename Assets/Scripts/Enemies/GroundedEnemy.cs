@@ -105,7 +105,7 @@ namespace SimplePlatformer.Enemy
                         {
                             isAttacking = true;
                             anim.Play(_enemyData.animation.enemyAttack);
-                            cooldownAttack = _enemyData.attackRate;
+                            RunCooldownAttackTimer();
                         }
                     }
                 }

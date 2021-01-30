@@ -27,4 +27,6 @@ MonoBehaviour:
   stunTime: 0.3
   thrust: 20
   soundName: Damage
+  projectileSpeed: 500
+  projectileDamage: 30
   animation: {fileID: 11400000, guid: 86a9979f31f5fe14ba492c7dc6ff36f6, type: 2}
