@@ -35,6 +35,7 @@ public class FallingCellCage : MonoBehaviour, IDamageable
     private IEnumerator StunCo()
     {
         isStunned = true;
+        SoundManager.instance.Play("cellCageHit");
         GetComponent<Animator>().Play("cellCageDamage");
         yield return new WaitForSeconds(stunTime);
         GetComponent<Animator>().Play("cellCageIdle");

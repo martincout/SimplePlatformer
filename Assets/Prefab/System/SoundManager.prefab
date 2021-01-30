@@ -43,7 +43,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: ac2fc6e5b711fb048b565155c03c31af, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.37
+  m_Volume: 0.14
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -151,7 +151,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6723763547130763808}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -178,6 +178,10 @@ MonoBehaviour:
     pitch: 1
     isLoop: 0
     hasCooldown: 0
+    randomPitch: 0
+    priority: 127
+    MinRandomPitch: 1
+    MaxRandomPitch: 3
     source: {fileID: 0}
   - name: Damage
     clip: {fileID: 8300000, guid: 9be257ae085216c4e85c6e2fc3db02e9, type: 3}
@@ -185,6 +189,10 @@ MonoBehaviour:
     pitch: 1
     isLoop: 0
     hasCooldown: 0
+    randomPitch: 1
+    priority: 127
+    MinRandomPitch: 1
+    MaxRandomPitch: 2.02
     source: {fileID: 0}
   - name: Coin
     clip: {fileID: 8300000, guid: cdc6142b4e8cb954c83a214c2ef68050, type: 3}
@@ -192,6 +200,10 @@ MonoBehaviour:
     pitch: 1
     isLoop: 0
     hasCooldown: 0
+    randomPitch: 0
+    priority: 127
+    MinRandomPitch: 1
+    MaxRandomPitch: 3
     source: {fileID: 0}
   - name: skeletonHit
     clip: {fileID: 8300000, guid: dee1e69365d70a446983b4a1162fa0e5, type: 3}
@@ -199,6 +211,10 @@ MonoBehaviour:
     pitch: 1.47
     isLoop: 0
     hasCooldown: 0
+    randomPitch: 1
+    priority: 127
+    MinRandomPitch: 1
+    MaxRandomPitch: 2.4
     source: {fileID: 0}
   - name: Death
     clip: {fileID: 8300000, guid: 5d839a203d5424f4fad41f424fffc28e, type: 3}
@@ -206,13 +222,21 @@ MonoBehaviour:
     pitch: 1.47
     isLoop: 0
     hasCooldown: 0
+    randomPitch: 0
+    priority: 127
+    MinRandomPitch: 1
+    MaxRandomPitch: 3
     source: {fileID: 0}
   - name: Swish
     clip: {fileID: 8300000, guid: deb7bc58fc425aa43896218f65fe0f07, type: 3}
-    volume: 0.634
+    volume: 0.98
     pitch: 1
     isLoop: 0
     hasCooldown: 0
+    randomPitch: 1
+    priority: 127
+    MinRandomPitch: 1
+    MaxRandomPitch: 3
     source: {fileID: 0}
   - name: Bonfire
     clip: {fileID: 8300000, guid: 63b45f2a3d9a7784b88c51d1d55376ec, type: 3}
@@ -220,4 +244,52 @@ MonoBehaviour:
     pitch: 1
     isLoop: 0
     hasCooldown: 0
+    randomPitch: 0
+    priority: 127
+    MinRandomPitch: 1
+    MaxRandomPitch: 3
+    source: {fileID: 0}
+  - name: JarDestroy
+    clip: {fileID: 8300000, guid: d5354658fe37c7a45914fa20b98d5fc6, type: 3}
+    volume: 1
+    pitch: 1
+    isLoop: 0
+    hasCooldown: 0
+    randomPitch: 1
+    priority: 128
+    MinRandomPitch: 1
+    MaxRandomPitch: 3
+    source: {fileID: 0}
+  - name: UnlockCellDoor
+    clip: {fileID: 8300000, guid: c4c510c9cdbd3404db6e03974050e6f5, type: 3}
+    volume: 1
+    pitch: 1
+    isLoop: 0
+    hasCooldown: 0
+    randomPitch: 0
+    priority: 127
+    MinRandomPitch: 1
+    MaxRandomPitch: 3
+    source: {fileID: 0}
+  - name: demonHit
+    clip: {fileID: 8300000, guid: 89170f8d0deeaa344ad2a22b43e2acf1, type: 3}
+    volume: 1
+    pitch: 1
+    isLoop: 0
+    hasCooldown: 0
+    randomPitch: 0
+    priority: 128
+    MinRandomPitch: 1
+    MaxRandomPitch: 3
+    source: {fileID: 0}
+  - name: cellCageHit
+    clip: {fileID: 8300000, guid: 067d3a5557f5fbe40841d114a88f9dae, type: 3}
+    volume: 0.79
+    pitch: 1
+    isLoop: 0
+    hasCooldown: 0
+    randomPitch: 0
+    priority: 128
+    MinRandomPitch: 1
+    MaxRandomPitch: 3
     source: {fileID: 0}

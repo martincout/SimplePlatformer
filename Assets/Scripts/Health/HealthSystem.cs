@@ -12,6 +12,7 @@ public class HealthSystem : MonoBehaviour
         {
             healthBar = FindObjectOfType<HealthBar>().GetComponent<HealthBar>();
         }
+        
     }
 
     private void Start()
@@ -20,6 +21,7 @@ public class HealthSystem : MonoBehaviour
         if (healthBar != null)
             healthBar.SetMaxHealth(maxHealth);
     }
+
 
     private void UpdateHealthBar()
     {
@@ -34,6 +36,7 @@ public class HealthSystem : MonoBehaviour
     public void SetMaxHealth(float maxHp)
     {
         maxHealth = maxHp;
+        currentHealth = maxHp;
     }
 
     public float GetHealth()

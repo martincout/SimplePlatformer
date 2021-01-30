@@ -25,11 +25,9 @@ public class Projectile : MonoBehaviour, IDamageable
          direction = player.transform.position - transform.position;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        
         GetComponent<Rigidbody2D>().velocity = direction.normalized * speed * Time.deltaTime;
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

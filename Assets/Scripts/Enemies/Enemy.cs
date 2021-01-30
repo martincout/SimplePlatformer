@@ -268,7 +268,10 @@ namespace SimplePlatformer.Enemy
             StartCoroutine(DieCo());
             if (dropItem != null)
             {
-                Instantiate(dropItem, new Vector2(transform.position.x, Mathf.Round(transform.position.y + 0.2f)), Quaternion.identity);
+                if (Random.Range(0f, 1f) <= dropChance)
+                {
+                    Instantiate(dropItem, new Vector2(transform.position.x, Mathf.Round(transform.position.y + 0.2f)), Quaternion.identity);
+                }
             }
         }
 
@@ -303,12 +306,13 @@ namespace SimplePlatformer.Enemy
 
         private IEnumerator DieCo()
         {
-            rb2d.velocity = new Vector2();
+            rb2d.velocity = Vector2.zero;
             anim.Play(_enemyData.animation.enemyDeath);
             bodyHitCollider.enabled = false;
             yield return new WaitForSeconds(0.55f);
             rb2d.isKinematic = true;
             enabled = false;
+            rb2d.velocity = Vector2.zero;
 
         }
 

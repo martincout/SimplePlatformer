@@ -93,10 +93,11 @@ namespace SimplePlatformer.Enemy
             if (target != null && !friendly)
             {
 
-                distanceToPlayer = Vector3.Distance(transform.position, target.transform.position);
                 //Distance
-
-                if(sawPlayer)
+                distanceToPlayer = Vector3.Distance(transform.position, target.transform.position);
+                //direction
+                Vector3 dir = (playerGO.transform.position - transform.position).normalized;
+                if (sawPlayer)
                 {
                     currentVisionRadius = _enemyData.visionRadiusUpgrade;
                 }
@@ -115,7 +116,9 @@ namespace SimplePlatformer.Enemy
                 }
                 else if (distanceToPlayer < retreatDistance)
                 {
-                    StopFollowing();
+                    path = null;
+                    notFollow = true;
+                    rb2d.velocity = new Vector2(-dir.x * _enemyData.speed * Time.deltaTime, -dir.y * _enemyData.speed * Time.deltaTime);
                 }
                 Shoot();
             }
@@ -144,6 +147,8 @@ namespace SimplePlatformer.Enemy
         {
             Gizmos.color = Color.white;
             Gizmos.DrawWireSphere(transform.position, stoppingDistance);
+            Gizmos.color = Color.white;
+            Gizmos.DrawWireSphere(transform.position, retreatDistance);
         }
 
         private void StopFollowing()

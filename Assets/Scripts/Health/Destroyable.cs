@@ -6,7 +6,8 @@ public class Destroyable : MonoBehaviour, IDamageable
 {
     private Animator anim;
     public float health;
-    [SerializeField] private GameObject drop;
+    public GameObject drop;
+    public float dropChance = 0.5f;
     [SerializeField] private GameObject particle;
 
 
@@ -36,7 +37,10 @@ public class Destroyable : MonoBehaviour, IDamageable
             Instantiate(particle, transform);
             if (drop != null)
             {
-                Instantiate(drop, new Vector2(transform.position.x, Mathf.Round(transform.position.y + 0.5f)), Quaternion.identity);
+                if (Random.Range(0, 1f) <= dropChance)
+                {
+                    Instantiate(drop, new Vector2(transform.position.x, Mathf.Round(transform.position.y + 0.5f)), Quaternion.identity);
+                }
 
             }
             Destroy(gameObject, 1f);

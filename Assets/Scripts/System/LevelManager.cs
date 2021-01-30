@@ -13,7 +13,7 @@ public class LevelManager : MonoBehaviour
     public GameObject deathScreen;
     public GameObject enemyContainer;
     //Enemies positions and prefabs
-    private Dictionary<Vector3, GameObject> enemies;
+    private List<RespawnEntityData> enemies;
     public Room currentRoom;
 
     internal bool isPlayerDead;
@@ -27,10 +27,10 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        enemies = new Dictionary<Vector3, GameObject>();
+        enemies = new List<RespawnEntityData>();
         foreach (Transform child in enemyContainer.transform)
         {
-            enemies.Add(child.transform.position, child.GetComponent<Enemy>()._enemyData.prefab);
+            enemies.Add(new RespawnEntityData(child.GetComponent<Enemy>(),child.position));
         }
         instance = this;
         currentRespawnPoint = RespawnManager.currentRespawn.transform;
@@ -63,9 +63,12 @@ public class LevelManager : MonoBehaviour
     {
         //Set an event to respawn all enemies because every enemy handles his own destruction
         EventSystem.RespawnEnemiesHandler();
-        foreach (KeyValuePair<Vector3, GameObject> e in enemies)
+        foreach (RespawnEntityData ed in enemies)
         {
-            Instantiate(e.Value, e.Key, Quaternion.identity, enemyContainer.transform);
+            GameObject instance = Instantiate(ed.enemy._enemyData.prefab, ed.position, Quaternion.identity, enemyContainer.transform);
+            instance.GetComponent<Enemy>().dropItem = ed.enemy.dropItem;
+            instance.GetComponent<Enemy>().dropChance = ed.enemy.dropChance;
+            instance.GetComponent<Enemy>().patrollingEnabled = ed.enemy.patrollingEnabled;
         }
         PlayerAlive();
         GameObject player = Instantiate(playerPrefab, currentRespawnPoint.position, Quaternion.identity);

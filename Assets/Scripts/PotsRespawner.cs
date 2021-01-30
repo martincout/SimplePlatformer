@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class PotsRespawner : MonoBehaviour
 {
-    private List<Vector3> potsPos;
+    private List<RespawnEntityData> pots;
     public GameObject potPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
-        potsPos = new List<Vector3>();
-        foreach(Transform child in transform)
+        pots = new List<RespawnEntityData>();
+        foreach (Transform child in transform)
         {
-            potsPos.Add(child.transform.position);
+            pots.Add(new RespawnEntityData(child.GetComponent<Destroyable>(),child.position));
         }
     }
 
@@ -30,9 +30,11 @@ public class PotsRespawner : MonoBehaviour
 
     private void Respawn(GameObject player)
     {
-        foreach(Vector3 potPos in potsPos)
+        foreach (RespawnEntityData ed in pots)
         {
-            Instantiate(potPrefab, potPos, Quaternion.identity,transform);
+            GameObject instance = Instantiate(potPrefab, ed.position, Quaternion.identity, transform);
+            instance.GetComponent<Destroyable>().drop = ed.destroyable.drop;
+            instance.GetComponent<Destroyable>().dropChance = ed.destroyable.dropChance;
         }
 
     }
