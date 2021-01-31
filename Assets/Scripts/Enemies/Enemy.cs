@@ -323,7 +323,6 @@ namespace SimplePlatformer.Enemy
             anim.Play(_enemyData.animation.enemyDeath);
             bodyHitCollider.enabled = false;
             yield return new WaitForSeconds(0.55f);
-            rb2d.isKinematic = true;
             enabled = false;
             rb2d.velocity = Vector2.zero;
 

@@ -19,7 +19,7 @@ namespace SimplePlatformer.Enemy
         /// <summary>
         /// Position of the BoxCollider in the world space. Used to check wall collisions
         /// </summary>
-        Vector2 BoxColliderCenter;
+        Vector2 CapsuleColliderCenter;
 
         protected override void Start()
         {
@@ -146,7 +146,7 @@ namespace SimplePlatformer.Enemy
         {
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(attackPoint.position, attackRange);
-            Gizmos.DrawRay(BoxColliderCenter, raycastDir);
+            Gizmos.DrawRay(CapsuleColliderCenter, raycastDir);
         }
 
         protected bool CheckGround()
@@ -180,7 +180,7 @@ namespace SimplePlatformer.Enemy
                 raycastDir = Vector3.left;
             }
             //Raycast
-            raycastWall = Physics2D.Raycast(BoxColliderCenter, raycastDir, 2, 1 << LayerMask.NameToLayer("Ground"));
+            raycastWall = Physics2D.Raycast(CapsuleColliderCenter, raycastDir, 2, 1 << LayerMask.NameToLayer("Ground"));
 
             if (raycastWall)
             {
@@ -208,7 +208,7 @@ namespace SimplePlatformer.Enemy
             {
                 base.Update();
                 //Updates center of the box collider
-                BoxColliderCenter = new Vector2(GetComponent<BoxCollider2D>().bounds.center.x, GetComponent<BoxCollider2D>().bounds.center.y - 0.2f);
+                CapsuleColliderCenter = new Vector2(GetComponent<CapsuleCollider2D>().bounds.center.x, GetComponent<CapsuleCollider2D>().bounds.center.y - 0.2f);
                 UpdateState();
             }
         }

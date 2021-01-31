@@ -8,22 +8,17 @@ namespace SimplePlatformer.Enemy
 
         protected Path path;
         protected Seeker seeker;
-        protected float timeBtwShoots;
+        protected float timeBtwShoots = 0f;
         public float startTimeBtwShoots = 2f;
         public float retreatDistance = 5f;
         public float stoppingDistance = 4f;
         public GameObject projectile;
         float distanceToPlayer;
         public bool noShooting;
-        protected bool isShooting = false;
-        private float cooldownCharginAttack;
-        //cooldown for the flying enemy, only using attack rate as the waiting time
-        protected float cooldownChargingAttack = 0f;
 
         protected override void Start()
         {
             base.Start();
-            timeBtwShoots = startTimeBtwShoots;
             seeker = GetComponent<Seeker>();
             distanceToPlayer = Vector3.Distance(transform.position, target.transform.position);
             InvokeRepeating("UpdatePath", 0, .5f);
@@ -85,29 +80,40 @@ namespace SimplePlatformer.Enemy
                 currentWaypoint++;
             }
             FlipByVelocity();
+
         }
 
         protected override void Update()
         {
             base.Update();
-            CooldownChargedAttack();
-            if (FollowPlayer())
+            if (!currentState.Equals(State.DEATH))
             {
-                sawPlayer = true;
+                if (FollowPlayer())
+                {
+                    sawPlayer = true;
+                }
+
+                if (timeBtwShoots > 0)
+                {
+                    timeBtwShoots -= Time.deltaTime;
+                }
+
+                Attack();
             }
 
-            if(timeBtwShoots > 0)
-            {
-                timeBtwShoots -= Time.deltaTime;
-            }
 
+        }
+
+        private void Attack()
+        {
             if (target != null && !friendly)
             {
-
                 //Distance
                 distanceToPlayer = Vector3.Distance(transform.position, target.transform.position);
                 //direction
                 Vector3 dir = (playerGO.transform.position - transform.position).normalized;
+
+                //Movement Logic
                 if (sawPlayer)
                 {
                     currentVisionRadius = _enemyData.visionRadiusUpgrade;
@@ -131,43 +137,37 @@ namespace SimplePlatformer.Enemy
                     notFollow = true;
                     rb2d.velocity = new Vector2(-dir.x * _enemyData.speed * Time.deltaTime, -dir.y * _enemyData.speed * Time.deltaTime);
                 }
+
+                //Attack Logic
                 Shoot();
-            }
 
+            }
 
         }
 
-        protected void CooldownChargedAttack()
+        protected void RunCooldownBtwShotsTimer()
         {
-            //Cooldown Attack
-            if (cooldownChargingAttack > 0)
-            {
-                cooldownChargingAttack -= Time.deltaTime;
-            }
-        }
-
-        protected void RunCooldownChargedTimer()
-        {
-            cooldownCharginAttack = _enemyData.attackRate;
+            timeBtwShoots = startTimeBtwShoots;
         }
 
         private void Shoot()
         {
             if (!noShooting && sawPlayer)
             {
-                if (!isAttacking && timeBtwShoots <= 0)
+                if (!isAttacking && timeBtwShoots <= 0 && cooldownAttack <= 0)
                 {
+                    PlayAnimation(_enemyData.animation.enemyAttack);
+                    RunCooldownAttackTimer();
                     isAttacking = true;
-                    RunCooldownChargedTimer();
                 }
 
-                if(isAttacking && cooldownChargingAttack <= 0)
+                if (isAttacking && cooldownAttack <= 0)
                 {
+                    PlayAnimation(_enemyData.animation.enemyMovement);
                     GameObject instance = Instantiate(projectile, transform.position, Quaternion.identity);
                     instance.GetComponent<Projectile>().speed = _enemyData.projectileSpeed;
                     instance.GetComponent<Projectile>().damage = _enemyData.projectileDamage;
-                    RunCooldownChargedTimer();
-                    isAttacking = false;
+                    RunCooldownBtwShotsTimer();
                 }
 
             }

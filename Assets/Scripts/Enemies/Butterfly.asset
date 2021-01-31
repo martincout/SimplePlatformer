@@ -23,7 +23,7 @@ MonoBehaviour:
   visionRadiusUpgrade: 12.5
   attackRadius: {x: 2, y: 2}
   attackRange: 0
-  attackRate: 1.2
+  attackRate: 1
   stunTime: 0.3
   thrust: 20
   soundName: Damage
