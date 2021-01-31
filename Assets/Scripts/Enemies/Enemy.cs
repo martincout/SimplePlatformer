@@ -389,7 +389,6 @@ namespace SimplePlatformer.Enemy
             if (playerGO != null)
             {
                 Gizmos.DrawLine(transform.position, playerGO.transform.position);
-
             }
         }
 

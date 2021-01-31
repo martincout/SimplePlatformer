@@ -28,6 +28,17 @@ namespace SimplePlatformer.Player
         private SpriteRenderer sprRender;
         private AudioSource footsteps;
 
+        /// <summary>
+        /// Raycast to check if it's grounded
+        /// </summary>
+        private RaycastHit2D raycastLeft;
+        private RaycastHit2D raycastRight;
+        /// <summary>
+        /// Offset from the center-bottom of the collider 2d
+        /// </summary>
+        public Vector3 raycastLeftOffset = new Vector2(0.5f,0);
+        public Vector3 raycastRightOffset = new Vector2(0.5f,0);
+
         public void Awake()
         {
             anim = GetComponent<Animator>();
@@ -127,22 +138,30 @@ namespace SimplePlatformer.Player
 
         private void CheckGround()
         {
-            RaycastHit2D raycastHit = Physics2D.BoxCast(capsuleCollider.bounds.center, capsuleCollider.bounds.size, 0f, Vector2.down, heightOffset, groundLayer);
-            Color rayColor;
-            if (raycastHit.collider != null)
+            //Raycast position calculation. (from the center-bottom of the collider 2d, with an offset)
+            Vector3 raycastPositionLeft = capsuleCollider.bounds.center - new Vector3(0, capsuleCollider.bounds.extents.y, 0) - raycastLeftOffset;
+            Vector3 raycastPositionRight = capsuleCollider.bounds.center - new Vector3(0, capsuleCollider.bounds.extents.y, 0) + raycastRightOffset;
+            //Raycast2d
+            raycastLeft = Physics2D.Raycast(raycastPositionLeft, Vector2.down, groundedHeight, groundLayer);
+            raycastRight = Physics2D.Raycast(raycastPositionRight, Vector2.down, groundedHeight, groundLayer);
+
+            Color color;
+            //Check if grounded
+            if (raycastLeft.collider != null || raycastRight.collider != null)
             {
                 isGrounded = true;
                 airAttacked = false;
-                rayColor = Color.green;
+                color = Color.green;
+                Debug.DrawRay(raycastPositionLeft, Vector2.down * groundedHeight, color);
+                Debug.DrawRay(raycastPositionRight, Vector2.down * groundedHeight, color);
             }
             else
             {
                 isGrounded = false;
-                rayColor = Color.red;
+                color = Color.red;
+                Debug.DrawRay(raycastPositionLeft, Vector2.down * groundedHeight, color);
+                Debug.DrawRay(raycastPositionRight, Vector2.down * groundedHeight, color);
             }
-            Debug.DrawRay(capsuleCollider.bounds.center + new Vector3(capsuleCollider.bounds.extents.x, 0), Vector2.down * (capsuleCollider.bounds.extents.y + heightOffset), rayColor);
-            Debug.DrawRay(capsuleCollider.bounds.center - new Vector3(capsuleCollider.bounds.extents.x, 0), Vector2.down * (capsuleCollider.bounds.extents.y + heightOffset), rayColor);
-            Debug.DrawRay(capsuleCollider.bounds.center - new Vector3(capsuleCollider.bounds.extents.x, capsuleCollider.bounds.extents.y + heightOffset), Vector2.right * (capsuleCollider.bounds.extents.x * 2f), rayColor);
 
         }
 
