@@ -19,13 +19,13 @@ namespace SimplePlatformer.Enemy
 
         [Header("Attack")]
         protected float cooldownAttack = 0f;
-        
+
         [SerializeField] protected GameObject target;
         private float startStunTime;
         private float stunTimeCooldown = 0;
         protected bool isStunned = false;
         protected bool isAttacking = false;
-        
+
         //How many hits when checking for hit box
         [HideInInspector] public int manyHits = 1;
         protected float currentVisionRadius;
@@ -68,7 +68,8 @@ namespace SimplePlatformer.Enemy
         protected bool isPatrolling;
         public bool patrollingEnabled = true;
         public bool headingRight;
-        
+        public bool knockbackDontInterruptAttack = false;
+
 
         protected virtual void Start()
         {
@@ -174,7 +175,7 @@ namespace SimplePlatformer.Enemy
             notFollow = currentState.Equals(State.DEATH) || LevelManager.instance.isPlayerDead || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBase>().GetPlayerItsDying();
             StunTimeReset();
             CooldownAttack();
-            
+
         }
 
         protected virtual void Move()
@@ -187,7 +188,7 @@ namespace SimplePlatformer.Enemy
             cooldownAttack = _enemyData.attackRate;
         }
 
-        
+
 
         protected void CooldownAttack()
         {
@@ -202,7 +203,7 @@ namespace SimplePlatformer.Enemy
             }
         }
 
-        
+
 
 
         protected void PlayAnimation(string name)
@@ -252,7 +253,10 @@ namespace SimplePlatformer.Enemy
                 {
                     SoundManager.instance.Play(_enemyData.soundName);
                     anim.Play(_enemyData.animation.enemyHurt, 1, 0);
-                    PlayAnimation(_enemyData.animation.enemyIdle);
+                    if (!knockbackDontInterruptAttack)
+                    {
+                        PlayAnimation(_enemyData.animation.enemyIdle);
+                    }
                     if (!isStunned)
                     {
                         StopCoroutine(KnockCo(attackerPos));
@@ -300,6 +304,7 @@ namespace SimplePlatformer.Enemy
         private IEnumerator KnockCo(Vector3 playerPos)
         {
             stunTimeCooldown = startStunTime;
+            cooldownAttack = 0;
             isAttacking = false;
             Vector2 forceDirection = transform.TransformDirection(transform.position - playerPos);
             if (forceDirection.x > 0)
@@ -311,6 +316,7 @@ namespace SimplePlatformer.Enemy
                 forceDirection = new Vector2(-1, forceDirection.y);
 
             }
+            rb2d.velocity = new Vector2();
             Vector2 force = forceDirection * _enemyData.thrust;
             rb2d.AddForce(force, ForceMode2D.Impulse);
             yield return new WaitForSeconds(_enemyData.stunTime);

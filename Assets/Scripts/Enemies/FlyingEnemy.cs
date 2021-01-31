@@ -135,7 +135,10 @@ namespace SimplePlatformer.Enemy
                 {
                     path = null;
                     notFollow = true;
-                    rb2d.velocity = new Vector2(-dir.x * _enemyData.speed * Time.deltaTime, -dir.y * _enemyData.speed * Time.deltaTime);
+                    //Retreat speed will be * 5 to add force gradually and not instantly. It works faster when the speed it's greater
+                    float retreatSpeed = _enemyData.speed * 6;
+                    rb2d.AddForce(new Vector2(-dir.x * retreatSpeed * Time.deltaTime, -dir.y * retreatSpeed * Time.deltaTime), ForceMode2D.Force);
+                    //rb2d.velocity = new Vector2(-dir.x * _enemyData.speed * Time.deltaTime, -dir.y * _enemyData.speed * Time.deltaTime);
                 }
 
                 //Attack Logic

@@ -24,7 +24,7 @@ MonoBehaviour:
   attackRadius: {x: 2.88, y: 2.5}
   attackRange: 0.4
   attackRate: 1
-  stunTime: 0.2
+  stunTime: 0.1
   thrust: 50
   soundName: skeletonHit
   projectileSpeed: 0

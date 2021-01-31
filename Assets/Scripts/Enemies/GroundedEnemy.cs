@@ -97,6 +97,7 @@ namespace SimplePlatformer.Enemy
             //Check if there is a player in the attack radius
             if (boxAttackRadius.Length > 0)
             {
+                //Attack
                 foreach (Collider2D col in boxAttackRadius)
                 {
                     if (col.CompareTag("Player"))
@@ -129,6 +130,7 @@ namespace SimplePlatformer.Enemy
                         anim.Play(_enemyData.animation.enemyIdle);
 
                     }
+                    //Not follow when attacking
                     rb2d.velocity = Vector2.zero;
                 }
             }

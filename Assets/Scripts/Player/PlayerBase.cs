@@ -176,12 +176,8 @@ namespace SimplePlatformer.Player
 
         private IEnumerator KnockCo(Vector3 attackerPos, float _thrust)
         {
-            //The force it's greater as the velocity of the player increases to apply more impulse backwards
-            float velocityX = rb2d.velocity.x;
-            float force = Mathf.Abs(velocityX) + _thrust;
-
+            float force = _thrust;
             Vector2 forceDirection = transform.TransformDirection(transform.position - attackerPos);
-
             if (forceDirection.x > 0)
             {
                 forceDirection = new Vector2(force, forceDirection.normalized.y);
@@ -191,6 +187,7 @@ namespace SimplePlatformer.Player
                 forceDirection = new Vector2(-force, forceDirection.normalized.y);
 
             }
+            rb2d.velocity = new Vector2();
             rb2d.AddForce(forceDirection, ForceMode2D.Impulse);
             yield return new WaitForSeconds(stunTime);
             rb2d.velocity = new Vector2();

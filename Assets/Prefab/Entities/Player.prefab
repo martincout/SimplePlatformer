@@ -87,7 +87,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 2
   m_LinearDrag: 1.4
-  m_AngularDrag: 0
+  m_AngularDrag: 1
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -237,12 +237,14 @@ MonoBehaviour:
   lowFallMultiplier: 3
   jumpForce: 20
   speed: 10
-  groundedHeight: 0.5
+  groundedHeight: 0.1
   heightOffset: 0.25
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
   dustFootsteps: {fileID: 71617679584371750}
+  raycastLeftOffset: {x: 0.19, y: 0, z: 0}
+  raycastRightOffset: {x: 0.19, y: 0, z: 0}
 --- !u!114 &1712452806
 MonoBehaviour:
   m_ObjectHideFlags: 0
