@@ -27,6 +27,8 @@ namespace SimplePlatformer.Enemy
             groundDetector = transform.GetChild(3)?.GetComponent<Transform>();
         }
 
+        //TODO (Change the name of the Move Behaviour)
+
         /// <summary>
         /// Movement Behaviour. Gets updated every frame
         /// Handles the following and patrolling Behaviour of the enemy.
@@ -102,39 +104,50 @@ namespace SimplePlatformer.Enemy
                 {
                     if (col.CompareTag("Player"))
                     {
-                        if (!isAttacking)
-                        {
-                            isAttacking = true;
-                            anim.Play(_enemyData.animation.enemyAttack);
-                            RunCooldownAttackTimer();
-                        }
+                        Attack();
                     }
                 }
             }
             else
             {
-                //Update Movement 
-                //Check the Direction X of the target and don't update the movement if it's attacking because otherwise, it'll follow
-                //the player in the attacking animation.
-                if (dirX != 0 && !isAttacking && CheckGround())
-                {
-                    anim.Play(_enemyData.animation.enemyMovement);
-                    rb2d.velocity = new Vector2(dirX * _enemyData.speed * Time.deltaTime, GetComponent<Rigidbody2D>().velocity.y);
-                }
-                else
-                {
-                    //Idle animation only if we have no ground, because otherwise the enemy will keep walking when it's not suppose to do.
-                    //Not play idle animation when attacking because it will cancel the attack animation
-                    if (!CheckGround() && !isAttacking)
-                    {
-                        anim.Play(_enemyData.animation.enemyIdle);
-
-                    }
-                    //Not follow when attacking
-                    rb2d.velocity = Vector2.zero;
-                }
+                UpdateMovement();
             }
 
+        }
+        /// <summary>
+        /// Update Movement 
+        /// Check the Direction X of the target and don't update the movement if it's attacking because otherwise, it'll follow
+        /// the player in the attacking animation.
+        /// </summary>
+        protected void UpdateMovement()
+        {
+            if (dirX != 0 && !isAttacking && CheckGround())
+            {
+                anim.Play(_enemyData.animation.enemyMovement);
+                rb2d.velocity = new Vector2(dirX * _enemyData.speed * Time.deltaTime, GetComponent<Rigidbody2D>().velocity.y);
+            }
+            else
+            {
+                //Idle animation only if we have no ground, because otherwise the enemy will keep walking when it's not suppose to do.
+                //Not play idle animation when attacking because it will cancel the attack animation
+                if (!CheckGround() && !isAttacking)
+                {
+                    anim.Play(_enemyData.animation.enemyIdle);
+
+                }
+                //Not follow when attacking
+                rb2d.velocity = Vector2.zero;
+            }
+        }
+
+        protected void Attack()
+        {
+            if (!isAttacking)
+            {
+                RunCooldownAttackTimer();
+                isAttacking = true;
+                anim.Play(_enemyData.animation.enemyAttack);
+            }
         }
 
         protected override void OnDrawGizmosSelected()
@@ -195,6 +208,9 @@ namespace SimplePlatformer.Enemy
         }
 
 
+        /// <summary>
+        /// Updates Hitbox
+        /// </summary>
         protected override void FixedUpdate()
         {
             if (!currentState.Equals(State.DEATH))
@@ -204,12 +220,15 @@ namespace SimplePlatformer.Enemy
             }
         }
 
+        /// <summary>
+        /// Updates States
+        /// </summary>
         protected override void Update()
         {
             if (!currentState.Equals(State.DEATH))
             {
                 base.Update();
-                //Updates center of the box collider
+                //Updates center of the box collider to check for walls
                 CapsuleColliderCenter = new Vector2(GetComponent<CapsuleCollider2D>().bounds.center.x, GetComponent<CapsuleCollider2D>().bounds.center.y - 0.2f);
                 UpdateState();
             }
@@ -272,6 +291,11 @@ namespace SimplePlatformer.Enemy
                 }
 
             }
+        }
+
+        public void SwishSound()
+        {
+            SoundManager.instance.Play(_enemyData.swishSound);
         }
     }
 }

@@ -14,8 +14,6 @@ public class FallingCellCage : MonoBehaviour, IDamageable
         //nothing
     }
 
-
-
     public void TakeDamage(float damage, Vector3 attackerPosition)
     {
         hs.DealDamage(damage);

@@ -24,7 +24,8 @@ namespace SimplePlatformer.Enemy
         public float stunTime = 0.3f;
         public float thrust = 50f;
 
-        public string soundName;
+        public string damageSound;
+        public string swishSound;
 
         public float projectileSpeed;
         public float projectileDamage;

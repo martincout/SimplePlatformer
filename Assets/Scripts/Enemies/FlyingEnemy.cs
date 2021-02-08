@@ -28,6 +28,7 @@ namespace SimplePlatformer.Enemy
         {
             if (!FollowPlayer() && distanceToPlayer > currentVisionRadius && distanceToPlayer > stoppingDistance)
             {
+                sawPlayer = false;
                 path = null;
                 return;
             }
@@ -155,7 +156,7 @@ namespace SimplePlatformer.Enemy
 
         private void Shoot()
         {
-            if (!noShooting && sawPlayer)
+            if (!noShooting && sawPlayer && !isStunned)
             {
                 if (!isAttacking && timeBtwShoots <= 0 && cooldownAttack <= 0)
                 {

@@ -26,7 +26,8 @@ MonoBehaviour:
   attackRate: 1
   stunTime: 0.1
   thrust: 50
-  soundName: skeletonHit
+  damageSound: skeletonHit
+  swishSound: HeavySwish
   projectileSpeed: 0
   projectileDamage: 0
   animation: {fileID: 11400000, guid: 2416708f92654d44ba7a0dfc69125c46, type: 2}

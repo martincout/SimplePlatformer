@@ -251,7 +251,7 @@ namespace SimplePlatformer.Enemy
                 healthSystem.DealDamage(damage);
                 if (healthSystem.GetHealth() > 0)
                 {
-                    SoundManager.instance.Play(_enemyData.soundName);
+                    SoundManager.instance.Play(_enemyData.damageSound);
                     anim.Play(_enemyData.animation.enemyHurt, 1, 0);
                     if (!knockbackDontInterruptAttack)
                     {

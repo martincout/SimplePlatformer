@@ -214,7 +214,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 2
-  m_LinearDrag: 20
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 15
   m_Material: {fileID: 0}
@@ -271,6 +271,7 @@ MonoBehaviour:
   friendly: 0
   patrollingEnabled: 0
   headingRight: 0
+  knockbackDontInterruptAttack: 0
   attackPoint: {fileID: 1706790442775499563}
   attackRange: 0.4
   checkForHitBox: 0
