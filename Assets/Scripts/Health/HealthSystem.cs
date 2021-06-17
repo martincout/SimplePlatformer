@@ -37,6 +37,7 @@ public class HealthSystem : MonoBehaviour
     {
         maxHealth = maxHp;
         currentHealth = maxHp;
+        healthBar?.SetMaxHealth(maxHealth);
     }
 
     public float GetHealth()

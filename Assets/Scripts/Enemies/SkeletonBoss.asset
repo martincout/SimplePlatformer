@@ -24,7 +24,7 @@ MonoBehaviour:
   attackRadius: {x: 12.42, y: 7.35}
   attackRange: 1.12
   attackRate: 2
-  stunTime: 0.1
+  stunTime: 0
   thrust: 0
   damageSound: skeletonHit
   swishSound: HeavySwish

@@ -94,8 +94,12 @@ namespace SimplePlatformer.Enemy
             Collider2D[] boxAttackRadius = Physics2D.OverlapBoxAll(transform.position, _enemyData.attackRadius, 0, 1 << LayerMask.NameToLayer("Player"));
             Vector3 dir = (playerGO.transform.position - transform.position).normalized;
             dirX = dir.x;
-            FlipByTargetDirection(dirX);
 
+            //Flip
+            if (!isAttacking)
+            {
+                FlipByTargetDirection(dirX);
+            }
             //Check if there is a player in the attack radius
             if (boxAttackRadius.Length > 0)
             {
