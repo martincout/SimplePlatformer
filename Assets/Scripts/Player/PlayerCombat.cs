@@ -7,13 +7,15 @@ namespace SimplePlatformer.Player
     {
         //Attack    
         [Header("Attack")]
-        public Transform attackPoint;
-        [SerializeField] private float attackRange = 0.1f;
+        public Transform hitBoxPos;
         [SerializeField] private float attackRate = 0.3f;
         [SerializeField] private float attackDamage = 10f;
         //The time elapsed for the next hit with the hit box (attack)
         [SerializeField] private float initialDrag;
         [SerializeField] private float attackDrag;
+        [Header("HitBox")]
+        public Vector3 boxSize;
+        public float rotation;
 
         //Combos
         public enum ComboState
@@ -33,6 +35,7 @@ namespace SimplePlatformer.Player
         private void Awake()
         {
             healthSystem = GetComponent<HealthSystem>();
+            hitBoxPos = transform.GetChild(1).transform;
             anim = GetComponent<Animator>();
             rb2d = GetComponent<Rigidbody2D>();
             render = GetComponent<Renderer>();
@@ -43,9 +46,10 @@ namespace SimplePlatformer.Player
         }
         public void CheckHitBoxColission()
         {
-            Collider2D[] hit = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer | damageableLayer);
+            Collider2D[] hit = Physics2D.OverlapBoxAll(hitBoxPos.position, boxSize, rotation, enemyLayer | damageableLayer);
             foreach (Collider2D col in hit)
             {
+                Debug.Log(col.name);
                 if (col.GetComponent<IDamageable>() != null)
                 {
                     col.GetComponent<IDamageable>().TakeDamage(attackDamage, transform.position);
@@ -91,12 +95,15 @@ namespace SimplePlatformer.Player
         }
 
 
-        private void OnDrawGizmos()
+        public void OnDrawGizmos()
         {
-            if (attackPoint == null)
+            if (hitBoxPos == null)
                 return;
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+
+            Gizmos.matrix = Matrix4x4.TRS(hitBoxPos.position, hitBoxPos.rotation, hitBoxPos.localScale);
+
+            Gizmos.DrawCube(Vector3.zero, boxSize); // Because size is halfExtents
         }
         private void Attack()
         {
