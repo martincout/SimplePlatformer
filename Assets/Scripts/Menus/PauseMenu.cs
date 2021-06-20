@@ -31,7 +31,7 @@ public class PauseMenu : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        /*if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (Time.timeScale == 1)
             {
@@ -43,7 +43,7 @@ public class PauseMenu : MonoBehaviour
                 
                 unPause();
             }
-        }
+        }*/
     }
 
     public void showPaused()

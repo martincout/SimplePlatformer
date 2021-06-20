@@ -17,6 +17,7 @@ namespace SimplePlatformer.Player
         public Vector3 boxSize;
         public float rotation;
 
+
         //Combos
         public enum ComboState
         {
@@ -49,7 +50,6 @@ namespace SimplePlatformer.Player
             Collider2D[] hit = Physics2D.OverlapBoxAll(hitBoxPos.position, boxSize, rotation, enemyLayer | damageableLayer);
             foreach (Collider2D col in hit)
             {
-                Debug.Log(col.name);
                 if (col.GetComponent<IDamageable>() != null)
                 {
                     col.GetComponent<IDamageable>().TakeDamage(attackDamage, transform.position);
@@ -113,7 +113,7 @@ namespace SimplePlatformer.Player
             if (elapsedAttackRate <= 0 || !comboState.Equals(ComboState.NONE))
             {
                 //Check for input and if the animation of the combo finished
-                if (Input.GetButtonDown("Attack"))
+                /*if (Input.GetButtonDown("Attack"))
                 {
                     isAttacking = true;
                     //If i'm grounded
@@ -149,7 +149,7 @@ namespace SimplePlatformer.Player
                     //don't slide on the floor
                     rb2d.drag = attackDrag;
 
-                }
+                }*/
             }
             #endregion
         }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// Handles States
@@ -8,6 +9,9 @@ namespace SimplePlatformer.Player
 {
     public class PlayerBase : MonoBehaviour, IDamageable, IItem
     {
+        [Header("Sub Behaviours")]
+        public PlayerMovement playerMovementBehaviour;
+
         //Animation Const
         public static readonly string PLAYER_IDLE = "playerIdle";
         public static readonly string PLAYER_WALK = "playerWalk";
@@ -33,8 +37,8 @@ namespace SimplePlatformer.Player
         //Aux
         protected float invincibleTime = 1f;
         protected float cooldownInvincible = 0f;
-        //Values
-        protected Vector2 axisDir;
+
+        protected static Vector2 rawInputMovement;
 
         //Take damage
         private float stunTime = 0.3f;
@@ -44,6 +48,9 @@ namespace SimplePlatformer.Player
         protected Rigidbody2D rb2d;
         protected Renderer render;
 
+
+        public PlayerInput playerInput;
+
         private readonly float thrust = 30f;
 
         public bool GetPlayerItsDying()
@@ -51,10 +58,9 @@ namespace SimplePlatformer.Player
             return itsDying;
         }
 
-
-
         private void Awake()
         {
+            playerMovementBehaviour = GetComponent<PlayerMovement>();
             healthSystem = GetComponent<HealthSystem>();
             characterParticles = GetComponent<CharacterParticles>();
             anim = GetComponent<Animator>();
@@ -77,6 +83,7 @@ namespace SimplePlatformer.Player
 
         private void Update()
         {
+            UpdatePlayerMovement();
             if (cooldownInvincible > 0)
             {
                 cooldownInvincible -= Time.deltaTime;
@@ -88,6 +95,13 @@ namespace SimplePlatformer.Player
                 //Alpha to 100% NOT IN INVINCIBLE STATE
                 SetAlpha(1f);
             }
+        }
+
+
+        void UpdatePlayerMovement()
+        {
+
+            playerMovementBehaviour.UpdateMovementData(rawInputMovement);
         }
 
         internal IEnumerator EnableMovementAfter(float seconds)
@@ -198,6 +212,51 @@ namespace SimplePlatformer.Player
             if (item.category.Equals(Item.Category.CONSUMABLE))
             {
                 healthSystem.Heal(item.value);
+            }
+        }
+
+
+        //INPUT SYSTEM ACTION METHODS --------------
+
+        //This is called from PlayerInput; when a joystick or arrow keys has been pushed.
+        //It stores the input Vector as a Vector3 to then be used by the smoothing function.
+
+
+        public void OnMovement(InputAction.CallbackContext value)
+        {
+            Vector2 inputMovement = value.ReadValue<Vector2>();
+            rawInputMovement = new Vector2(inputMovement.x, inputMovement.y);
+        }
+
+        //This is called from PlayerInput, when a button has been pushed, that corresponds with the 'Attack' action
+        public void OnAttack(InputAction.CallbackContext value)
+        {
+            if (value.started)
+            {
+                Debug.Log("Attack");
+            }
+        }
+
+        public void OnJump(InputAction.CallbackContext value)
+        {
+            if (value.started)
+            {
+                playerMovementBehaviour.Jump();
+                Debug.Log("Performed");
+            }
+
+            if (value.canceled)
+            {
+                Debug.Log("Canceled");
+            }
+        }
+
+        //This is called from Player Input, when a button has been pushed, that correspons with the 'TogglePause' action
+        public void OnTogglePause(InputAction.CallbackContext value)
+        {
+            if (value.started)
+            {
+                Debug.Log("Pause");
             }
         }
     }

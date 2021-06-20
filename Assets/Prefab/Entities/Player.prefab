@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1308520644}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.779, y: 0, z: 0}
+  m_LocalPosition: {x: 0.47, y: -0.254, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 540259816510785636}
@@ -49,6 +49,7 @@ GameObject:
   - component: {fileID: 190104470}
   - component: {fileID: 46930375}
   - component: {fileID: 668373913}
+  - component: {fileID: 2032159410418669854}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -221,6 +222,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89b300dc3f0ea0846a0de7dedb998573, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovementBehaviour: {fileID: 0}
+  playerInput: {fileID: 2032159410418669854}
 --- !u!114 &540259816510785638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,15 +236,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c48ec48d39dce409a1ab122509351a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovementBehaviour: {fileID: 0}
+  playerInput: {fileID: 0}
   fallMultiplier: 2
   lowFallMultiplier: 3
   jumpForce: 20
-  speed: 10
   groundedHeight: 0.1
   heightOffset: 0.25
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
+  speed: 10
   dustFootsteps: {fileID: 71617679584371750}
   raycastLeftOffset: {x: 0.19, y: 0, z: 0}
   raycastRightOffset: {x: 0.19, y: 0, z: 0}
@@ -257,13 +262,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 383fb6d6c8ac3df448c175f0bf5a0c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackPoint: {fileID: 1308520645}
-  attackRange: 0.72
-  attackRate: 0.3
+  playerMovementBehaviour: {fileID: 0}
+  playerInput: {fileID: 0}
+  hitBoxPos: {fileID: 1308520645}
+  attackRate: 0.2
   attackDamage: 10
   initialDrag: 1.5
   attackDrag: 3
-  timeNextCombo: 0.4
+  boxSize: {x: 0.25, y: 0.25, z: 0}
+  rotation: 0
+  timeNextCombo: 0.3
   enemyLayer:
     serializedVersion: 2
     m_Bits: 512
@@ -296,6 +304,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7071081ab6c011945abcd989c08cf847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovementBehaviour: {fileID: 0}
+  playerInput: {fileID: 0}
   buttonInteract: {fileID: 4778406685189288635, guid: 1378888f90720814492fbfb4860632b2, type: 3}
   size: {x: 3, y: 2.2}
 --- !u!114 &46930375
@@ -328,6 +338,84 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.1083374}
   m_Size: {x: 0.5, y: 1.7723885}
   m_Direction: 0
+--- !u!114 &2032159410418669854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540259816510785635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 9d407223ba5df834f975f5b81bdb44f9, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1925521650022651150}
+        m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerBase, Assembly-CSharp
+        m_MethodName: OnAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 523e35cd-4035-43b6-af4e-88f2a546a3c1
+    m_ActionName: PlayerControlls/Attack[/Keyboard/z]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 540259816510785638}
+        m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerBase, Assembly-CSharp
+        m_MethodName: OnMovement
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 20ffdadd-1cde-495b-bd60-b3839fc145c3
+    m_ActionName: PlayerControlls/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1925521650022651150}
+        m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerBase, Assembly-CSharp
+        m_MethodName: OnJump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: dacaa248-f307-4358-87a4-3f23d25b3b71
+    m_ActionName: PlayerControlls/New action
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: PlayerControlls
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &2400351565626025960
 GameObject:
   m_ObjectHideFlags: 0

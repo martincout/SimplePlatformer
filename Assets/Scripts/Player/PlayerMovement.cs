@@ -6,20 +6,25 @@ namespace SimplePlatformer.Player
     public class PlayerMovement : PlayerBase
     {
         //Jump
+        protected bool jump = false;
         [SerializeField] private float fallMultiplier = 2f;
         [SerializeField] private float lowFallMultiplier = 8f;
         [SerializeField] private float jumpForce = 4f;
-        //Movement
-        [SerializeField] float speed;
-        //Check
+        //Check Ground
         public float groundedHeight = 0.5f;
         public float heightOffset = 0.25f; // we dont want to cast from the players feet (may cast underground sometimes), so we offset it a bit
-        CapsuleCollider2D capsuleCollider;
         public LayerMask groundLayer;
-        internal bool isGrounded;
-
+        //Movement
+        [SerializeField] float speed;
+        private Vector2 movementDirection;
+        
+        //Hurt Collider
+        CapsuleCollider2D capsuleCollider;
+        
+        //Particles
         public ParticleSystem dustFootsteps;
-
+        //States
+        internal bool isGrounded;
         private bool isJumpingAnim = false;
         private bool isFallingAnim = false;
         private bool isAttackingAnim = false;
@@ -38,7 +43,7 @@ namespace SimplePlatformer.Player
         /// </summary>
         public Vector3 raycastLeftOffset = new Vector2(0.5f,0);
         public Vector3 raycastRightOffset = new Vector2(0.5f,0);
-
+        
         public void Awake()
         {
             anim = GetComponent<Animator>();
@@ -72,9 +77,21 @@ namespace SimplePlatformer.Player
                 {
                     AnimationUpdate();
                 }
-                Movement();
+                
                 Jump();
             }
+        }
+
+        public void UpdateMovementData(Vector2 newMovementDirection)
+        {
+           
+            movementDirection = newMovementDirection;
+        }
+
+        public void UpdateJumpData(bool newJumpBoolean)
+        {
+
+            jump = newJumpBoolean;
         }
 
         private void AnimationUpdate()
@@ -87,7 +104,7 @@ namespace SimplePlatformer.Player
             Flip();
             if (!isJumpingAnim && isGrounded && !isAttackingAnim)
             {
-                if (axisDir.x != 0)
+                if (movementDirection.x != 0)
                 {
                     anim.Play(PLAYER_WALK);
                     dustFootsteps.Play();
@@ -109,9 +126,9 @@ namespace SimplePlatformer.Player
 
         private void Flip()
         {
-            if (Input.GetAxisRaw("Horizontal") != 0 && !isAttacking)
+            if (movementDirection.x != 0 && !isAttacking)
             {
-                if (Input.GetAxisRaw("Horizontal") > 0)
+                if (movementDirection.x > 0)
                 {
                     transform.localScale = new Vector3(1, 1, 1);
                     isFacingRight = true;
@@ -134,6 +151,7 @@ namespace SimplePlatformer.Player
             {
                 rb2d.velocity += Vector2.up * Physics2D.gravity.y * (lowFallMultiplier - 1) * Time.deltaTime;
             }
+            
         }
 
         private void CheckGround()
@@ -151,6 +169,7 @@ namespace SimplePlatformer.Player
             {
                 isGrounded = true;
                 airAttacked = false;
+                isJumping = false;
                 color = Color.green;
                 Debug.DrawRay(raycastPositionLeft, Vector2.down * groundedHeight, color);
                 Debug.DrawRay(raycastPositionRight, Vector2.down * groundedHeight, color);
@@ -166,40 +185,21 @@ namespace SimplePlatformer.Player
         }
 
 
-        private void Movement()
+        public void Jump()
         {
-            if (Input.GetButton("Horizontal") && !movePrevent)
-            {
-                axisDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxis("Vertical"));
-            }
-            else
-            {
-                axisDir = Vector2.zero;
-            }
-        }
-
-        private void Jump()
-        {
-            if (isGrounded)
-            {
-                isJumping = false;
-                if (Input.GetButtonDown("Jump"))
-                {
-                    isJumping = true;
-                    SoundManager.instance.Play("Jump");
-                    rb2d.velocity = new Vector2(rb2d.velocity.x, rb2d.velocity.y);
-                    rb2d.velocity = Vector2.up * jumpForce;
-                }
-            }
-            else
+            if (!isJumping)
             {
                 isJumping = true;
+                SoundManager.instance.Play("Jump");
+                rb2d.velocity = new Vector2(rb2d.velocity.x, rb2d.velocity.y);
+                rb2d.velocity = Vector2.up * jumpForce;
             }
+            
         }
 
         private void Move()
         {
-            rb2d.velocity = new Vector2(axisDir.x * speed, rb2d.velocity.y);
+            rb2d.velocity = new Vector2(movementDirection.x * speed, rb2d.velocity.y);
         }
 
         private void footstep()
