@@ -241,14 +241,16 @@ namespace SimplePlatformer.Player
         {
             if (value.started)
             {
-                playerMovementBehaviour.Jump();
-                Debug.Log("Performed");
+                Debug.Log("Something");
+                isJumping = true;
+                Debug.Log(isJumping);
             }
-
             if (value.canceled)
             {
                 Debug.Log("Canceled");
+                isJumping = false;
             }
+            
         }
 
         //This is called from Player Input, when a button has been pushed, that correspons with the 'TogglePause' action

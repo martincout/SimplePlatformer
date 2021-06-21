@@ -63,10 +63,12 @@ namespace SimplePlatformer.Player
         public void FixedUpdate()
         {
             CheckGround();
+            
             if (!isStunned)
             {
                 Move();
             }
+            Jump();
             BetterJump();
         }
         private void Update()
@@ -78,7 +80,7 @@ namespace SimplePlatformer.Player
                     AnimationUpdate();
                 }
                 
-                Jump();
+                
             }
         }
 
@@ -169,7 +171,6 @@ namespace SimplePlatformer.Player
             {
                 isGrounded = true;
                 airAttacked = false;
-                isJumping = false;
                 color = Color.green;
                 Debug.DrawRay(raycastPositionLeft, Vector2.down * groundedHeight, color);
                 Debug.DrawRay(raycastPositionRight, Vector2.down * groundedHeight, color);
@@ -187,10 +188,16 @@ namespace SimplePlatformer.Player
 
         public void Jump()
         {
-            if (!isJumping)
+            if (isGrounded && !isJumping)
             {
-                isJumping = true;
+                Debug.Log("jumping?");
                 SoundManager.instance.Play("Jump");
+                rb2d.velocity = new Vector2(rb2d.velocity.x, rb2d.velocity.y);
+                rb2d.velocity = Vector2.up * jumpForce;
+
+            }else if (isJumping)
+            {
+                Debug.Log("jumping?");
                 rb2d.velocity = new Vector2(rb2d.velocity.x, rb2d.velocity.y);
                 rb2d.velocity = Vector2.up * jumpForce;
             }
