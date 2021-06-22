@@ -6,15 +6,6 @@ public class HealthSystem : MonoBehaviour
     private float currentHealth;
     public HealthBar healthBar;
 
-    private void Awake()
-    {
-        if (gameObject.CompareTag("Player"))
-        {
-            healthBar = FindObjectOfType<HealthBar>().GetComponent<HealthBar>();
-        }
-        
-    }
-
     private void Start()
     {
         currentHealth = maxHealth;

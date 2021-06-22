@@ -223,6 +223,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMovementBehaviour: {fileID: 0}
+  playerCombatBehaviour: {fileID: 0}
+  playerInteractableBehaviour: {fileID: 0}
 --- !u!114 &540259816510785638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,6 +238,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMovementBehaviour: {fileID: 0}
+  playerCombatBehaviour: {fileID: 0}
+  playerInteractableBehaviour: {fileID: 0}
   fallMultiplier: 2
   lowFallMultiplier: 3
   jumpForce: 20
@@ -261,6 +265,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMovementBehaviour: {fileID: 0}
+  playerCombatBehaviour: {fileID: 0}
+  playerInteractableBehaviour: {fileID: 0}
   hitBoxPos: {fileID: 1308520645}
   attackRate: 0.2
   attackDamage: 10
@@ -302,6 +308,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMovementBehaviour: {fileID: 0}
+  playerCombatBehaviour: {fileID: 0}
+  playerInteractableBehaviour: {fileID: 0}
   buttonInteract: {fileID: 4778406685189288635, guid: 1378888f90720814492fbfb4860632b2, type: 3}
   size: {x: 3, y: 2.2}
 --- !u!114 &46930375
@@ -407,6 +415,42 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: dacaa248-f307-4358-87a4-3f23d25b3b71
     m_ActionName: PlayerControlls/New action
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1925521650022651150}
+        m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerBase, Assembly-CSharp
+        m_MethodName: OnInteract
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 497a4417-187d-499c-8f29-0b412b79ed31
+    m_ActionName: PlayerControlls/Interact[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1925521650022651150}
+        m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerBase, Assembly-CSharp
+        m_MethodName: OnTogglePause
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: cc694c25-f60d-437b-8622-b20ff861292f
+    m_ActionName: PlayerControlls/Menu[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 197614e8-4fed-4fad-a2fb-33331bae3e48
+    m_ActionName: Menu/Move
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerControlls
@@ -515,7 +559,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2845281067396903471, guid: ff267e505ee99f0488956b154e9b3e13, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.09
+      value: -0.96
       objectReference: {fileID: 0}
     - target: {fileID: 2845281067396903471, guid: ff267e505ee99f0488956b154e9b3e13, type: 3}
       propertyPath: m_LocalPosition.z

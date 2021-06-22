@@ -10,12 +10,14 @@ namespace SimplePlatformer.Player
         private bool btnInstantiated = false;
         private GameObject buttonRef;
         private float buttonOffset;
+        private Collider2D interact;
         // Update is called once per frame
         void Update()
         {
-            Collider2D interact = Physics2D.OverlapBox(transform.position, size, 0, 1 << LayerMask.NameToLayer("Interactable"));
+            interact = Physics2D.OverlapBox(transform.position, size, 0, 1 << LayerMask.NameToLayer("Interactable"));
             if (interact != null && interact.GetComponent<Interactable>() != null && !interact.GetComponent<Interactable>().interacted)
             {
+
                 buttonOffset = interact.GetComponent<Interactable>().buttonOffset;
                 //Instantiate the Button UI (closer to interact doesn't instantiate the button UI)
                 if (!btnInstantiated && !interact.GetComponent<Interactable>().closerToInteract)
@@ -31,17 +33,10 @@ namespace SimplePlatformer.Player
                     interact.GetComponent<Interactable>().Interact();
                 }
 
-                //Check INPUT
-                if (Input.GetButtonDown("Interact"))
-                {
-                    //Interact
-                    interact.GetComponent<Interactable>().Interact();
-                    DestroyButton(buttonRef);
-                    btnInstantiated = false;
-                }
+
             }
             //Destroy UI BUTTON 
-            if (interact == null  && btnInstantiated)
+            if (interact == null && btnInstantiated)
             {
                 DestroyButton(buttonRef);
                 btnInstantiated = false;
@@ -50,12 +45,22 @@ namespace SimplePlatformer.Player
 
         }
 
+        public void Interact()
+        {
+            //If there is an Interactable object near
+            if (interact != null)
+            {
+                interact.GetComponent<Interactable>().Interact();
+                DestroyButton(buttonRef);
+                btnInstantiated = false;
+            }
+        }
+
         private void DestroyButton(GameObject btn)
         {
             if (buttonRef != null)
             {
                 Destroy(btn);
-
             }
         }
 

@@ -12,6 +12,7 @@ namespace SimplePlatformer.Player
         [Header("Sub Behaviours")]
         public PlayerMovement playerMovementBehaviour;
         public PlayerCombat playerCombatBehaviour;
+        public PlayerInteractable playerInteractableBehaviour;
 
         //Animation Const
         public static readonly string PLAYER_IDLE = "playerIdle";
@@ -64,6 +65,7 @@ namespace SimplePlatformer.Player
         {
             playerMovementBehaviour = GetComponent<PlayerMovement>();
             playerCombatBehaviour = GetComponent<PlayerCombat>();
+            playerInteractableBehaviour = GetComponent<PlayerInteractable>();
             healthSystem = GetComponent<HealthSystem>();
             characterParticles = GetComponent<CharacterParticles>();
             anim = GetComponent<Animator>();
@@ -242,21 +244,26 @@ namespace SimplePlatformer.Player
             }
         }
 
+        //This has a hold Interaction. When the hold ends, starts falling
         public void OnJump(InputAction.CallbackContext value)
         {
-            
+
             if (value.started)
             {
                 SoundManager.instance.Play("Jump");
-                Debug.Log("Started");
                 jumpingHeld = true;
             }
             if (value.performed || value.canceled)
             {
-                Debug.Log("Performed||Canceled");
                 jumpingHeld = false;
                 isJumping = false;
             }
+
+        }
+
+        public void OnInteract(InputAction.CallbackContext value)
+        {
+            playerInteractableBehaviour.Interact();
 
         }
 
