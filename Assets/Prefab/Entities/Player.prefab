@@ -86,7 +86,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 2
+  m_Mass: 1
   m_LinearDrag: 1.4
   m_AngularDrag: 1
   m_GravityScale: 1
@@ -223,7 +223,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMovementBehaviour: {fileID: 0}
-  playerInput: {fileID: 2032159410418669854}
 --- !u!114 &540259816510785638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,7 +236,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMovementBehaviour: {fileID: 0}
-  playerInput: {fileID: 0}
   fallMultiplier: 2
   lowFallMultiplier: 3
   jumpForce: 20
@@ -263,7 +261,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMovementBehaviour: {fileID: 0}
-  playerInput: {fileID: 0}
   hitBoxPos: {fileID: 1308520645}
   attackRate: 0.2
   attackDamage: 10
@@ -305,7 +302,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMovementBehaviour: {fileID: 0}
-  playerInput: {fileID: 0}
   buttonInteract: {fileID: 4778406685189288635, guid: 1378888f90720814492fbfb4860632b2, type: 3}
   size: {x: 3, y: 2.2}
 --- !u!114 &46930375

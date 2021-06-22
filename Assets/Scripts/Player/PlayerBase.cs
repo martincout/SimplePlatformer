@@ -49,7 +49,8 @@ namespace SimplePlatformer.Player
         protected Renderer render;
 
 
-        public PlayerInput playerInput;
+        public static PlayerInput playerInput;
+        protected static bool jumpingHeld = false;
 
         private readonly float thrust = 30f;
 
@@ -100,7 +101,6 @@ namespace SimplePlatformer.Player
 
         void UpdatePlayerMovement()
         {
-
             playerMovementBehaviour.UpdateMovementData(rawInputMovement);
         }
 
@@ -225,7 +225,7 @@ namespace SimplePlatformer.Player
         public void OnMovement(InputAction.CallbackContext value)
         {
             Vector2 inputMovement = value.ReadValue<Vector2>();
-            rawInputMovement = new Vector2(inputMovement.x, inputMovement.y);
+            rawInputMovement = new Vector2(inputMovement.x, rb2d.velocity.y);
         }
 
         //This is called from PlayerInput, when a button has been pushed, that corresponds with the 'Attack' action
@@ -239,18 +239,20 @@ namespace SimplePlatformer.Player
 
         public void OnJump(InputAction.CallbackContext value)
         {
+            
             if (value.started)
             {
-                Debug.Log("Something");
-                isJumping = true;
-                Debug.Log(isJumping);
+                SoundManager.instance.Play("Jump");
+                Debug.Log("Started");
+                jumpingHeld = true;
             }
-            if (value.canceled)
+            if (value.performed || value.canceled)
             {
-                Debug.Log("Canceled");
+                Debug.Log("Performed||Canceled");
+                jumpingHeld = false;
                 isJumping = false;
             }
-            
+
         }
 
         //This is called from Player Input, when a button has been pushed, that correspons with the 'TogglePause' action

@@ -6,7 +6,7 @@ namespace SimplePlatformer.Player
     public class PlayerMovement : PlayerBase
     {
         //Jump
-        protected bool jump = false;
+        
         [SerializeField] private float fallMultiplier = 2f;
         [SerializeField] private float lowFallMultiplier = 8f;
         [SerializeField] private float jumpForce = 4f;
@@ -63,7 +63,6 @@ namespace SimplePlatformer.Player
         public void FixedUpdate()
         {
             CheckGround();
-            
             if (!isStunned)
             {
                 Move();
@@ -79,8 +78,6 @@ namespace SimplePlatformer.Player
                 {
                     AnimationUpdate();
                 }
-                
-                
             }
         }
 
@@ -90,11 +87,6 @@ namespace SimplePlatformer.Player
             movementDirection = newMovementDirection;
         }
 
-        public void UpdateJumpData(bool newJumpBoolean)
-        {
-
-            jump = newJumpBoolean;
-        }
 
         private void AnimationUpdate()
         {
@@ -116,7 +108,7 @@ namespace SimplePlatformer.Player
                     anim.Play(PLAYER_IDLE);
                 }
             }
-            if (Input.GetButtonDown("Jump") && !isJumpingAnim && !isFallingAnim)
+            if (isJumping && !isJumpingAnim && !isFallingAnim)
             {
                 anim.Play(PLAYER_JUMP);
             }
@@ -149,7 +141,7 @@ namespace SimplePlatformer.Player
             {
                 rb2d.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
             }
-            else if (rb2d.velocity.y > 0 && !Input.GetButton("Jump"))
+            else if (rb2d.velocity.y > 0 && !jumpingHeld)
             {
                 rb2d.velocity += Vector2.up * Physics2D.gravity.y * (lowFallMultiplier - 1) * Time.deltaTime;
             }
@@ -185,27 +177,30 @@ namespace SimplePlatformer.Player
 
         }
 
-
         public void Jump()
         {
-            if (isGrounded && !isJumping)
+            if (isGrounded && !jumpingHeld)
             {
-                Debug.Log("jumping?");
-                SoundManager.instance.Play("Jump");
-                rb2d.velocity = new Vector2(rb2d.velocity.x, rb2d.velocity.y);
-                rb2d.velocity = Vector2.up * jumpForce;
+                isJumping = false;
+            }
+            else if(isGrounded && jumpingHeld)
+            {
+                isJumping = true;
+            }
 
-            }else if (isJumping)
+            if (isJumping)
             {
-                Debug.Log("jumping?");
-                rb2d.velocity = new Vector2(rb2d.velocity.x, rb2d.velocity.y);
-                rb2d.velocity = Vector2.up * jumpForce;
+                rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce);
             }
             
         }
 
         private void Move()
         {
+            //if(movementDirection.x != 0)
+            //{
+            //    Debug.Log(movementDirection.x);
+            //}
             rb2d.velocity = new Vector2(movementDirection.x * speed, rb2d.velocity.y);
         }
 
