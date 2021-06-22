@@ -190,7 +190,7 @@ namespace SimplePlatformer.Player
 
             if (isJumping)
             {
-                rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce);
+                rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce * (Time.deltaTime * 50));
             }
             
         }
@@ -201,7 +201,7 @@ namespace SimplePlatformer.Player
             //{
             //    Debug.Log(movementDirection.x);
             //}
-            rb2d.velocity = new Vector2(movementDirection.x * speed, rb2d.velocity.y);
+            rb2d.velocity = new Vector2(movementDirection.x * speed * (Time.deltaTime * 50), rb2d.velocity.y);
         }
 
         private void footstep()

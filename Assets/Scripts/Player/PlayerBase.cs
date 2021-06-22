@@ -11,6 +11,7 @@ namespace SimplePlatformer.Player
     {
         [Header("Sub Behaviours")]
         public PlayerMovement playerMovementBehaviour;
+        public PlayerCombat playerCombatBehaviour;
 
         //Animation Const
         public static readonly string PLAYER_IDLE = "playerIdle";
@@ -62,6 +63,7 @@ namespace SimplePlatformer.Player
         private void Awake()
         {
             playerMovementBehaviour = GetComponent<PlayerMovement>();
+            playerCombatBehaviour = GetComponent<PlayerCombat>();
             healthSystem = GetComponent<HealthSystem>();
             characterParticles = GetComponent<CharacterParticles>();
             anim = GetComponent<Animator>();
@@ -233,7 +235,10 @@ namespace SimplePlatformer.Player
         {
             if (value.started)
             {
-                Debug.Log("Attack");
+                if (!isStunned && !itsDying && !cannotAttack)
+                {
+                    playerCombatBehaviour.Attack();
+                }
             }
         }
 

@@ -88,10 +88,7 @@ namespace SimplePlatformer.Player
 
 
             //Attack
-            if (!isStunned && !itsDying && !cannotAttack)
-            {
-                Attack();
-            }
+            
         }
 
 
@@ -105,7 +102,7 @@ namespace SimplePlatformer.Player
 
             Gizmos.DrawCube(Vector3.zero, boxSize); // Because size is halfExtents
         }
-        private void Attack()
+        public void Attack()
         {
 
             #region Check Input
@@ -113,8 +110,7 @@ namespace SimplePlatformer.Player
             if (elapsedAttackRate <= 0 || !comboState.Equals(ComboState.NONE))
             {
                 //Check for input and if the animation of the combo finished
-                /*if (Input.GetButtonDown("Attack"))
-                {
+                
                     isAttacking = true;
                     //If i'm grounded
                     if (!isJumping)
@@ -149,7 +145,7 @@ namespace SimplePlatformer.Player
                     //don't slide on the floor
                     rb2d.drag = attackDrag;
 
-                }*/
+                
             }
             #endregion
         }
