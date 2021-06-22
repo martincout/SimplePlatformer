@@ -6,7 +6,7 @@ namespace SimplePlatformer.Player
     public class PlayerMovement : PlayerBase
     {
         //Jump
-        
+
         [SerializeField] private float fallMultiplier = 2f;
         [SerializeField] private float lowFallMultiplier = 8f;
         [SerializeField] private float jumpForce = 4f;
@@ -17,14 +17,14 @@ namespace SimplePlatformer.Player
         //Movement
         [SerializeField] float speed;
         private Vector2 movementDirection;
-        
+
         //Hurt Collider
         CapsuleCollider2D capsuleCollider;
-        
+
         //Particles
         public ParticleSystem dustFootsteps;
         //States
-        internal bool isGrounded;
+
         private bool isJumpingAnim = false;
         private bool isFallingAnim = false;
         private bool isAttackingAnim = false;
@@ -41,9 +41,9 @@ namespace SimplePlatformer.Player
         /// <summary>
         /// Offset from the center-bottom of the collider 2d
         /// </summary>
-        public Vector3 raycastLeftOffset = new Vector2(0.5f,0);
-        public Vector3 raycastRightOffset = new Vector2(0.5f,0);
-        
+        public Vector3 raycastLeftOffset = new Vector2(0.5f, 0);
+        public Vector3 raycastRightOffset = new Vector2(0.5f, 0);
+
         public void Awake()
         {
             anim = GetComponent<Animator>();
@@ -67,7 +67,7 @@ namespace SimplePlatformer.Player
             {
                 Move();
             }
-            Jump();
+            JumpUpdate();
             BetterJump();
         }
         private void Update()
@@ -83,7 +83,7 @@ namespace SimplePlatformer.Player
 
         public void UpdateMovementData(Vector2 newMovementDirection)
         {
-           
+
             movementDirection = newMovementDirection;
         }
 
@@ -145,7 +145,7 @@ namespace SimplePlatformer.Player
             {
                 rb2d.velocity += Vector2.up * Physics2D.gravity.y * (lowFallMultiplier - 1) * Time.deltaTime;
             }
-            
+
         }
 
         private void CheckGround()
@@ -177,13 +177,25 @@ namespace SimplePlatformer.Player
 
         }
 
-        public void Jump()
+        public void StartJumping()
+        {
+            if (isGrounded) SoundManager.instance.Play("Jump");
+            jumpingHeld = true;
+        }
+
+        public void CancelJumping()
+        {
+            jumpingHeld = false;
+            isJumping = false;
+        }
+
+        public void JumpUpdate()
         {
             if (isGrounded && !jumpingHeld)
             {
                 isJumping = false;
             }
-            else if(isGrounded && jumpingHeld)
+            else if (isGrounded && jumpingHeld)
             {
                 isJumping = true;
             }
@@ -192,7 +204,7 @@ namespace SimplePlatformer.Player
             {
                 rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce * (Time.deltaTime * 50));
             }
-            
+
         }
 
         private void Move()

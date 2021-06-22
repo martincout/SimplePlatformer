@@ -35,6 +35,7 @@ namespace SimplePlatformer.Player
         protected static bool invincible;
         protected static bool airAttacked;
         protected static bool cannotAttack;
+        protected static bool isGrounded;
 
         //Aux
         protected float invincibleTime = 1f;
@@ -54,7 +55,7 @@ namespace SimplePlatformer.Player
         public static PlayerInput playerInput;
         protected static bool jumpingHeld = false;
 
-        private readonly float thrust = 30f;
+        public float thrust = 10f;
 
         public bool GetPlayerItsDying()
         {
@@ -237,10 +238,7 @@ namespace SimplePlatformer.Player
         {
             if (value.started)
             {
-                if (!isStunned && !itsDying && !cannotAttack)
-                {
-                    playerCombatBehaviour.Attack();
-                }
+                playerCombatBehaviour.Attack();
             }
         }
 
@@ -250,13 +248,11 @@ namespace SimplePlatformer.Player
 
             if (value.started)
             {
-                SoundManager.instance.Play("Jump");
-                jumpingHeld = true;
+                playerMovementBehaviour.StartJumping();
             }
             if (value.performed || value.canceled)
             {
-                jumpingHeld = false;
-                isJumping = false;
+                playerMovementBehaviour.CancelJumping();
             }
 
         }

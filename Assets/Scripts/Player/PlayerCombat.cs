@@ -88,7 +88,7 @@ namespace SimplePlatformer.Player
 
 
             //Attack
-            
+
         }
 
 
@@ -104,16 +104,15 @@ namespace SimplePlatformer.Player
         }
         public void Attack()
         {
-
-            #region Check Input
-            //Cooldown of the attack finished and if we are not in a Combo
-            if (elapsedAttackRate <= 0 || !comboState.Equals(ComboState.NONE))
+            if (!isStunned && !itsDying && !cannotAttack)
             {
-                //Check for input and if the animation of the combo finished
-                
+                #region Check Input
+                //Cooldown of the attack finished and if we are not in a Combo
+                if (elapsedAttackRate <= 0 || !comboState.Equals(ComboState.NONE))
+                {
                     isAttacking = true;
                     //If i'm grounded
-                    if (!isJumping)
+                    if (isGrounded)
                     {
                         //Check for the Combo state
                         switch (comboState)
@@ -145,7 +144,7 @@ namespace SimplePlatformer.Player
                     //don't slide on the floor
                     rb2d.drag = attackDrag;
 
-                
+                }
             }
             #endregion
         }
