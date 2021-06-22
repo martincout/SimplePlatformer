@@ -74,7 +74,7 @@ namespace SimplePlatformer.Player
             //Finished Attacking
             else if (!comboState.Equals(ComboState.NONE))
             {
-                isAttacking = false;
+                pv.isAttacking = false;
                 comboState = ComboState.NONE;
                 elapsedAttackRate = attackRate;
                 rb2d.drag = initialDrag;
@@ -104,26 +104,26 @@ namespace SimplePlatformer.Player
         }
         public void Attack()
         {
-            if (!isStunned && !itsDying && !cannotAttack)
+            if (!pv.isStunned && !pv.itsDying && !pv.cannotAttack)
             {
                 #region Check Input
                 //Cooldown of the attack finished and if we are not in a Combo
                 if (elapsedAttackRate <= 0 || !comboState.Equals(ComboState.NONE))
                 {
-                    isAttacking = true;
+                    pv.isAttacking = true;
                     //If i'm grounded
-                    if (isGrounded)
+                    if (pv.isGrounded)
                     {
                         //Check for the Combo state
                         switch (comboState)
                         {
                             case ComboState.NONE:
-                                anim.Play(PLAYER_ATTACKING);
+                                anim.Play(PlayerVariables.PLAYER_ATTACKING);
                                 comboState = ComboState.FIRST;
                                 elapsedNextCombo = timeNextCombo;
                                 break;
                             case ComboState.FIRST:
-                                anim.Play(PLAYER_COMBO);
+                                anim.Play(PlayerVariables.PLAYER_COMBO);
                                 comboState = ComboState.SECOND;
                                 elapsedNextCombo = 0.2f;
                                 break;
@@ -132,13 +132,13 @@ namespace SimplePlatformer.Player
 
                     }
                     //If I'm in the Air
-                    else if (!airAttacked)
+                    else if (!pv.airAttacked)
                     {
                         comboState = ComboState.FIRST;
 
                         elapsedNextCombo = 0.2f;
-                        anim.Play(PLAYER_AIRATTACK);
-                        airAttacked = true;
+                        anim.Play(PlayerVariables.PLAYER_AIRATTACK);
+                        pv.airAttacked = true;
 
                     }
                     //don't slide on the floor

@@ -46,7 +46,7 @@ public class PauseMenu : MonoBehaviour
         }*/
     }
 
-    public void showPaused()
+    public void ShowPaused()
     {
         DisablePlayer();
         Time.timeScale = 0;
@@ -60,7 +60,7 @@ public class PauseMenu : MonoBehaviour
         player.GetComponent<PlayerCombat>().enabled = !disablePlayer;
     }
 
-    public void unPause()
+    public void UnPause()
     {
         DisablePlayer();
         Time.timeScale = 1;

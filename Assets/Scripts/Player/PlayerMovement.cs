@@ -57,13 +57,13 @@ namespace SimplePlatformer.Player
 
         public void Start()
         {
-            isGrounded = false;
+            pv.isGrounded = false;
         }
 
         public void FixedUpdate()
         {
             CheckGround();
-            if (!isStunned)
+            if (!pv.isStunned)
             {
                 Move();
             }
@@ -72,9 +72,9 @@ namespace SimplePlatformer.Player
         }
         private void Update()
         {
-            if (!isStunned)
+            if (!pv.isStunned)
             {
-                if (!isAttacking)
+                if (!pv.isAttacking)
                 {
                     AnimationUpdate();
                 }
@@ -92,45 +92,45 @@ namespace SimplePlatformer.Player
         {
             AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
 
-            isJumpingAnim = info.IsName(PLAYER_JUMP);
-            isFallingAnim = info.IsName(PLAYER_FALLING);
-            isAttackingAnim = info.IsName(PLAYER_ATTACKING);
+            isJumpingAnim = info.IsName(PlayerVariables.PLAYER_JUMP);
+            isFallingAnim = info.IsName(PlayerVariables.PLAYER_FALLING);
+            isAttackingAnim = info.IsName(PlayerVariables.PLAYER_ATTACKING);
             Flip();
-            if (!isJumpingAnim && isGrounded && !isAttackingAnim)
+            if (!isJumpingAnim && pv.isGrounded && !isAttackingAnim)
             {
                 if (movementDirection.x != 0)
                 {
-                    anim.Play(PLAYER_WALK);
+                    anim.Play(PlayerVariables.PLAYER_WALK);
                     dustFootsteps.Play();
                 }
                 else
                 {
-                    anim.Play(PLAYER_IDLE);
+                    anim.Play(PlayerVariables.PLAYER_IDLE);
                 }
             }
-            if (isJumping && !isJumpingAnim && !isFallingAnim)
+            if (pv.isJumping && !isJumpingAnim && !isFallingAnim)
             {
-                anim.Play(PLAYER_JUMP);
+                anim.Play(PlayerVariables.PLAYER_JUMP);
             }
-            if (rb2d.velocity.y < -0.2 && !isGrounded)
+            if (rb2d.velocity.y < -0.2 && !pv.isGrounded)
             {
-                anim.Play(PLAYER_FALLING);
+                anim.Play(PlayerVariables.PLAYER_FALLING);
             }
         }
 
         private void Flip()
         {
-            if (movementDirection.x != 0 && !isAttacking)
+            if (movementDirection.x != 0 && !pv.isAttacking)
             {
                 if (movementDirection.x > 0)
                 {
                     transform.localScale = new Vector3(1, 1, 1);
-                    isFacingRight = true;
+                    pv.isFacingRight = true;
                 }
                 else
                 {
                     transform.localScale = new Vector3(-1, 1, 1);
-                    isFacingRight = false;
+                    pv.isFacingRight = false;
                 }
             }
         }
@@ -161,15 +161,15 @@ namespace SimplePlatformer.Player
             //Check if grounded
             if (raycastLeft.collider != null || raycastRight.collider != null)
             {
-                isGrounded = true;
-                airAttacked = false;
+                pv.isGrounded = true;
+                pv.airAttacked = false;
                 color = Color.green;
                 Debug.DrawRay(raycastPositionLeft, Vector2.down * groundedHeight, color);
                 Debug.DrawRay(raycastPositionRight, Vector2.down * groundedHeight, color);
             }
             else
             {
-                isGrounded = false;
+                pv.isGrounded = false;
                 color = Color.red;
                 Debug.DrawRay(raycastPositionLeft, Vector2.down * groundedHeight, color);
                 Debug.DrawRay(raycastPositionRight, Vector2.down * groundedHeight, color);
@@ -179,28 +179,28 @@ namespace SimplePlatformer.Player
 
         public void StartJumping()
         {
-            if (isGrounded) SoundManager.instance.Play("Jump");
+            if (pv.isGrounded) SoundManager.instance.Play("Jump");
             jumpingHeld = true;
         }
 
         public void CancelJumping()
         {
             jumpingHeld = false;
-            isJumping = false;
+            pv.isJumping = false;
         }
 
         public void JumpUpdate()
         {
-            if (isGrounded && !jumpingHeld)
+            if (pv.isGrounded && !jumpingHeld)
             {
-                isJumping = false;
+                pv.isJumping = false;
             }
-            else if (isGrounded && jumpingHeld)
+            else if (pv.isGrounded && jumpingHeld)
             {
-                isJumping = true;
+                pv.isJumping = true;
             }
 
-            if (isJumping)
+            if (pv.isJumping)
             {
                 rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce * (Time.deltaTime * 50));
             }

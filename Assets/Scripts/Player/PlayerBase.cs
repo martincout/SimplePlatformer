@@ -14,28 +14,8 @@ namespace SimplePlatformer.Player
         public PlayerCombat playerCombatBehaviour;
         public PlayerInteractable playerInteractableBehaviour;
 
-        //Animation Const
-        public static readonly string PLAYER_IDLE = "playerIdle";
-        public static readonly string PLAYER_WALK = "playerWalk";
-        public static readonly string PLAYER_JUMP = "playerJump";
-        public static readonly string PLAYER_FALLING = "playerFalling";
-        public static readonly string PLAYER_ATTACKING = "playerAttack";
-        public static readonly string PLAYER_HURT = "playerHurt";
-        public static readonly string PLAYER_INVINCIBLE = "playerInvincible";
-        public static readonly string PLAYER_AIRATTACK = "playerAirAttack";
-        public static readonly string PLAYER_COMBO = "playerAttack2";
+        protected static PlayerVariables pv = new PlayerVariables();
 
-        //States
-        protected static bool movePrevent;
-        protected static bool isFacingRight;
-        protected static bool isJumping;
-        protected static bool isAttacking;
-        protected static bool isStunned;
-        [HideInInspector] public static bool itsDying;
-        protected static bool invincible;
-        protected static bool airAttacked;
-        protected static bool cannotAttack;
-        protected static bool isGrounded;
 
         //Aux
         protected float invincibleTime = 1f;
@@ -59,7 +39,7 @@ namespace SimplePlatformer.Player
 
         public bool GetPlayerItsDying()
         {
-            return itsDying;
+            return pv.itsDying;
         }
 
         private void Awake()
@@ -76,15 +56,15 @@ namespace SimplePlatformer.Player
 
         private void Start()
         {
-            cannotAttack = false;
-            movePrevent = false;
-            isFacingRight = true;
-            isJumping = false;
-            isAttacking = false;
-            isStunned = false;
-            itsDying = false;
-            invincible = false;
-            airAttacked = false;
+            pv.cannotAttack = false;
+            pv.movePrevent = false;
+            pv.isFacingRight = true;
+            pv.isJumping = false;
+            pv.isAttacking = false;
+            pv.isStunned = false;
+            pv.itsDying = false;
+            pv.invincible = false;
+            pv.airAttacked = false;
         }
 
         private void Update()
@@ -97,7 +77,7 @@ namespace SimplePlatformer.Player
             }
             else
             {
-                invincible = false;
+                pv.invincible = false;
                 //Alpha to 100% NOT IN INVINCIBLE STATE
                 SetAlpha(1f);
             }
@@ -111,14 +91,14 @@ namespace SimplePlatformer.Player
 
         internal IEnumerator EnableMovementAfter(float seconds)
         {
-            movePrevent = true;
+            pv.movePrevent = true;
             yield return new WaitForSeconds(seconds);
-            movePrevent = false;
+            pv.movePrevent = false;
         }
 
         internal void SetInvincible(float cooldown)
         {
-            invincible = true;
+            pv.invincible = true;
             cooldownInvincible = cooldown;
         }
 
@@ -131,7 +111,7 @@ namespace SimplePlatformer.Player
 
         public void TakeDamage(float damage, Vector3 attackerPos)
         {
-            if (!invincible && !itsDying)
+            if (!pv.invincible && !pv.itsDying)
             {
 
                 //Decrease Health
@@ -143,7 +123,7 @@ namespace SimplePlatformer.Player
                 if (healthSystem.GetHealth() > 0)
                 {
                     SoundManager.instance.Play("Damage");
-                    anim.Play(PLAYER_HURT);
+                    anim.Play(PlayerVariables.PLAYER_HURT);
                     Knockback(attackerPos, thrust);
                 }
                 else
@@ -167,7 +147,7 @@ namespace SimplePlatformer.Player
 
         private IEnumerator DieCo()
         {
-            itsDying = true;
+            pv.itsDying = true;
             GetComponent<PlayerMovement>().enabled = false;
             GetComponent<PlayerCombat>().enabled = false;
             rb2d.velocity = Vector2.zero;
@@ -179,7 +159,7 @@ namespace SimplePlatformer.Player
 
         protected void Knockback(Vector3 attackerPos, float thrust)
         {
-            if (!isStunned)
+            if (!pv.isStunned)
             {
                 StartCoroutine(StunCo());
                 StartCoroutine(KnockCo(attackerPos, thrust));
@@ -188,9 +168,9 @@ namespace SimplePlatformer.Player
 
         private IEnumerator StunCo()
         {
-            isStunned = true;
+            pv.isStunned = true;
             yield return new WaitForSeconds(stunTime);
-            isStunned = false;
+            pv.isStunned = false;
         }
 
         private IEnumerator KnockCo(Vector3 attackerPos, float _thrust)
