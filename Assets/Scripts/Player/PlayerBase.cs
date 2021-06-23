@@ -36,6 +36,7 @@ namespace SimplePlatformer.Player
         protected static bool jumpingHeld = false;
 
         public float thrust = 10f;
+        private string currentControlScheme;
 
         public bool GetPlayerItsDying()
         {
@@ -44,6 +45,7 @@ namespace SimplePlatformer.Player
 
         private void Awake()
         {
+            playerInput = GetComponent<PlayerInput>();
             playerMovementBehaviour = GetComponent<PlayerMovement>();
             playerCombatBehaviour = GetComponent<PlayerCombat>();
             playerInteractableBehaviour = GetComponent<PlayerInteractable>();
@@ -56,6 +58,8 @@ namespace SimplePlatformer.Player
 
         private void Start()
         {
+            currentControlScheme = "Keyboard";
+            playerInput.SwitchCurrentControlScheme("Keyboard", Keyboard.current);
             pv.cannotAttack = false;
             pv.movePrevent = false;
             pv.isFacingRight = true;
@@ -69,6 +73,7 @@ namespace SimplePlatformer.Player
 
         private void Update()
         {
+            Debug.Log(Gamepad.current);
             UpdatePlayerMovement();
             if (cooldownInvincible > 0)
             {
@@ -251,6 +256,50 @@ namespace SimplePlatformer.Player
                 Debug.Log("Pause");
             }
         }
+
+        //INPUT SYSTEM AUTOMATIC CALLBACKS --------------
+
+        //This is automatically called from PlayerInput, when the input device has changed
+        //(IE: Keyboard -> Xbox Controller)
+        public void OnControlsChanged()
+        {
+
+            if (playerInput.currentControlScheme != currentControlScheme)
+            {
+                
+                currentControlScheme = playerInput.currentControlScheme;
+
+                //playerVisualsBehaviour.UpdatePlayerVisuals();
+                RemoveAllBindingOverrides();
+            }
+        }
+
+        //This is automatically called from PlayerInput, when the input device has been disconnected and can not be identified
+        //IE: Device unplugged or has run out of batteries
+
+        public void OnDeviceLost()
+        {
+            currentControlScheme = playerInput.currentControlScheme;
+            //playerVisualsBehaviour.SetDisconnectedDeviceVisuals();
+        }
+
+
+        public void OnDeviceRegained()
+        {
+            StartCoroutine(WaitForDeviceToBeRegained());
+        }
+
+        IEnumerator WaitForDeviceToBeRegained()
+        {
+            yield return new WaitForSeconds(0.1f);
+            //playerVisualsBehaviour.UpdatePlayerVisuals();
+        }
+
+        void RemoveAllBindingOverrides()
+        {
+            InputActionRebindingExtensions.RemoveAllBindingOverrides(playerInput.currentActionMap);
+        }
+
     }
 }
 
