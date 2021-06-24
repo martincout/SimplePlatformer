@@ -3,7 +3,7 @@
 namespace SimplePlatformer.Player
 {
     //need to change to fixedUpdate
-    public class PlayerInteractable : PlayerBase
+    public class PlayerInteractable : PlayerController
     {
         public GameObject buttonInteract;
         public Vector2 size;

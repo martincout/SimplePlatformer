@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SimplePlatformer.Player
 {
-    public class PlayerCombat : PlayerBase
+    public class PlayerCombat : PlayerController
     {
         //Attack    
         [Header("Attack")]

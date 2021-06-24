@@ -34,7 +34,7 @@ public class KeysUiManager : MonoBehaviour
 
     private void UpdateList()
     {
-        foreach (KeyValuePair<KeyColor, int> ky in GameStatus.GetInstance().GetKeys())
+        foreach (KeyValuePair<KeyColor, int> ky in GameManager.GetInstance().GetKeys())
         {
             SetUIKey(ky.Key, ky.Value);
         }

@@ -53,14 +53,14 @@ public class PickUp : MonoBehaviour
         switch (item.category)
         {
             case Item.Category.COIN:
-                GameStatus.GetInstance().AddScore((int)item.value);
+                GameManager.GetInstance().AddScore((int)item.value);
                 break;
             case Item.Category.CONSUMABLE:
                 //Just adding the value of the item as a health amount
                 collision.GetComponent<IItem>().ItemInteraction(item);
                 break;
             case Item.Category.KEY:
-                GameStatus.GetInstance().AddKey(((Key)item).color);
+                GameManager.GetInstance().AddKey(((Key)item).color);
                 break;
         }
 

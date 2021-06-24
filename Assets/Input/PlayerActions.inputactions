@@ -317,7 +317,7 @@
             ],
             "bindings": [
                 {
-                    "name": "2D Vector",
+                    "name": "Arrows",
                     "id": "5d1288cf-eec4-4782-bd03-28cf1825cdfa",
                     "path": "2DVector",
                     "interactions": "",

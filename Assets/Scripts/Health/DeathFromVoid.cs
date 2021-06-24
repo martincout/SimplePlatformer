@@ -7,7 +7,7 @@ public class DeathFromVoid : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && !LevelManager.instance.isPlayerDead)
+        if (collision.CompareTag("Player") && GameManager.GetInstance().playerDeath)
         {
             LevelManager.instance.currentRoom.diedFromVoid = true;
             StartCoroutine(Die(collision));

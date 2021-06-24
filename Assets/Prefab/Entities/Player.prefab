@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 540259816510785641}
   - component: {fileID: 407995582}
   - component: {fileID: 2032159410418669854}
-  - component: {fileID: 1925521650022651150}
+  - component: {fileID: 4772911900496007040}
   - component: {fileID: 540259816510785638}
   - component: {fileID: 1712452806}
   - component: {fileID: 1230279906}
@@ -228,7 +228,7 @@ MonoBehaviour:
   m_DeviceLostEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1925521650022651150}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerBase, Assembly-CSharp
         m_MethodName: OnControlsChanged
         m_Mode: 1
@@ -243,7 +243,7 @@ MonoBehaviour:
   m_DeviceRegainedEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1925521650022651150}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerBase, Assembly-CSharp
         m_MethodName: OnDeviceRegained
         m_Mode: 1
@@ -258,7 +258,7 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1925521650022651150}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerBase, Assembly-CSharp
         m_MethodName: OnControlsChanged
         m_Mode: 1
@@ -273,8 +273,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1925521650022651150}
-        m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerBase, Assembly-CSharp
+      - m_Target: {fileID: 4772911900496007040}
+        m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerController, Assembly-CSharp
         m_MethodName: OnAttack
         m_Mode: 0
         m_Arguments:
@@ -305,8 +305,8 @@ MonoBehaviour:
     m_ActionName: PlayerControlls/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1925521650022651150}
-        m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerBase, Assembly-CSharp
+      - m_Target: {fileID: 4772911900496007040}
+        m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerController, Assembly-CSharp
         m_MethodName: OnJump
         m_Mode: 0
         m_Arguments:
@@ -321,8 +321,8 @@ MonoBehaviour:
     m_ActionName: PlayerControlls/New action
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1925521650022651150}
-        m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerBase, Assembly-CSharp
+      - m_Target: {fileID: 4772911900496007040}
+        m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerController, Assembly-CSharp
         m_MethodName: OnInteract
         m_Mode: 0
         m_Arguments:
@@ -337,8 +337,8 @@ MonoBehaviour:
     m_ActionName: PlayerControlls/Interact[/Keyboard/e]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1925521650022651150}
-        m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerBase, Assembly-CSharp
+      - m_Target: {fileID: 4772911900496007040}
+        m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerController, Assembly-CSharp
         m_MethodName: OnTogglePause
         m_Mode: 0
         m_Arguments:
@@ -356,11 +356,11 @@ MonoBehaviour:
     m_ActionId: 197614e8-4fed-4fad-a2fb-33331bae3e48
     m_ActionName: Menu/Move
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: Keyboard
+  m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerControlls
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &1925521650022651150
+--- !u!114 &4772911900496007040
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -369,7 +369,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 540259816510785635}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89b300dc3f0ea0846a0de7dedb998573, type: 3}
+  m_Script: {fileID: 11500000, guid: f7f9aea00e4f1cf43baad343424c7403, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerMovementBehaviour: {fileID: 0}

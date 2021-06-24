@@ -16,12 +16,12 @@ public class CellDoor : Interactable
     public override void Interact()
     {
         Interacted();
-        if (GameStatus.GetInstance().GetKeys()[keyNeeded] > 0 || openWithLever)
+        if (GameManager.GetInstance().GetKeys()[keyNeeded] > 0 || openWithLever)
         {
             PlaySound();
             StartCoroutine( PlayAnimation());
             Destroy(gameObject, 1f);
-            GameStatus.GetInstance().DeleteKey(keyNeeded);
+            GameManager.GetInstance().DeleteKey(keyNeeded);
         }
     }
 

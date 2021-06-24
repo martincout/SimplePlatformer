@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SimplePlatformer.Player
 {
-    public class PlayerMovement : PlayerBase
+    public class PlayerMovement : PlayerController
     {
         //Jump
 

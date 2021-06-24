@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(GameStatus))]  
+[CustomEditor(typeof(GameManager))]  
 public class DebugScript : Editor
 {
 
@@ -11,7 +11,7 @@ public class DebugScript : Editor
     {
         DrawDefaultInspector();
 
-        GameStatus myScript = (GameStatus)target;
+        GameManager myScript = (GameManager)target;
 
         if (GUILayout.Button("Blue"))
         {

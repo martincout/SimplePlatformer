@@ -7,7 +7,7 @@ public class PlayerData
     public float health;
     public float[] position;
 
-    public PlayerData(PlayerBase player)
+    public PlayerData(PlayerController player)
     {
         health = player.healthSystem.GetHealth();
         position = new float[3];

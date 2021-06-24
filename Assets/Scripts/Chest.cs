@@ -15,6 +15,6 @@ public class Chest : Interactable
     {
         base.Interact();
         GetComponent<Animator>().Play("chestOpen");
-        GameStatus.GetInstance().AddKey(keyColor);
+        GameManager.GetInstance().AddKey(keyColor);
     }
 }
