@@ -22,6 +22,6 @@ public class CampFire : Interactable
         base.Interact();
         anim.Play(CAMPFIRE_ON);
         RespawnManager.currentRespawn = gameObject;
-        EventSystem.NewSpawnHandler();
+        EventSystems.NewSpawnHandler();
     }
 }

@@ -23,12 +23,12 @@ public class KeysUiManager : MonoBehaviour
 
     private void OnEnable()
     {
-        EventSystem.UpdateKeysHandler += UpdateList;
+        EventSystems.UpdateKeysHandler += UpdateList;
     }
 
     private void OnDisable()
     {
-        EventSystem.UpdateKeysHandler -= UpdateList;
+        EventSystems.UpdateKeysHandler -= UpdateList;
 
     }
 

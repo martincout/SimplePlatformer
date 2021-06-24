@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-public static class EventSystem
+public static class EventSystems
 {
     /// <summary>
     /// Handles the player respawn. After it gets Instantiated

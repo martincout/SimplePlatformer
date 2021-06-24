@@ -16,6 +16,9 @@ namespace SimplePlatformer.Player
 
         protected static PlayerVariables pv = new PlayerVariables();
 
+        //Action Maps
+        private string actionMapPlayerControls = "PlayerControlls";
+        private string actionMapMenuControls = "UI";
 
         //Aux
         protected float invincibleTime = 1f;
@@ -58,8 +61,8 @@ namespace SimplePlatformer.Player
         }
         private void Start()
         {
-            currentControlScheme = "Keyboard";
-            playerInput.SwitchCurrentControlScheme("Keyboard", Keyboard.current);
+            currentControlScheme = "Keyboard&Mouse";
+            playerInput.SwitchCurrentControlScheme("Keyboard&Mouse", Keyboard.current);
             pv.cannotAttack = false;
             pv.movePrevent = false;
             pv.isFacingRight = true;
@@ -253,6 +256,16 @@ namespace SimplePlatformer.Player
             if (value.started)
             {
                 GameManager.GetInstance().TogglePauseState();
+                switch (GameManager.GetInstance().isPaused)
+                {
+                    case true:
+                        EnablePauseMenuControls();
+                        break;
+
+                    case false:
+                        EnableGameplayControls();
+                        break;
+                }
             }
         }
 
@@ -297,6 +310,18 @@ namespace SimplePlatformer.Player
         void RemoveAllBindingOverrides()
         {
             InputActionRebindingExtensions.RemoveAllBindingOverrides(playerInput.currentActionMap);
+        }
+
+        //Switching Action Maps ----
+
+        public void EnableGameplayControls()
+        {
+            playerInput.SwitchCurrentActionMap(actionMapPlayerControls);
+        }
+
+        public void EnablePauseMenuControls()
+        {
+            playerInput.SwitchCurrentActionMap(actionMapMenuControls);
         }
 
     }

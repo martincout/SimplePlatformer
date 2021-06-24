@@ -140,7 +140,7 @@ public class GameManager : MonoBehaviour
         {
             keys[kc] += 1;
         }
-        EventSystem.UpdateKeysHandler();
+        EventSystems.UpdateKeysHandler();
         
     }
 
@@ -154,7 +154,7 @@ public class GameManager : MonoBehaviour
         if (keys.ContainsKey(kc) && keys[kc] > 0)
         {
             keys[kc] -= 1;
-            EventSystem.UpdateKeysHandler();
+            EventSystems.UpdateKeysHandler();
             return true;
         }
         else
@@ -209,4 +209,5 @@ public class GameManager : MonoBehaviour
 
         Time.timeScale = newTimeScale;
     }
+
 }

@@ -1,6 +1,12 @@
 ﻿
-public abstract class UIMenuBehaviour
+using UnityEngine;
+using UnityEngine.EventSystems;
+/// <summary>
+/// Still need to be implemented
+/// </summary>
+public class UIMenuBehaviour : MonoBehaviour
 {
+    public EventSystem _eventSystem;
     //Pause
     public void SetupBehaviour()
     {
@@ -21,6 +27,8 @@ public abstract class UIMenuBehaviour
         }
     }
 
-    public abstract void Behaviour();
+    public void Behaviour() {
+        //NOTHING
+    }
     
 }

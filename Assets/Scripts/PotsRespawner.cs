@@ -19,13 +19,13 @@ public class PotsRespawner : MonoBehaviour
 
     private void OnEnable()
     {
-        EventSystem.RespawnHandler += Respawn;
+        EventSystems.RespawnHandler += Respawn;
     }
 
     private void OnDisable()
     {
         
-        EventSystem.RespawnHandler -= Respawn;
+        EventSystems.RespawnHandler -= Respawn;
     }
 
     private void Respawn(GameObject player)

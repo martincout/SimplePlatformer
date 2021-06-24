@@ -37,7 +37,7 @@ public class LevelManager : MonoBehaviour
     public void Respawn()
     {
         //Set an event to respawn all enemies because every enemy handles his own destruction
-        EventSystem.RespawnEnemiesHandler();
+        EventSystems.RespawnEnemiesHandler();
         foreach (RespawnEntityData ed in enemies)
         {
             GameObject instance = Instantiate(ed.enemy._enemyData.prefab, ed.position, Quaternion.identity, enemyContainer.transform);
@@ -50,7 +50,7 @@ public class LevelManager : MonoBehaviour
         //Set the follow to the actual virtual camera (don't know why I did this)
         virtualCamera.Follow = player.transform;
         //Set the follow to all virtual cameras with the respawn Event
-        EventSystem.RespawnHandler(player);
+        EventSystems.RespawnHandler(player);
         //Load Screen TODO
         //deathScreen.GetComponent<CanvasGroup>().alpha = 0f;
         //deathScreen.GetComponent<CanvasGroup>().interactable = false;

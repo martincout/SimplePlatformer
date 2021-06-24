@@ -11,7 +11,7 @@ public class Projectile : MonoBehaviour, IDamageable
 
     private void OnEnable()
     {
-        EventSystem.RespawnHandler += UpdatePlayer;
+        EventSystems.RespawnHandler += UpdatePlayer;
     }
 
     void UpdatePlayer(GameObject _player)
