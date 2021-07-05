@@ -64,7 +64,7 @@ namespace SimplePlatformer.Player
             currentControlScheme = "Keyboard&Mouse";
             playerInput.SwitchCurrentControlScheme("Keyboard&Mouse", Keyboard.current);
             playerInput.SwitchCurrentActionMap("PlayerControlls");
-            healthSystem.SetHealthBar(transform.Find("HealthBar").GetComponent<HealthBar>());
+            healthSystem.SetHealthBar(GameObject.Find("HealthBar").GetComponent<HealthBar>());
             pv.cannotAttack = false;
             pv.movePrevent = false;
             pv.isFacingRight = true;

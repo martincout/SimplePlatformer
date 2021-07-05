@@ -135,7 +135,7 @@ namespace SimplePlatformer.Player
                     else if (!pv.airAttacked)
                     {
                         comboState = ComboState.FIRST;
-
+                        rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
                         elapsedNextCombo = 0.2f;
                         anim.Play(PlayerVariables.PLAYER_AIRATTACK);
                         pv.airAttacked = true;
