@@ -63,6 +63,8 @@ namespace SimplePlatformer.Player
         {
             currentControlScheme = "Keyboard&Mouse";
             playerInput.SwitchCurrentControlScheme("Keyboard&Mouse", Keyboard.current);
+            playerInput.SwitchCurrentActionMap("PlayerControlls");
+            healthSystem.SetHealthBar(transform.Find("HealthBar").GetComponent<HealthBar>());
             pv.cannotAttack = false;
             pv.movePrevent = false;
             pv.isFacingRight = true;
@@ -162,6 +164,8 @@ namespace SimplePlatformer.Player
             yield return new WaitForSeconds(0.55f);
             Destroy(gameObject);
             //EventSystem.DeathHandler?.Invoke();
+            GameManager.GetInstance().TogglePlayerDeath(true);
+            pv.itsDying = false;
         }
 
         protected void Knockback(Vector3 attackerPos, float thrust)

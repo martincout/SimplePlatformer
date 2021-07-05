@@ -122,6 +122,20 @@ public class GameManager : MonoBehaviour
         UIManager.GetInstance().UpdateUIDeathState(playerDeath);
     }
 
+    public void TogglePlayerDeath(bool death)
+    {
+        if(death == true)
+        {
+            playerDeath = true;
+            UpdateUIDeath();
+        }
+        else
+        {
+            playerDeath = false;
+            UpdateUIDeath();
+        }
+    }
+
     /// <summary>
     /// Initialize the keys Dictionary.
     /// Adds every KeyColor into the list and set it to zero (amount of keys)

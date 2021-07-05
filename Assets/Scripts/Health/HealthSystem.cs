@@ -13,6 +13,13 @@ public class HealthSystem : MonoBehaviour
             healthBar.SetMaxHealth(maxHealth);
     }
 
+    public void SetHealthBar(HealthBar healthBar)
+    {
+        this.healthBar = healthBar;
+        if (healthBar != null)
+            healthBar.SetMaxHealth(maxHealth);
+    }
+
 
     private void UpdateHealthBar()
     {

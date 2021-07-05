@@ -6,12 +6,11 @@ using System;
 
 public class DeathMenu : MonoBehaviour
 {
-    public GameObject deathMenuGm;
     public GameObject deathScreenGO;
     public void DisplayDeathMenu()
     {
         StartCoroutine(
-                Fade());
+                FadeIn());
     }
 
     internal void SetupBehaviour()
@@ -19,7 +18,7 @@ public class DeathMenu : MonoBehaviour
         //throw new NotImplementedException();
     }
 
-    private IEnumerator Fade()
+    private IEnumerator FadeIn()
     {
         CanvasGroup canvasGroup = deathScreenGO.GetComponent<CanvasGroup>();
         canvasGroup.alpha = 0f;
@@ -29,8 +28,26 @@ public class DeathMenu : MonoBehaviour
         canvasGroup.interactable = true;
     }
 
+    private IEnumerator FadeOut()
+    {
+        CanvasGroup canvasGroup = deathScreenGO.GetComponent<CanvasGroup>();
+        canvasGroup.alpha = 1f;
+        float duration = 1f;
+        LeanTween.alphaCanvas(canvasGroup, 0f, duration);
+        yield return new WaitForSeconds(duration);
+        canvasGroup.interactable = false;
+    }
+
     internal void UpdateUIMenuState(bool newState)
     {
-        throw new NotImplementedException();
+        if (newState == true)
+        {
+            DisplayDeathMenu();
+        }
+        else 
+        {
+            StartCoroutine(
+                FadeOut());
+        }
     }
 }
