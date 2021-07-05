@@ -309,11 +309,11 @@ namespace SimplePlatformer.Enemy
             Vector2 forceDirection = transform.TransformDirection(transform.position - playerPos);
             if (forceDirection.x > 0)
             {
-                forceDirection = new Vector2(1, forceDirection.y);
+                forceDirection = new Vector2(1, forceDirection.y + 2);
             }
             else
             {
-                forceDirection = new Vector2(-1, forceDirection.y);
+                forceDirection = new Vector2(-1, forceDirection.y + 2);
 
             }
             rb2d.velocity = new Vector2();

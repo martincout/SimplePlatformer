@@ -256,16 +256,6 @@ namespace SimplePlatformer.Player
             if (value.started)
             {
                 GameManager.GetInstance().TogglePauseState();
-                switch (GameManager.GetInstance().isPaused)
-                {
-                    case true:
-                        EnablePauseMenuControls();
-                        break;
-
-                    case false:
-                        EnableGameplayControls();
-                        break;
-                }
             }
         }
 

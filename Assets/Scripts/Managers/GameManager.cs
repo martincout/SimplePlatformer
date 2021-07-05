@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     protected int score = 0;
     public bool isPaused = false;
     public bool playerDeath = false;
+    public PlayerController player;
 
     /// <summary>
     /// Type of key and quantity
@@ -92,9 +93,23 @@ public class GameManager : MonoBehaviour
     {
         isPaused = !isPaused;
         ToggleTimeScale();
-        //SwitchFocusedPlayerControlScheme();
+        SwitchFocusedPlayerControlScheme();
         UpdateUIMenu();
 
+    }
+
+    void SwitchFocusedPlayerControlScheme()
+    {
+        switch (isPaused)
+        {
+            case true:
+                player.EnablePauseMenuControls();
+                break;
+
+            case false:
+                player.EnableGameplayControls();
+                break;
+        }
     }
 
     private void UpdateUIMenu()
