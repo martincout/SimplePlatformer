@@ -148,6 +148,7 @@ namespace SimplePlatformer.Enemy
         {
             if (!isAttacking)
             {
+                rb2d.velocity = Vector2.zero;
                 RunCooldownAttackTimer();
                 isAttacking = true;
                 anim.Play(_enemyData.animation.enemyAttack);
