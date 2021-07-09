@@ -236,7 +236,6 @@ namespace SimplePlatformer.Player
         //This has a hold Interaction. When the hold ends, starts falling
         public void OnJump(InputAction.CallbackContext value)
         {
-
             if (value.started)
             {
                 playerMovementBehaviour.StartJumping();

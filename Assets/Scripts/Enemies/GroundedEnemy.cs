@@ -112,10 +112,7 @@ namespace SimplePlatformer.Enemy
                     }
                 }
             }
-            else
-            {
-                UpdateMovement();
-            }
+            UpdateMovement();
 
         }
         /// <summary>
@@ -125,6 +122,7 @@ namespace SimplePlatformer.Enemy
         /// </summary>
         protected void UpdateMovement()
         {
+
             if (dirX != 0 && !isAttacking && CheckGround())
             {
                 anim.Play(_enemyData.animation.enemyMovement);
@@ -137,10 +135,13 @@ namespace SimplePlatformer.Enemy
                 if (!CheckGround() && !isAttacking)
                 {
                     anim.Play(_enemyData.animation.enemyIdle);
-
+                    rb2d.velocity = Vector2.zero;
                 }
-                //Not follow when attacking
-                rb2d.velocity = Vector2.zero;
+                else if (isAttacking && !isStunned)
+                {
+                    //Stops moving when attacking
+                    rb2d.velocity = Vector2.zero;
+                }
             }
         }
 
@@ -148,7 +149,6 @@ namespace SimplePlatformer.Enemy
         {
             if (!isAttacking)
             {
-                rb2d.velocity = Vector2.zero;
                 RunCooldownAttackTimer();
                 isAttacking = true;
                 anim.Play(_enemyData.animation.enemyAttack);
@@ -221,7 +221,6 @@ namespace SimplePlatformer.Enemy
             if (!currentState.Equals(State.DEATH))
             {
                 base.FixedUpdate();
-                CheckHitBox();
             }
         }
 
@@ -236,6 +235,7 @@ namespace SimplePlatformer.Enemy
                 //Updates center of the box collider to check for walls
                 CapsuleColliderCenter = new Vector2(GetComponent<CapsuleCollider2D>().bounds.center.x, GetComponent<CapsuleCollider2D>().bounds.center.y - 0.2f);
                 UpdateState();
+                CheckHitBox();
             }
         }
 
@@ -288,10 +288,10 @@ namespace SimplePlatformer.Enemy
 
                 foreach (Collider2D col in hits)
                 {
-                    if (col.GetComponent<IDamageable>() != null && manyHits >= 1)
+
+                    if (col.GetComponent<IDamageable>() != null)
                     {
                         col.GetComponent<IDamageable>().TakeDamage(_enemyData.damage, transform.position);
-                        manyHits -= 1;
                     }
                 }
 

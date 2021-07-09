@@ -27,7 +27,6 @@ namespace SimplePlatformer.Enemy
         protected bool isAttacking = false;
 
         //How many hits when checking for hit box
-        [HideInInspector] public int manyHits = 1;
         protected float currentVisionRadius;
 
         [Header("Stun")]
@@ -253,13 +252,16 @@ namespace SimplePlatformer.Enemy
                 {
                     SoundManager.instance.Play(_enemyData.damageSound);
                     anim.Play(_enemyData.animation.enemyHurt, 1, 0);
+                    //Usefull stuff
                     if (!knockbackDontInterruptAttack)
                     {
                         PlayAnimation(_enemyData.animation.enemyIdle);
                     }
+                    //Knockback
                     if (!isStunned)
                     {
-                        StopCoroutine(KnockCo(attackerPos));
+                        isAttacking = false;
+                        isStunned = true;
                         StartCoroutine(KnockCo(attackerPos));
                     }
                     Vector3 dir = transform.position - attackerPos;
@@ -305,22 +307,21 @@ namespace SimplePlatformer.Enemy
         {
             stunTimeCooldown = startStunTime;
             cooldownAttack = 0;
-            isAttacking = false;
             Vector2 forceDirection = transform.TransformDirection(transform.position - playerPos);
             if (forceDirection.x > 0)
             {
-                forceDirection = new Vector2(1, forceDirection.y + 1);
+                forceDirection = new Vector2(1, 1);
             }
             else
             {
-                forceDirection = new Vector2(-1, forceDirection.y + 1);
+                forceDirection = new Vector2(-1, 1);
 
             }
-            rb2d.velocity = new Vector2();
+            rb2d.velocity = Vector2.zero;
             Vector2 force = forceDirection * _enemyData.thrust;
             rb2d.AddForce(force, ForceMode2D.Impulse);
             yield return new WaitForSeconds(_enemyData.stunTime);
-            rb2d.velocity = new Vector2();
+            rb2d.velocity = Vector2.zero;
         }
 
         private IEnumerator DieCo()
