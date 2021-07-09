@@ -17,6 +17,17 @@ public class LevelManager : MonoBehaviour
 
     public CinemachineVirtualCameraBase virtualCamera;
 
+    private void OnEnable()
+    {
+        EventSystems.NewSpawnHandler += UpdateNewSpawn;
+    }
+
+    private void OnDisable()
+    {
+
+        EventSystems.NewSpawnHandler -= UpdateNewSpawn;
+    }
+
     public void UpdateCurrentRoom(GameObject room)
     {
         currentRoom = room.GetComponent<Room>();
@@ -51,9 +62,6 @@ public class LevelManager : MonoBehaviour
         virtualCamera.Follow = player.transform;
         //Set the follow to all virtual cameras with the respawn Event
         EventSystems.RespawnHandler(player);
-        //Load Screen TODO
-        //deathScreen.GetComponent<CanvasGroup>().alpha = 0f;
-        //deathScreen.GetComponent<CanvasGroup>().interactable = false;
 
     }
 
