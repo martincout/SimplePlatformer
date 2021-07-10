@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46f7e255625b84e47b1590148fb7f6b1, type: 3}
+  m_Name: Demon
+  m_EditorClassIdentifier: 
+  model: {fileID: 21300000, guid: 8880d386c35421b458e2a63220420cd3, type: 3}
+  prefab: {fileID: 8576880069043722488, guid: 28a80cb995587b2439bc90efda70df36, type: 3}
+  enemyName: Red Demon
+  description: Enemy
+  maxHealth: 200
+  damage: 100
+  speed: 400
+  visionRadius: 7
+  visionRadiusUpgrade: 10
+  attackRadius: {x: 5.09, y: 2.55}
+  attackRange: 1.59
+  attackRate: 1.3
+  stunTime: 1
+  thrust: 50
+  damageSound: Damage
+  swishSound: HeavySwish
+  projectileSpeed: 0
+  projectileDamage: 0
+  animation: {fileID: 11400000, guid: 1d5f366d71a3c4040803da66affbc96f, type: 2}

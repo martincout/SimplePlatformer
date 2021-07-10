@@ -2,7 +2,7 @@
 using SimplePlatformer.ExpandableAttributes;
 namespace SimplePlatformer.Enemy
 {
-    [CreateAssetMenu(fileName = " New EnemyData", menuName = "Enemy Data")]
+    [CreateAssetMenu(fileName = "New EnemyData", menuName = "Data/Enemy Data")]
     public class EnemyData : ScriptableObject
     {
         public Sprite model;

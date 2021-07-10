@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SimplePlatformer.Enemy
 {
-    [CreateAssetMenu(fileName = " New EnemyAnimationData", menuName = "Enemy Animation Data")]
+    [CreateAssetMenu(fileName = " New EnemyAnimationData", menuName = "Data/Enemy Animation Data")]
     public class EnemyAnimationData : ScriptableObject
     {
         public string enemyIdle;

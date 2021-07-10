@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46f7e255625b84e47b1590148fb7f6b1, type: 3}
+  m_Name: DummyData
+  m_EditorClassIdentifier: 
+  model: {fileID: -7640968582719819219, guid: c576f8cc2e10bc64094d39ae4a100406, type: 3}
+  prefab: {fileID: 5717516553538948199, guid: 0c9f411b63a1ba94099e5080227cae14, type: 3}
+  enemyName: Dummy
+  description: 
+  maxHealth: 50
+  damage: 0
+  speed: 0
+  visionRadius: 0
+  visionRadiusUpgrade: 0
+  attackRadius: {x: 0, y: 0}
+  attackRange: 0
+  attackRate: 0
+  stunTime: 0.3
+  thrust: 0
+  damageSound: Damage
+  swishSound: 
+  projectileSpeed: 0
+  projectileDamage: 0
+  animation: {fileID: 0}

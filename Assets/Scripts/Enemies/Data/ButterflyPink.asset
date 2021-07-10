@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46f7e255625b84e47b1590148fb7f6b1, type: 3}
+  m_Name: ButterflyPink
+  m_EditorClassIdentifier: 
+  model: {fileID: -7664605693119280686, guid: c75d6312447d8d0438599deac31e0b52, type: 3}
+  prefab: {fileID: 5599430386791468312, guid: 0799890dd8e71a044959329c5278331e, type: 3}
+  enemyName: Butterfly
+  description: Flying Enemy
+  maxHealth: 30
+  damage: 60
+  speed: 300
+  visionRadius: 9.69
+  visionRadiusUpgrade: 12.5
+  attackRadius: {x: 2, y: 2}
+  attackRange: 0
+  attackRate: 0.7
+  stunTime: 0.3
+  thrust: 20
+  damageSound: 
+  swishSound: 
+  projectileSpeed: 600
+  projectileDamage: 60
+  animation: {fileID: 11400000, guid: 86a9979f31f5fe14ba492c7dc6ff36f6, type: 2}
