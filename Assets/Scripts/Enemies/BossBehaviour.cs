@@ -29,7 +29,6 @@ namespace SimplePlatformer.Enemy
         [SerializeField] private GameObject playerGO;
 
 
-        private float cooldownAttack = 0;
 
         /// <summary>
         /// Finite State Machine
@@ -71,7 +70,6 @@ namespace SimplePlatformer.Enemy
 
         private void Update()
         {
-            CooldownAttack();
             Movement();
         }
 
@@ -135,9 +133,27 @@ namespace SimplePlatformer.Enemy
         {
             if (!isAttacking)
             {
-                StartCoroutine(CooldownAttack());
+                Debug.Log(countBasicAttacks);
                 isAttacking = true;
-                anim.Play(_bossData.animation.enemyAttack[0], -1,0f);
+                if (countBasicAttacks <= 2)
+                {
+                    StartCoroutine(CooldownAttack(_bossData.attackRate));
+                    anim.Play(_bossData.animation.enemyAttack[0]);
+                    countBasicAttacks += 1;
+                }
+
+                if(countBasicAttacks > 2 && countBasicAttacks <= 4)
+                {
+                    StartCoroutine(CooldownAttack(3));
+                    anim.Play(_bossData.animation.enemyAttack[1]);
+                    countBasicAttacks += 1;
+                }
+
+                if(countBasicAttacks == 5)
+                {
+                    StartCoroutine(CooldownAttack(3));
+                    countBasicAttacks = 0;
+                }
             }
         }
 
@@ -174,9 +190,9 @@ namespace SimplePlatformer.Enemy
             }
         }
 
-        private IEnumerator CooldownAttack()
+        private IEnumerator CooldownAttack(float _seconds)
         {
-            yield return new WaitForSeconds(_bossData.attackRate);
+            yield return new WaitForSeconds(_seconds);
             //Cooldown Attack
             isAttacking = false;
             FlipByTargetDirection(playerPosition.x);
