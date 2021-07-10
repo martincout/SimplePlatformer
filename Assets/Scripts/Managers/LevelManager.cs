@@ -61,7 +61,7 @@ public class LevelManager : MonoBehaviour
         //Set the follow to the actual virtual camera (don't know why I did this)
         virtualCamera.Follow = player.transform;
         //Set the follow to all virtual cameras with the respawn Event
-        EventSystems.RespawnHandler(player);
+        EventSystems.RespawnHandler?.Invoke(player);
 
     }
 

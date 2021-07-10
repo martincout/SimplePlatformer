@@ -122,6 +122,7 @@ public class GameManager : MonoBehaviour
         UIManager.GetInstance().UpdateUIDeathState(playerDeath);
     }
 
+
     public void TogglePlayerDeath(bool death)
     {
         if(death == true)
@@ -193,6 +194,16 @@ public class GameManager : MonoBehaviour
         
     }
 
+    private void OnEnable() => EventSystems.RespawnHandler += UpdatePlayer;
+
+    private void OnDisable() => EventSystems.RespawnHandler -= UpdatePlayer;
+
+
+    public void UpdatePlayer(GameObject p_player)
+    {
+        player = p_player.GetComponent<PlayerController>();
+    }
+
     void OnDestroy()
     {
         //Debug.Log("GameStatus was destroyed.");
@@ -238,5 +249,6 @@ public class GameManager : MonoBehaviour
 
         Time.timeScale = newTimeScale;
     }
+
 
 }
