@@ -12,20 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67fcbda007b16c94cacd9c55dfd298a5, type: 3}
   m_Name: BringerOfDeath
   m_EditorClassIdentifier: 
-  model: {fileID: 0}
+  model: {fileID: -8353433489134569600, guid: 844efb90bcf48d14e894ae5c3c1240e2, type: 3}
   prefab: {fileID: 0}
   enemyName: Bringer Of Death
   description: 
   maxHealth: 500
   damage: 15
   speed: 200
-  attackRadius: {x: 2, y: 2}
+  attackRadius: {x: 13.08, y: 6.36}
   attackRange: 0
-  attackRate: 1.2
-  stunTime: 0.3
-  thrust: 50
+  attackRate: 1.5
+  stunTime: 0
+  thrust: 0
   damageSound: 
-  swishSound: 
+  swishSound: Swish
   projectileSpeed: 0
   projectileDamage: 0
   animation: {fileID: 11400000, guid: d65e31fd5cd0d034bb99ae7faf08add4, type: 2}
