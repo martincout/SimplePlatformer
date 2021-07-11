@@ -16,7 +16,7 @@ namespace SimplePlatformer.Player
         [Header("HitBox")]
         public Vector3 boxSize;
         public float rotation;
-
+        private bool hitboxEnable;
 
         //Combos
         public enum ComboState
@@ -47,6 +47,7 @@ namespace SimplePlatformer.Player
         }
         public void CheckHitBoxColission()
         {
+            if (!hitboxEnable) return;
             Collider2D[] hit = Physics2D.OverlapBoxAll(hitBoxPos.position, boxSize, rotation, enemyLayer | damageableLayer);
             foreach (Collider2D col in hit)
             {
@@ -57,6 +58,7 @@ namespace SimplePlatformer.Player
                     {
                         Knockback(col.transform.position, 15f);
                     }
+                    hitboxEnable = false;
                     //if (!isJumping) StartCoroutine(ImpulseBackwards());
                 }
             }
@@ -64,6 +66,7 @@ namespace SimplePlatformer.Player
 
         private void Update()
         {
+            CheckHitBoxColission();
             //Used to exit the animation state when we are doing combos
             anim.SetFloat("timeCombo", elapsedNextCombo);
             //Combos
@@ -86,9 +89,6 @@ namespace SimplePlatformer.Player
                 elapsedAttackRate -= Time.deltaTime;
             }
 
-
-            //Attack
-
         }
 
 
@@ -106,7 +106,8 @@ namespace SimplePlatformer.Player
         {
             if (!pv.isStunned && !pv.itsDying && !pv.cannotAttack)
             {
-                #region Check Input
+
+                #region Attack
                 //Cooldown of the attack finished and if we are not in a Combo
                 if (elapsedAttackRate <= 0 || !comboState.Equals(ComboState.NONE))
                 {
@@ -152,6 +153,18 @@ namespace SimplePlatformer.Player
         public void SwishSound()
         {
             SoundManager.instance.Play("Swish");
+        }
+
+        /// <summary>
+        /// Enables the Hitbox turning hitboxEnable true, and then false
+        /// </summary>
+        /// <param name="_s"></param>
+        /// <returns></returns>
+        public IEnumerator EnableHitboxForSeconds(float _s)
+        {
+            hitboxEnable = true;
+            yield return new WaitForSeconds(_s);
+            hitboxEnable = false;
         }
 
     }

@@ -34,12 +34,10 @@ namespace SimplePlatformer.Enemy
         /// <summary>
         /// Finite State Machine
         /// </summary>
-        private enum State
+        public enum State
         {
-            IDLE,
-            CHASING,
-            ATTACKING,
-            CASTING
+            NONE,
+            START
         }
         private State _currentState;
 
@@ -65,13 +63,19 @@ namespace SimplePlatformer.Enemy
             healthSystem.SetMaxHealth(_bossData.maxHealth);
             rb2d = GetComponent<Rigidbody2D>();
             anim = GetComponent<Animator>();
-            _currentState = State.IDLE;
+            _currentState = State.NONE;
             _currentPhase = Phase.FIRST;
             countBasicAttacks = 1;
         }
 
+        public void ChangeState(State state)
+        {
+            _currentState = state;
+        }
+
         private void Update()
         {
+            if (_currentState.Equals(State.NONE)) return;
             Movement();
         }
 
@@ -82,7 +86,6 @@ namespace SimplePlatformer.Enemy
         {
             CheckPlayer();
             Move();
-
         }
 
         private void Move()
