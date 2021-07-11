@@ -56,7 +56,7 @@ namespace SimplePlatformer.Enemy
         /// Custom Behaviours
         /// </summary>
         private bool isAttacking;
-        private float countBasicAttacks = 0;
+        private int countBasicAttacks = 1;
 
         private void Start()
         {
@@ -66,6 +66,7 @@ namespace SimplePlatformer.Enemy
             anim = GetComponent<Animator>();
             _currentState = State.IDLE;
             _currentPhase = Phase.FIRST;
+            countBasicAttacks = 1;
         }
 
         private void Update()
@@ -133,26 +134,28 @@ namespace SimplePlatformer.Enemy
         {
             if (!isAttacking)
             {
-                Debug.Log(countBasicAttacks);
                 isAttacking = true;
                 if (countBasicAttacks <= 2)
                 {
                     StartCoroutine(CooldownAttack(_bossData.attackRate));
                     anim.Play(_bossData.animation.enemyAttack[0]);
                     countBasicAttacks += 1;
+                    return;
                 }
 
                 if(countBasicAttacks > 2 && countBasicAttacks <= 4)
                 {
-                    StartCoroutine(CooldownAttack(3));
+                    StartCoroutine(CooldownAttack(2));
                     anim.Play(_bossData.animation.enemyAttack[1]);
                     countBasicAttacks += 1;
+                    return;
                 }
 
                 if(countBasicAttacks == 5)
                 {
-                    StartCoroutine(CooldownAttack(3));
-                    countBasicAttacks = 0;
+                    StartCoroutine(CooldownAttack(0.1f));
+                    countBasicAttacks = 1;
+                    return;
                 }
             }
         }
