@@ -16,6 +16,7 @@ namespace SimplePlatformer.Enemy
         protected HealthSystem healthSystem;
         private Rigidbody2D rb2d;
         private Animator anim;
+        public Transform fireballsPosition;
         /// <summary>
         /// Ground Detection
         /// </summary>
@@ -145,8 +146,9 @@ namespace SimplePlatformer.Enemy
 
                 if(countBasicAttacks > 2 && countBasicAttacks <= 4)
                 {
-                    StartCoroutine(CooldownAttack(2));
+                    StartCoroutine(CooldownAttack(5));
                     anim.Play(_bossData.animation.enemyAttack[1]);
+                    StartCoroutine( CreateProjectile(.5f));
                     countBasicAttacks += 1;
                     return;
                 }
@@ -160,7 +162,13 @@ namespace SimplePlatformer.Enemy
             }
         }
 
-   
+        private IEnumerator CreateProjectile(float _seconds)
+        {
+            yield return new WaitForSeconds(_seconds);
+            GameObject instance = Instantiate(_bossData.projectileGO, fireballsPosition.position, Quaternion.identity);
+            instance.GetComponent<Projectile>().speed = _bossData.projectileSpeed;
+            instance.GetComponent<Projectile>().damage = _bossData.projectileDamage;
+        }
 
         protected bool CheckGround()
         {

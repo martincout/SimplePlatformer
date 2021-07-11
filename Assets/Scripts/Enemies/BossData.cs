@@ -30,7 +30,7 @@ namespace SimplePlatformer.Enemy
 
         public string damageSound;
         public string swishSound;
-
+        public GameObject projectileGO;
         public float projectileSpeed;
         public float projectileDamage;
         [Expandable]
