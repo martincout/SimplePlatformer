@@ -1,0 +1,55 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Fireball : MonoBehaviour, IDamageable
+{
+    public float speed;
+    public float damage;
+    public GameObject player;
+    private Vector3 direction;
+    public GameObject fireballParticle;
+
+    private void Start()
+    {
+        Instantiate(fireballParticle,transform.position,Quaternion.identity);
+        player = GameObject.FindGameObjectWithTag("Player").gameObject;
+        direction = player.transform.position - transform.position;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+    }
+
+    private void FixedUpdate()
+    {
+        //GetComponent<Rigidbody2D>().velocity = direction.normalized * speed * Time.deltaTime;
+        //GetComponent<Rigidbody2D>().AddForce(direction.normalized * speed * Time.deltaTime);
+        transform.position += direction.normalized * speed * Time.deltaTime;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player") || collision.CompareTag("Collision"))
+        {
+            GetComponent<Animator>().Play("fireballDestroy");
+            if (collision.GetComponent<IDamageable>() != null)
+            {
+                collision.GetComponent<IDamageable>().TakeDamage(damage, transform.position);
+            }
+            Destroy(gameObject, 0.4f);
+            GetComponent<CircleCollider2D>().enabled = false;
+        }
+
+
+    }
+
+    public void TakeDamage(float damage, Vector3 attackerPosition)
+    {
+        GetComponent<Animator>().Play("fireballDestroy");
+        Destroy(gameObject, 0.4f);
+    }
+
+    public void DieInstantly()
+    {
+        //Nothing
+    }
+}

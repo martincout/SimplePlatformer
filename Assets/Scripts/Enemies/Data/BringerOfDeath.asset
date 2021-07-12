@@ -27,6 +27,6 @@ MonoBehaviour:
   damageSound: 
   swishSound: Swish
   projectileGO: {fileID: 8012012429621506207, guid: 4046443aa18f49b469595faff52145bf, type: 3}
-  projectileSpeed: 300
-  projectileDamage: 0
+  projectileSpeed: 8
+  projectileDamage: 10
   animation: {fileID: 11400000, guid: d65e31fd5cd0d034bb99ae7faf08add4, type: 2}

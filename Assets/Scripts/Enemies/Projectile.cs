@@ -22,12 +22,14 @@ public class Projectile : MonoBehaviour, IDamageable
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").gameObject;
-         direction = player.transform.position - transform.position;
+        direction = player.transform.position - transform.position;
+        transform.rotation = Quaternion.AngleAxis(180, direction);
     }
 
     private void FixedUpdate()
     {
-        GetComponent<Rigidbody2D>().velocity = direction.normalized * speed * Time.deltaTime;
+        
+        transform.position = direction.normalized * speed * Time.deltaTime;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

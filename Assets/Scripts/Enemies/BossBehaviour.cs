@@ -9,7 +9,7 @@ namespace SimplePlatformer.Enemy
     /// <summary>
     /// Enemy boss behaviour class, simplified the structure of the Enemy Behaviour
     /// </summary>
-    public class BossBehaviour : MonoBehaviour
+    public class BossBehaviour : MonoBehaviour, IDamageable
     {
         [Expandable]
         public BossData _bossData;
@@ -28,7 +28,7 @@ namespace SimplePlatformer.Enemy
         /// </summary>
         private Vector2 playerPosition;
         [SerializeField] private GameObject playerGO;
-
+       
 
 
         /// <summary>
@@ -139,6 +139,7 @@ namespace SimplePlatformer.Enemy
             if (!isAttacking)
             {
                 isAttacking = true;
+                //Basic Attacks
                 if (countBasicAttacks <= 2)
                 {
                     StartCoroutine(CooldownAttack(_bossData.attackRate));
@@ -146,16 +147,19 @@ namespace SimplePlatformer.Enemy
                     countBasicAttacks += 1;
                     return;
                 }
-
+                //Casting Attack
                 if(countBasicAttacks > 2 && countBasicAttacks <= 4)
                 {
-                    StartCoroutine(CooldownAttack(5));
+                    StartCoroutine(CooldownAttack(4));
                     anim.Play(_bossData.animation.enemyAttack[1]);
-                    StartCoroutine( CreateProjectile(.5f));
+                    //FIreballs
+                    StartCoroutine(CreateProjectile(.4f,0));
+                    StartCoroutine(CreateProjectile(.6f,4));
+                    StartCoroutine(CreateProjectile(.8f,-4));
                     countBasicAttacks += 1;
                     return;
                 }
-
+                //Finish
                 if(countBasicAttacks == 5)
                 {
                     StartCoroutine(CooldownAttack(0.1f));
@@ -165,12 +169,17 @@ namespace SimplePlatformer.Enemy
             }
         }
 
-        private IEnumerator CreateProjectile(float _seconds)
+        private IEnumerator CreateProjectile(float _seconds, float _xOffset)
         {
+            //Set the position - With an X Offset
+            Vector2 position = new Vector2(fireballsPosition.position.x + _xOffset, fireballsPosition.position.y);
+            //Wait
             yield return new WaitForSeconds(_seconds);
-            GameObject instance = Instantiate(_bossData.projectileGO, fireballsPosition.position, Quaternion.identity);
-            instance.GetComponent<Projectile>().speed = _bossData.projectileSpeed;
-            instance.GetComponent<Projectile>().damage = _bossData.projectileDamage;
+            //Instantiate
+            GameObject instance = Instantiate(_bossData.projectileGO, position, _bossData.projectileGO.transform.rotation);
+            //Custom parameters
+            instance.GetComponent<Fireball>().speed = _bossData.projectileSpeed;
+            instance.GetComponent<Fireball>().damage = _bossData.projectileDamage;
         }
 
         protected bool CheckGround()
@@ -230,6 +239,22 @@ namespace SimplePlatformer.Enemy
         public void SwishSound()
         {
             SoundManager.instance.Play(_bossData.swishSound);
+        }
+
+        public void TakeDamage(float damage, Vector3 attackerPosition)
+        {
+            StartCoroutine(HurtCo());
+        }
+
+        private IEnumerator HurtCo()
+        {
+            anim.Play(_bossData.animation.enemyHurt,1,0);
+            yield return new WaitForSeconds(0.3f);
+        }
+
+        public void DieInstantly()
+        {
+            //He nothing
         }
     }//End class
 }

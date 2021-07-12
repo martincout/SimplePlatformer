@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using Pathfinding;
 using SimplePlatformer.ExpandableAttributes;

@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 8953090005841576911}
   m_Layer: 9
   m_Name: Boss (Bringer Of Death)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -172,12 +172,12 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 8953090005841576917}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: c59cd8f05bfbeab48853b697715e8ac1, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.14916229, y: -0.61236405}
-  m_Size: {x: 2.485489, y: 5.046576}
+  m_Offset: {x: 0.14916229, y: -0.36369252}
+  m_Size: {x: 2.485489, y: 5.610928}
   m_Direction: 0
 --- !u!95 &8953090005841576905
 Animator:
@@ -225,13 +225,13 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
-  m_GravityScale: 15
-  m_Material: {fileID: 6200000, guid: c59cd8f05bfbeab48853b697715e8ac1, type: 2}
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!1 &8953090006607890098
 GameObject:
