@@ -163,6 +163,7 @@ MonoBehaviour:
   groundDetector: {fileID: 8953090006607890097}
   rayLength: 0.2
   playerGO: {fileID: 0}
+  fireLight: {fileID: 7323638704193517628, guid: 2eaf765a59e0d394d8505394ec882b2b, type: 3}
 --- !u!70 &8953090005841576906
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -313,7 +314,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
