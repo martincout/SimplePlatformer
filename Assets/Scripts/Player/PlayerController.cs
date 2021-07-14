@@ -249,8 +249,10 @@ namespace SimplePlatformer.Player
 
         public void OnInteract(InputAction.CallbackContext value)
         {
-            playerInteractableBehaviour.Interact();
-
+            if (value.started)
+            {
+                playerInteractableBehaviour.Interact();
+            }
         }
 
         //This is called from Player Input, when a button has been pushed, that correspons with the 'TogglePause' action
@@ -271,7 +273,7 @@ namespace SimplePlatformer.Player
 
             if (playerInput.currentControlScheme != currentControlScheme)
             {
-                
+
                 currentControlScheme = playerInput.currentControlScheme;
 
                 //playerVisualsBehaviour.UpdatePlayerVisuals();
