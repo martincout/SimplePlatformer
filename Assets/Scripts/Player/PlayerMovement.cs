@@ -83,7 +83,6 @@ namespace SimplePlatformer.Player
 
         public void UpdateMovementData(Vector2 newMovementDirection)
         {
-
             movementDirection = newMovementDirection;
         }
 
@@ -195,14 +194,15 @@ namespace SimplePlatformer.Player
             {
                 pv.isJumping = false;
             }
-            else if (pv.isGrounded && jumpingHeld)
+            if (pv.isGrounded && jumpingHeld)
             {
                 pv.isJumping = true;
             }
 
             if (pv.isJumping)
             {
-                rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce * (Time.deltaTime * 50));
+                float multiplies = 50;
+                rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce * (Time.deltaTime * multiplies));
             }
 
         }
@@ -213,7 +213,8 @@ namespace SimplePlatformer.Player
             //{
             //    Debug.Log(movementDirection.x);
             //}
-            rb2d.velocity = new Vector2(movementDirection.x * speed * (Time.deltaTime * 50), rb2d.velocity.y);
+            float multiplies = 50;
+            rb2d.velocity = new Vector2(movementDirection.x * speed * (Time.deltaTime * multiplies), rb2d.velocity.y);
         }
 
         private void footstep()

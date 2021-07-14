@@ -182,6 +182,7 @@ namespace SimplePlatformer.Enemy
             //Custom parameters
             instance.GetComponent<Fireball>().speed = _bossData.projectileSpeed;
             instance.GetComponent<Fireball>().damage = _bossData.projectileDamage;
+
         }
 
         private IEnumerator CreateProjectile(float _seconds)
@@ -196,6 +197,7 @@ namespace SimplePlatformer.Enemy
             //Custom parameters
             instance.GetComponent<Fireball>().speed = _bossData.projectileSpeed;
             instance.GetComponent<Fireball>().damage = _bossData.projectileDamage;
+
         }
 
         protected bool CheckGround()

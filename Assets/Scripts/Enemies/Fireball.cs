@@ -12,7 +12,9 @@ public class Fireball : MonoBehaviour, IDamageable
 
     private void Start()
     {
-        Instantiate(fireballParticle,transform.position,Quaternion.identity);
+        float destroyParticleAfter = 2f;
+        GameObject particle = Instantiate(fireballParticle,transform.position,Quaternion.identity);
+        Destroy(particle, destroyParticleAfter);
         player = GameObject.FindGameObjectWithTag("Player").gameObject;
         direction = player.transform.position - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -38,13 +40,12 @@ public class Fireball : MonoBehaviour, IDamageable
             Destroy(gameObject, 0.4f);
             GetComponent<CircleCollider2D>().enabled = false;
         }
-
-
     }
 
     public void TakeDamage(float damage, Vector3 attackerPosition)
     {
         GetComponent<Animator>().Play("fireballDestroy");
+        this.GetComponent<Collider2D>().enabled = false;
         Destroy(gameObject, 0.4f);
     }
 
