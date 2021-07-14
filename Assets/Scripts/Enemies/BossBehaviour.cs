@@ -56,6 +56,7 @@ namespace SimplePlatformer.Enemy
         /// </summary>
         private bool isAttacking;
         private int countBasicAttacks = 1;
+        public GameObject fireLight;
 
         private void Start()
         {
@@ -150,12 +151,12 @@ namespace SimplePlatformer.Enemy
                 //Casting Attack
                 if(countBasicAttacks > 2 && countBasicAttacks <= 4)
                 {
-                    StartCoroutine(CooldownAttack(4));
+                    StartCoroutine(CooldownAttack(3));
                     anim.Play(_bossData.animation.enemyAttack[1]);
                     //FIreballs
-                    StartCoroutine(CreateProjectile(.4f,0));
-                    StartCoroutine(CreateProjectile(.6f,4));
-                    StartCoroutine(CreateProjectile(.8f,-4));
+                    StartCoroutine(CreateProjectile(.4f));
+                    StartCoroutine(CreateProjectile(.6f,new Vector2(4,-3)));
+                    StartCoroutine(CreateProjectile(.8f, new Vector2(-4,-3)));
                     countBasicAttacks += 1;
                     return;
                 }
@@ -169,11 +170,26 @@ namespace SimplePlatformer.Enemy
             }
         }
 
-        private IEnumerator CreateProjectile(float _seconds, float _xOffset)
+        private IEnumerator CreateProjectile(float _seconds, Vector2 _Offset)
         {
             //Set the position - With an X Offset
-            Vector2 position = new Vector2(fireballsPosition.position.x + _xOffset, fireballsPosition.position.y);
+            Vector2 position = new Vector2(fireballsPosition.position.x + _Offset.x, fireballsPosition.position.y + _Offset.y);
             //Wait
+            Instantiate(fireLight, position,Quaternion.identity);
+            yield return new WaitForSeconds(_seconds);
+            //Instantiate
+            GameObject instance = Instantiate(_bossData.projectileGO, position, _bossData.projectileGO.transform.rotation);
+            //Custom parameters
+            instance.GetComponent<Fireball>().speed = _bossData.projectileSpeed;
+            instance.GetComponent<Fireball>().damage = _bossData.projectileDamage;
+        }
+
+        private IEnumerator CreateProjectile(float _seconds)
+        {
+            //Set the position - With an X Offset
+            Vector2 position = new Vector2(fireballsPosition.position.x, fireballsPosition.position.y);
+            //Wait
+            Instantiate(fireLight, position, Quaternion.identity);
             yield return new WaitForSeconds(_seconds);
             //Instantiate
             GameObject instance = Instantiate(_bossData.projectileGO, position, _bossData.projectileGO.transform.rotation);
