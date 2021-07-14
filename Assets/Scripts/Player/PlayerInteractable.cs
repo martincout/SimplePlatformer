@@ -28,12 +28,6 @@ namespace SimplePlatformer.Player
                     btnInstantiated = true;
                 }
 
-                if (interact.GetComponent<Interactable>().closerToInteract)
-                {
-                    interact.GetComponent<Interactable>().Interact();
-                }
-
-
             }
             //Destroy UI BUTTON 
             if (interact == null && btnInstantiated)

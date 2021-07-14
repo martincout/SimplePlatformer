@@ -16,10 +16,10 @@ MonoBehaviour:
   prefab: {fileID: 0}
   enemyName: Bringer Of Death
   description: 
-  maxHealth: 500
+  maxHealth: 1000
   damage: 15
   speed: 200
-  attackRadius: {x: 13.08, y: 6.36}
+  attackRadius: {x: 18.26, y: 6.36}
   attackRange: 0
   attackRate: 1.5
   stunTime: 0

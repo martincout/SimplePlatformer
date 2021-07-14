@@ -4,6 +4,7 @@ public class CampFire : Interactable
 {
     private Animator anim;
     private readonly string CAMPFIRE_ON = "campFireIdle";
+    public GameObject lightGO;
 
     public void Awake()
     {
@@ -23,5 +24,6 @@ public class CampFire : Interactable
         anim.Play(CAMPFIRE_ON);
         RespawnManager.currentRespawn = gameObject;
         EventSystems.NewSpawnHandler();
+        Instantiate(lightGO, transform.position, Quaternion.identity);
     }
 }

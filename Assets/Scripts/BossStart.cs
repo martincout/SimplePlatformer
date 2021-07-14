@@ -16,6 +16,7 @@ public class BossStart : MonoBehaviour
         {
             camera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenY = 0.77f;
             boss.ChangeState(BossBehaviour.State.START);
+            boss.DisplayHealthBar();
             Instantiate(celldoor, celldoorPosition,true);
         }
     }

@@ -68,18 +68,37 @@ namespace SimplePlatformer.Enemy
             _currentPhase = Phase.FIRST;
             countBasicAttacks = 1;
         }
-
-        public void ChangeState(State state)
-        {
-            _currentState = state;
-        }
-
         private void Update()
         {
             if (_currentState.Equals(State.NONE)) return;
             Movement();
         }
 
+        public void ChangeState(State state)
+        {
+            _currentState = state;
+        }
+
+        #region Movement Behaviour
+
+        private bool CheckGround()
+        {
+            //float rayLength = Mathf.Abs(deltaMove.x) + skinWidth * 2;
+
+            //Vector2 rayOrigin = (directionX == -1 ? raycastOrigins.bottomLeft : raycastOrigins.bottomRight) +
+            //    Vector2.up * deltaMove.y;
+            Vector2 rayOrigin = groundDetector.position;
+            raycastGround = Physics2D.Raycast(rayOrigin, Vector2.down, rayLength, 1 << LayerMask.NameToLayer("Ground"));
+
+            if (raycastGround)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         /// <summary>
         /// Handles all movement behaviour of the boss
         /// </summary>
@@ -134,7 +153,8 @@ namespace SimplePlatformer.Enemy
                 }
             }
         }
-
+        #endregion
+        #region Attack
         private void Attack()
         {
             if (!isAttacking)
@@ -200,24 +220,22 @@ namespace SimplePlatformer.Enemy
 
         }
 
-        protected bool CheckGround()
+        private IEnumerator CooldownAttack(float _seconds)
         {
-            //float rayLength = Mathf.Abs(deltaMove.x) + skinWidth * 2;
-
-            //Vector2 rayOrigin = (directionX == -1 ? raycastOrigins.bottomLeft : raycastOrigins.bottomRight) +
-            //    Vector2.up * deltaMove.y;
-            Vector2 rayOrigin = groundDetector.position;
-            raycastGround = Physics2D.Raycast(rayOrigin, Vector2.down, rayLength, 1 << LayerMask.NameToLayer("Ground"));
-
-            if (raycastGround)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            yield return new WaitForSeconds(_seconds);
+            //Cooldown Attack
+            isAttacking = false;
+            FlipByTargetDirection(playerPosition.x);
         }
+        #endregion
+        
+
+        public void DisplayHealthBar()
+        {
+            LeanTween.alphaCanvas(healthSystem.healthBar.GetComponent<CanvasGroup>(), 1.0f, 1f);
+        }
+
+        #region Debug
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.green;
@@ -230,14 +248,8 @@ namespace SimplePlatformer.Enemy
                 Gizmos.DrawLine(transform.position, playerGO.transform.position);
             }
         }
-
-        private IEnumerator CooldownAttack(float _seconds)
-        {
-            yield return new WaitForSeconds(_seconds);
-            //Cooldown Attack
-            isAttacking = false;
-            FlipByTargetDirection(playerPosition.x);
-        }
+        #endregion
+        
 
         /// <summary>
         /// Utils
@@ -261,6 +273,7 @@ namespace SimplePlatformer.Enemy
 
         public void TakeDamage(float damage, Vector3 attackerPosition)
         {
+            healthSystem.DealDamage(damage);
             StartCoroutine(HurtCo());
         }
 

@@ -9,6 +9,7 @@ public class Fireball : MonoBehaviour, IDamageable
     public GameObject player;
     private Vector3 direction;
     public GameObject fireballParticle;
+    private float destroyAfter = 0.2f;
 
     private void Start()
     {
@@ -37,7 +38,8 @@ public class Fireball : MonoBehaviour, IDamageable
             {
                 collision.GetComponent<IDamageable>().TakeDamage(damage, transform.position);
             }
-            Destroy(gameObject, 0.4f);
+            
+            Destroy(gameObject, destroyAfter);
             GetComponent<CircleCollider2D>().enabled = false;
         }
     }
@@ -46,7 +48,7 @@ public class Fireball : MonoBehaviour, IDamageable
     {
         GetComponent<Animator>().Play("fireballDestroy");
         this.GetComponent<Collider2D>().enabled = false;
-        Destroy(gameObject, 0.4f);
+        Destroy(gameObject, destroyAfter);
     }
 
     public void DieInstantly()
