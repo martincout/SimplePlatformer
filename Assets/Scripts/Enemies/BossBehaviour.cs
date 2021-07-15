@@ -180,7 +180,7 @@ namespace SimplePlatformer.Enemy
                     countBasicAttacks += 1;
                     return;
                 }
-                //Finish
+                //Restart
                 if(countBasicAttacks == 5)
                 {
                     StartCoroutine(CooldownAttack(0.1f));
