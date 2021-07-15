@@ -186,6 +186,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 6
-  damage: 30
+  damage: 60
   player: {fileID: 540259816510785635, guid: e0527abbb7e260f4da9de7836a4972f9, type: 3}
   fireballParticle: {fileID: 1697496353341887394, guid: 925dfdb95257400429f145112f01654b, type: 3}

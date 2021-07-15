@@ -58,4 +58,13 @@ public class HealthSystem : MonoBehaviour
             UpdateHealthBar();
         }
     }
+
+    /// <summary>
+    /// Gets the health with a normalized value (0 to 1)
+    /// </summary>
+    /// <returns></returns>
+    public float GetHealthNormalized()
+    {
+        return Mathf.Clamp(currentHealth, 0, 1);
+    }
 }

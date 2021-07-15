@@ -14,7 +14,7 @@ namespace SimplePlatformer.Player
         public PlayerCombat playerCombatBehaviour;
         public PlayerInteractable playerInteractableBehaviour;
 
-        protected static PlayerVariables pv = new PlayerVariables();
+        public static PlayerVariables pv = new PlayerVariables();
 
         //Action Maps
         private string actionMapPlayerControls = "PlayerControlls";
@@ -78,6 +78,7 @@ namespace SimplePlatformer.Player
 
         private void Update()
         {
+            
             UpdatePlayerMovement();
             if (cooldownInvincible > 0)
             {
@@ -122,7 +123,6 @@ namespace SimplePlatformer.Player
         {
             if (!pv.invincible && !pv.itsDying)
             {
-
                 //Decrease Health
                 healthSystem.DealDamage(damage);
                 characterParticles.PlayParticle(Type.HURT);
@@ -162,10 +162,10 @@ namespace SimplePlatformer.Player
             rb2d.velocity = Vector2.zero;
             anim.Play("playerDie");
             yield return new WaitForSeconds(0.55f);
-            Destroy(gameObject);
-            //EventSystem.DeathHandler?.Invoke();
+            EventSystems.OnPlayerDeath?.Invoke();
             GameManager.GetInstance().TogglePlayerDeath(true);
             pv.itsDying = false;
+            Destroy(gameObject);
         }
 
         protected void Knockback(Vector3 attackerPos, float thrust)
@@ -203,6 +203,10 @@ namespace SimplePlatformer.Player
             rb2d.velocity = new Vector2();
         }
 
+        /// <summary>
+        /// Item interaction, only with health items
+        /// </summary>
+        /// <param name="item"></param>
         public void ItemInteraction(Item item)
         {
             if (item.category.Equals(Item.Category.CONSUMABLE))

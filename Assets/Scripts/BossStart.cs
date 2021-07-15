@@ -10,6 +10,8 @@ public class BossStart : MonoBehaviour
     public BossBehaviour boss;
     public GameObject celldoor;
     public Transform celldoorPosition;
+    public AudioClip BGM;
+    public AudioSource BGMGO;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -18,6 +20,8 @@ public class BossStart : MonoBehaviour
             boss.ChangeState(BossBehaviour.State.START);
             boss.DisplayHealthBar();
             Instantiate(celldoor, celldoorPosition,true);
+            BGMGO.clip = BGM;
+            BGMGO.Play();
         }
     }
 }

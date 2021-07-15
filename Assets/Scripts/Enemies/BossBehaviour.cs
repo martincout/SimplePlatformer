@@ -11,6 +11,7 @@ namespace SimplePlatformer.Enemy
     /// </summary>
     public class BossBehaviour : MonoBehaviour, IDamageable
     {
+        #region Variables
         [Expandable]
         public BossData _bossData;
         protected HealthSystem healthSystem;
@@ -28,16 +29,15 @@ namespace SimplePlatformer.Enemy
         /// </summary>
         private Vector2 playerPosition;
         [SerializeField] private GameObject playerGO;
-       
-
 
         /// <summary>
         /// Finite State Machine
         /// </summary>
         public enum State
         {
-            NONE,
-            START
+            WAITING,
+            START,
+            DEAD
         }
         private State _currentState;
 
@@ -57,20 +57,22 @@ namespace SimplePlatformer.Enemy
         private bool isAttacking;
         private int countBasicAttacks = 1;
         public GameObject fireLight;
+        #endregion
 
         private void Start()
         {
+            playerGO = GameManager.GetInstance().player.gameObject;
             healthSystem = GetComponent<HealthSystem>();
             healthSystem.SetMaxHealth(_bossData.maxHealth);
             rb2d = GetComponent<Rigidbody2D>();
             anim = GetComponent<Animator>();
-            _currentState = State.NONE;
+            _currentState = State.WAITING;
             _currentPhase = Phase.FIRST;
             countBasicAttacks = 1;
         }
         private void Update()
         {
-            if (_currentState.Equals(State.NONE)) return;
+            if (_currentState.Equals(State.WAITING) || _currentState.Equals(State.DEAD) || GameManager.GetInstance().playerDeath) return;
             Movement();
         }
 
@@ -118,7 +120,7 @@ namespace SimplePlatformer.Enemy
                     anim.Play(_bossData.animation.enemyMovement);
                     rb2d.velocity = new Vector2(playerPosition.x * _bossData.speed * Time.deltaTime, GetComponent<Rigidbody2D>().velocity.y);
                 }
-                
+
                 //Idle animation only if we have no ground, because otherwise the enemy will keep walking when it's not suppose to do.
                 //Not play idle animation when attacking because it will cancel the attack animation
                 if (!CheckGround())
@@ -169,19 +171,19 @@ namespace SimplePlatformer.Enemy
                     return;
                 }
                 //Casting Attack
-                if(countBasicAttacks > 2 && countBasicAttacks <= 4)
+                if (countBasicAttacks > 2 && countBasicAttacks <= 4)
                 {
                     StartCoroutine(CooldownAttack(3));
                     anim.Play(_bossData.animation.enemyAttack[1]);
                     //FIreballs
                     StartCoroutine(CreateProjectile(.4f));
-                    StartCoroutine(CreateProjectile(.6f,new Vector2(4,-3)));
-                    StartCoroutine(CreateProjectile(.8f, new Vector2(-4,-3)));
+                    StartCoroutine(CreateProjectile(.6f, new Vector2(4, -3)));
+                    StartCoroutine(CreateProjectile(.8f, new Vector2(-4, -3)));
                     countBasicAttacks += 1;
                     return;
                 }
                 //Restart
-                if(countBasicAttacks == 5)
+                if (countBasicAttacks == 5)
                 {
                     StartCoroutine(CooldownAttack(0.1f));
                     countBasicAttacks = 1;
@@ -195,7 +197,7 @@ namespace SimplePlatformer.Enemy
             //Set the position - With an X Offset
             Vector2 position = new Vector2(fireballsPosition.position.x + _Offset.x, fireballsPosition.position.y + _Offset.y);
             //Wait
-            Instantiate(fireLight, position,Quaternion.identity);
+            Instantiate(fireLight, position, Quaternion.identity);
             yield return new WaitForSeconds(_seconds);
             //Instantiate
             GameObject instance = Instantiate(_bossData.projectileGO, position, _bossData.projectileGO.transform.rotation);
@@ -228,7 +230,7 @@ namespace SimplePlatformer.Enemy
             FlipByTargetDirection(playerPosition.x);
         }
         #endregion
-        
+
 
         public void DisplayHealthBar()
         {
@@ -249,7 +251,7 @@ namespace SimplePlatformer.Enemy
             }
         }
         #endregion
-        
+
 
         /// <summary>
         /// Utils
@@ -273,13 +275,32 @@ namespace SimplePlatformer.Enemy
 
         public void TakeDamage(float damage, Vector3 attackerPosition)
         {
-            healthSystem.DealDamage(damage);
-            StartCoroutine(HurtCo());
+            if (healthSystem.GetHealth() > 0)
+            {
+                SoundManager.instance.Play("Damage");
+                healthSystem.DealDamage(damage);
+                StartCoroutine(HurtCo());
+            }
+            else
+            {
+                if (!_currentState.Equals(State.DEAD))
+                {
+                    Die();
+                }
+            }
+        }
+
+        private void Die()
+        {
+            SoundManager.instance.Play("DeathBoss");
+            ChangeState(State.DEAD);
+            anim.Play(_bossData.animation.enemyDeath);
+            Destroy(gameObject, 1f);
         }
 
         private IEnumerator HurtCo()
         {
-            anim.Play(_bossData.animation.enemyHurt,1,0);
+            anim.Play(_bossData.animation.enemyHurt, 1, 0);
             yield return new WaitForSeconds(0.3f);
         }
 
@@ -287,6 +308,7 @@ namespace SimplePlatformer.Enemy
         {
             //He nothing
         }
+
     }//End class
 }
 

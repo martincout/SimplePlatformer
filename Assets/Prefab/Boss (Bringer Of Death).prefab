@@ -91,7 +91,7 @@ PolygonCollider2D:
       - {x: -3.0001745, y: 0.9730785}
       - {x: -0.5877852, y: -0.80901706}
       - {x: 0.58778536, y: -0.80901694}
-      - {x: 3.7684937, y: -0.90632963}
+      - {x: 5.9170837, y: -1.110923}
       - {x: 4.731818, y: 5.563768}
 --- !u!114 &371405459
 MonoBehaviour:
@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTag: Player
-  damage: 0
+  damage: 50
 --- !u!1 &8953090005841576917
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 8953090005841576905}
   - component: {fileID: 8953090005841576904}
   - component: {fileID: 8953090005841576911}
+  - component: {fileID: 927244177}
   m_Layer: 9
   m_Name: Boss (Bringer Of Death)
   m_TagString: Enemy
@@ -234,6 +235,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &927244177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8953090005841576917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bbff5ec56029fa4da22fd158121444c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8953090006607890098
 GameObject:
   m_ObjectHideFlags: 0

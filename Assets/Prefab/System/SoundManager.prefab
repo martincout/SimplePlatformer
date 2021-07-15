@@ -190,9 +190,9 @@ MonoBehaviour:
     isLoop: 0
     hasCooldown: 0
     randomPitch: 1
-    priority: 127
-    MinRandomPitch: 1
-    MaxRandomPitch: 2.02
+    priority: 128
+    MinRandomPitch: 0.81
+    MaxRandomPitch: 2.47
     source: {fileID: 0}
   - name: Coin
     clip: {fileID: 8300000, guid: cdc6142b4e8cb954c83a214c2ef68050, type: 3}
@@ -228,8 +228,8 @@ MonoBehaviour:
     MaxRandomPitch: 3
     source: {fileID: 0}
   - name: Swish
-    clip: {fileID: 8300000, guid: deb7bc58fc425aa43896218f65fe0f07, type: 3}
-    volume: 0.98
+    clip: {fileID: 8300000, guid: 3e762bd6734a45d4191a906a8bfdadf5, type: 3}
+    volume: 0.353
     pitch: 1
     isLoop: 0
     hasCooldown: 0
@@ -271,17 +271,6 @@ MonoBehaviour:
     MinRandomPitch: 1
     MaxRandomPitch: 3
     source: {fileID: 0}
-  - name: demonHit
-    clip: {fileID: 8300000, guid: 89170f8d0deeaa344ad2a22b43e2acf1, type: 3}
-    volume: 1
-    pitch: 1
-    isLoop: 0
-    hasCooldown: 0
-    randomPitch: 0
-    priority: 128
-    MinRandomPitch: 1
-    MaxRandomPitch: 3
-    source: {fileID: 0}
   - name: cellCageHit
     clip: {fileID: 8300000, guid: 067d3a5557f5fbe40841d114a88f9dae, type: 3}
     volume: 0.79
@@ -292,4 +281,48 @@ MonoBehaviour:
     priority: 128
     MinRandomPitch: 1
     MaxRandomPitch: 3
+    source: {fileID: 0}
+  - name: HeavySwish
+    clip: {fileID: 8300000, guid: cb82bde0446d57c45b1a754931bacc0d, type: 3}
+    volume: 0.8
+    pitch: 1
+    isLoop: 0
+    hasCooldown: 0
+    randomPitch: 1
+    priority: 128
+    MinRandomPitch: 1
+    MaxRandomPitch: 1.8
+    source: {fileID: 0}
+  - name: DeathBoss
+    clip: {fileID: 8300000, guid: ba04614e262ed1843a8bfdf9e7b31fa0, type: 3}
+    volume: 0.8
+    pitch: 1
+    isLoop: 0
+    hasCooldown: 0
+    randomPitch: 0
+    priority: 128
+    MinRandomPitch: 1
+    MaxRandomPitch: 1.8
+    source: {fileID: 0}
+  - name: FireballBorn
+    clip: {fileID: 8300000, guid: 22b031e4e5f58bc40bca727177d30f32, type: 3}
+    volume: 0.8
+    pitch: 1
+    isLoop: 0
+    hasCooldown: 0
+    randomPitch: 0
+    priority: 128
+    MinRandomPitch: 1
+    MaxRandomPitch: 1.8
+    source: {fileID: 0}
+  - name: FireballExplotion
+    clip: {fileID: 8300000, guid: 040f864fca26f3945a6025b85ff23934, type: 3}
+    volume: 0.8
+    pitch: 1
+    isLoop: 0
+    hasCooldown: 0
+    randomPitch: 0
+    priority: 128
+    MinRandomPitch: 1
+    MaxRandomPitch: 1.8
     source: {fileID: 0}

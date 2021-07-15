@@ -32,7 +32,7 @@ public class DeathMenu : MonoBehaviour
     {
         CanvasGroup canvasGroup = deathScreenGO.GetComponent<CanvasGroup>();
         canvasGroup.alpha = 1f;
-        float duration = 1f;
+        float duration = .3f;
         LeanTween.alphaCanvas(canvasGroup, 0f, duration);
         yield return new WaitForSeconds(duration);
         canvasGroup.interactable = false;

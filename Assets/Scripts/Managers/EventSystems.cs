@@ -15,4 +15,5 @@ public static class EventSystems
     /// Updates the Keys obtained
     /// </summary>
     public static Action UpdateKeysHandler;
+    public static Action OnPlayerDeath;
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BringerOfDeath
   m_EditorClassIdentifier: 
   model: {fileID: -8353433489134569600, guid: 844efb90bcf48d14e894ae5c3c1240e2, type: 3}
-  prefab: {fileID: 0}
+  prefab: {fileID: 8953090005841576917, guid: f723fdff7091557468e71013060acf55, type: 3}
   enemyName: Bringer Of Death
   description: 
   maxHealth: 1000
