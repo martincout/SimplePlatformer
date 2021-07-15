@@ -22,7 +22,6 @@ namespace SimplePlatformer.Player
 
         //Aux
         protected float invincibleTime = 1f;
-        protected float cooldownInvincible = 0f;
 
         protected static Vector2 rawInputMovement;
 
@@ -78,19 +77,7 @@ namespace SimplePlatformer.Player
 
         private void Update()
         {
-            
             UpdatePlayerMovement();
-            if (cooldownInvincible > 0)
-            {
-                cooldownInvincible -= Time.deltaTime;
-
-            }
-            else
-            {
-                pv.invincible = false;
-                //Alpha to 100% NOT IN INVINCIBLE STATE
-                SetAlpha(1f);
-            }
         }
 
 
@@ -106,10 +93,18 @@ namespace SimplePlatformer.Player
             pv.movePrevent = false;
         }
 
-        internal void SetInvincible(float cooldown)
+        internal IEnumerator InvinbibleCo()
+        {
+            yield return new WaitForSeconds(invincibleTime);
+            SetAlpha(1f);
+            pv.invincible = false;
+        }
+
+        internal void SetInvincible()
         {
             pv.invincible = true;
-            cooldownInvincible = cooldown;
+            SetAlpha(0.7f);
+            StartCoroutine(InvinbibleCo());
         }
 
         internal void SetAlpha(float alpha)
@@ -126,8 +121,7 @@ namespace SimplePlatformer.Player
                 //Decrease Health
                 healthSystem.DealDamage(damage);
                 characterParticles.PlayParticle(Type.HURT);
-                SetInvincible(invincibleTime);
-                SetAlpha(0.7f);
+                SetInvincible();
                 //Check
                 if (healthSystem.GetHealth() > 0)
                 {
