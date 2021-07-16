@@ -7,6 +7,7 @@ using System;
 public class DeathMenu : MonoBehaviour
 {
     public GameObject deathScreenGO;
+    public Button firstSelected;
     public void DisplayDeathMenu()
     {
         StartCoroutine(
@@ -26,6 +27,7 @@ public class DeathMenu : MonoBehaviour
         LeanTween.alphaCanvas(canvasGroup, 1.0f, duration);
         yield return new WaitForSeconds(duration);
         canvasGroup.interactable = true;
+        firstSelected.Select();
     }
 
     private IEnumerator FadeOut()

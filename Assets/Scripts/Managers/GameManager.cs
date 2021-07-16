@@ -103,11 +103,11 @@ public class GameManager : MonoBehaviour
         switch (isPaused)
         {
             case true:
-                player.EnablePauseMenuControls();
+                //player.EnablePauseMenuControls();
                 break;
 
             case false:
-                player.EnableGameplayControls();
+                //player.EnableGameplayControls();
                 break;
         }
     }
