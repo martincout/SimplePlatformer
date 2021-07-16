@@ -6,6 +6,12 @@ public class Hitbox : MonoBehaviour
 {
     public string targetTag;
     public float damage;
+    public GameObject boss;
+
+    private void Start()
+    {
+        boss = transform.parent.gameObject;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -13,7 +19,7 @@ public class Hitbox : MonoBehaviour
         {
             if (collision.GetComponent<IDamageable>() != null)
             {
-                collision.GetComponent<IDamageable>().TakeDamage(damage,transform.position);
+                collision.GetComponent<IDamageable>().TakeDamage(damage,boss.transform.position);
             }
         }
     }

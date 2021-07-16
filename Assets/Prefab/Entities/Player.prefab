@@ -424,9 +424,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7f9aea00e4f1cf43baad343424c7403, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMovementBehaviour: {fileID: 0}
-  playerCombatBehaviour: {fileID: 0}
-  playerInteractableBehaviour: {fileID: 0}
+  playerMovementBehaviour: {fileID: 540259816510785638}
+  playerCombatBehaviour: {fileID: 1712452806}
+  playerInteractableBehaviour: {fileID: 190104470}
   thrust: 10
 --- !u!114 &540259816510785638
 MonoBehaviour:
@@ -598,7 +598,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

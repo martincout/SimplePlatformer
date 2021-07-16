@@ -180,12 +180,11 @@ namespace SimplePlatformer.Enemy
                     StartCoroutine(CreateProjectile(.6f, new Vector2(4, -3)));
                     StartCoroutine(CreateProjectile(.8f, new Vector2(-4, -3)));
                     countBasicAttacks += 1;
-                    return;
                 }
                 //Restart
                 if (countBasicAttacks == 5)
                 {
-                    StartCoroutine(CooldownAttack(0.1f));
+                    StartCoroutine(CooldownAttack(0.5f));
                     countBasicAttacks = 1;
                     return;
                 }
