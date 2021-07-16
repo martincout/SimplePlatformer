@@ -1,23 +1,23 @@
 ﻿using SimplePlatformer.Player;
-using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject pauseMenuContainer;
     public Button firstSelectedButton;
     private GameObject player;
     private bool disablePlayer;
+    private CanvasGroup Container;
+    public CanvasGroup Menu;
+    public CanvasGroup Settings;
 
 
     private void Start()
     {
-        
+
         player = FindObjectOfType<PlayerController>().gameObject;
-        pauseMenuContainer = transform.GetChild(0).gameObject;
+        Container = GetComponent<CanvasGroup>();
     }
 
     internal void SetupBehaviour()
@@ -28,14 +28,25 @@ public class PauseMenu : MonoBehaviour
     private void OnEnable()
     {
         EventSystems.RespawnHandler += UpdatePlayer;
-        
+
     }
 
     internal void UpdateUIMenuState(bool newState)
     {
         DisablePlayer();
-        pauseMenuContainer.SetActive(newState);
-        firstSelectedButton.Select();
+        switch (newState)
+        {
+            case true:
+                SetActive(Container);
+                SetActive(Menu);
+                firstSelectedButton.Select();
+                break;
+            case false:
+                SetInactive(Container);
+                SetInactive(Menu);
+                SetInactive(Settings);
+                break;
+        }
     }
 
     private void OnDisable()
@@ -46,6 +57,20 @@ public class PauseMenu : MonoBehaviour
     private void UpdatePlayer(GameObject playerGO)
     {
         player = playerGO;
+    }
+
+    public void SetActive(CanvasGroup cg)
+    {
+        cg.alpha = 1f;
+        cg.blocksRaycasts = true;
+        cg.interactable = true;
+    }
+
+    public void SetInactive(CanvasGroup cg)
+    {
+        cg.alpha = 0f;
+        cg.blocksRaycasts = false;
+        cg.interactable = false;
     }
 
     private void DisablePlayer()
