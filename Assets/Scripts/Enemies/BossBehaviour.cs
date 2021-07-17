@@ -31,7 +31,7 @@ namespace SimplePlatformer.Enemy
         [SerializeField] private GameObject playerGO;
 
         /// <summary>
-        /// Finite State Machine
+        /// Basic States
         /// </summary>
         public enum State
         {
@@ -42,20 +42,35 @@ namespace SimplePlatformer.Enemy
         private State _currentState;
 
         /// <summary>
-        /// Boss Phases
+        /// Boss Stages
         /// </summary>
-        private enum Phase
+        private enum Stage
         {
-            FIRST,
-            SECOND
+            STAGE_1,
+            STAGE_2,
+            STAGE_3
         }
-        private Phase _currentPhase;
+        private Stage _currentStage;
+
+        /// <summary>
+        /// Attack Types: basic, cast, etc..
+        /// </summary>
+        private enum AttackType
+        {
+            BASIC_ATTACK,
+            CAST_FIREBALLS,
+            CAST_HANDS
+        }
+
+        private AttackType _currentAttack;
 
         /// <summary>
         /// Custom Behaviours
         /// </summary>
         private bool isAttacking;
-        private int countBasicAttacks = 1;
+        //Counts the amount of attacks did it for a certain Type of Attack
+        private int countAttacks = 0;
+        private int maxAttacks = 1;
         public GameObject fireLight;
         #endregion
 
@@ -67,28 +82,26 @@ namespace SimplePlatformer.Enemy
             rb2d = GetComponent<Rigidbody2D>();
             anim = GetComponent<Animator>();
             _currentState = State.WAITING;
-            _currentPhase = Phase.FIRST;
-            countBasicAttacks = 1;
+            _currentStage = Stage.STAGE_1;
         }
         private void Update()
+        {
+            if (_currentState.Equals(State.WAITING) || _currentState.Equals(State.DEAD) || GameManager.GetInstance().playerDeath) return;
+            CheckPlayer();
+        }
+
+        private void FixedUpdate()
         {
             if (_currentState.Equals(State.WAITING) || _currentState.Equals(State.DEAD) || GameManager.GetInstance().playerDeath) return;
             Movement();
         }
 
-        public void ChangeState(State state)
-        {
-            _currentState = state;
-        }
+
 
         #region Movement Behaviour
 
         private bool CheckGround()
         {
-            //float rayLength = Mathf.Abs(deltaMove.x) + skinWidth * 2;
-
-            //Vector2 rayOrigin = (directionX == -1 ? raycastOrigins.bottomLeft : raycastOrigins.bottomRight) +
-            //    Vector2.up * deltaMove.y;
             Vector2 rayOrigin = groundDetector.position;
             raycastGround = Physics2D.Raycast(rayOrigin, Vector2.down, rayLength, 1 << LayerMask.NameToLayer("Ground"));
 
@@ -101,16 +114,8 @@ namespace SimplePlatformer.Enemy
                 return false;
             }
         }
-        /// <summary>
-        /// Handles all movement behaviour of the boss
-        /// </summary>
-        private void Movement()
-        {
-            CheckPlayer();
-            Move();
-        }
 
-        private void Move()
+        private void Movement()
         {
             if (!isAttacking)
             {
@@ -141,54 +146,83 @@ namespace SimplePlatformer.Enemy
         {
             Collider2D[] boxAttackRadius = Physics2D.OverlapBoxAll(transform.position, _bossData.attackRadius, 0, 1 << LayerMask.NameToLayer("Player"));
             playerPosition = (playerGO.transform.position - transform.position).normalized;
-
-            //Check if there is a player in the attack radius
-            if (boxAttackRadius.Length > 0)
+            if (!isAttacking)
             {
-                //Attack
-                foreach (Collider2D col in boxAttackRadius)
+                //Player IN RANGE
+                if (boxAttackRadius.Length > 0)
                 {
-                    if (col.CompareTag("Player"))
-                    {
-                        Attack();
-                    }
+                    Attack();
                 }
             }
+
         }
         #endregion
         #region Attack
+        /// <summary>
+        /// Handles the Attack of the enemy.
+        /// - Attack Animation
+        /// - Counter of Attacks
+        /// - Next Attack to perform
+        /// </summary>
         private void Attack()
         {
-            if (!isAttacking)
+            isAttacking = true;
+            //Basic Attack
+            if (_currentAttack.Equals(AttackType.BASIC_ATTACK))
             {
-                isAttacking = true;
-                //Basic Attacks
-                if (countBasicAttacks <= 2)
-                {
-                    StartCoroutine(CooldownAttack(_bossData.attackRate));
-                    anim.Play(_bossData.animation.enemyAttack[0]);
-                    countBasicAttacks += 1;
-                    return;
-                }
-                //Casting Attack
-                if (countBasicAttacks > 2 && countBasicAttacks <= 4)
-                {
-                    StartCoroutine(CooldownAttack(3));
-                    anim.Play(_bossData.animation.enemyAttack[1]);
-                    //FIreballs
-                    StartCoroutine(CreateProjectile(.4f));
-                    StartCoroutine(CreateProjectile(.6f, new Vector2(4, -3)));
-                    StartCoroutine(CreateProjectile(.8f, new Vector2(-4, -3)));
-                    countBasicAttacks += 1;
-                }
-                //Restart
-                if (countBasicAttacks == 5)
-                {
-                    StartCoroutine(CooldownAttack(0.5f));
-                    countBasicAttacks = 1;
-                    return;
-                }
+                maxAttacks = 2;
+                BasicAttack();
+                //Counter
+                countAttacks += 1;
+                NextAttack();
+                return;
             }
+            //Casting Fireballs Attack
+            if (_currentAttack.Equals(AttackType.CAST_FIREBALLS))
+            {
+                maxAttacks = 2;
+                FireballsAttack();
+                //Counter
+                countAttacks += 1;
+                NextAttack();
+                return;
+            }
+            //Mage Hand Attack
+            if (_currentAttack.Equals(AttackType.CAST_HANDS))
+            {
+                maxAttacks = 1;
+                MageHandAttack();
+                //Counter
+                countAttacks += 1;
+                NextAttack();
+                return;
+            }
+        }
+
+        private void FireballsAttack()
+        {
+            StartCoroutine(CooldownAttack(3));
+            anim.Play(_bossData.animation.enemyAttack[1]);
+            //FIreballs
+            StartCoroutine(CreateProjectile(.4f));
+            StartCoroutine(CreateProjectile(.6f, new Vector2(4, -3)));
+            StartCoroutine(CreateProjectile(.8f, new Vector2(-4, -3)));
+
+        }
+
+        private void MageHandAttack()
+        {
+            StartCoroutine(CooldownAttack(3));
+            anim.Play(_bossData.animation.enemyAttack[1]);
+
+        }
+
+        private void BasicAttack()
+        {
+            //Attack Behaviour
+            StartCoroutine(CooldownAttack(_bossData.attackRate));
+            anim.Play(_bossData.animation.enemyAttack[0]);
+
         }
 
         private IEnumerator CreateProjectile(float _seconds, Vector2 _Offset)
@@ -224,12 +258,66 @@ namespace SimplePlatformer.Enemy
         private IEnumerator CooldownAttack(float _seconds)
         {
             yield return new WaitForSeconds(_seconds);
-            //Cooldown Attack
             isAttacking = false;
             FlipByTargetDirection(playerPosition.x);
         }
         #endregion
+        #region Stages & Next Attacks
 
+        public void ChangeState(State state)
+        {
+            _currentState = state;
+        }
+
+        private void StartNextStage()
+        {
+            switch (_currentStage)
+            {
+                case Stage.STAGE_1:
+                    _currentStage = Stage.STAGE_2;
+                    break;
+                case Stage.STAGE_2:
+                    _currentStage = Stage.STAGE_3;
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Change the current type of attack, only if has performed the amount of attacks
+        /// set previously
+        /// - Handles Stage Check
+        /// </summary>
+        /// <param name="at"></param>
+        private void NextAttack()
+        {
+            if (countAttacks >= maxAttacks)
+            {
+                countAttacks = 0;
+                maxAttacks = 1;
+
+                switch (_currentAttack)
+                {
+                    case AttackType.BASIC_ATTACK:
+                        _currentAttack = AttackType.CAST_FIREBALLS;
+                        break;
+                    case AttackType.CAST_FIREBALLS:
+                        #region Attack Type Following the Stage
+                        if (_currentStage.Equals(Stage.STAGE_1))
+                        {
+                            _currentAttack = AttackType.BASIC_ATTACK;
+                        }
+                        else
+                        {
+                            _currentAttack = AttackType.CAST_HANDS;
+                        }
+                        #endregion
+                        break;
+                }
+            }
+        }
+
+
+        #endregion
 
         public void DisplayHealthBar()
         {
