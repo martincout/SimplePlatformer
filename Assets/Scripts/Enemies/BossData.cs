@@ -33,6 +33,7 @@ namespace SimplePlatformer.Enemy
         public GameObject projectileGO;
         public float projectileSpeed;
         public float projectileDamage;
+        public GameObject mageHandGO;
         [Expandable]
         public BossAnimationData animation;
     }

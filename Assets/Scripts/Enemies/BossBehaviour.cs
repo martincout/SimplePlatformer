@@ -27,7 +27,7 @@ namespace SimplePlatformer.Enemy
         /// <summary>
         /// Player
         /// </summary>
-        private Vector2 playerPosition;
+        private Vector2 playerDirection;
         [SerializeField] private GameObject playerGO;
 
         /// <summary>
@@ -119,11 +119,11 @@ namespace SimplePlatformer.Enemy
         {
             if (!isAttacking)
             {
-                FlipByTargetDirection(playerPosition.x);
-                if (playerPosition.x != 0 && CheckGround())
+                FlipByTargetDirection(playerDirection.x);
+                if (playerDirection.x != 0 && CheckGround())
                 {
                     anim.Play(_bossData.animation.enemyMovement);
-                    rb2d.velocity = new Vector2(playerPosition.x * _bossData.speed * Time.deltaTime, GetComponent<Rigidbody2D>().velocity.y);
+                    rb2d.velocity = new Vector2(playerDirection.x * _bossData.speed * Time.deltaTime, GetComponent<Rigidbody2D>().velocity.y);
                 }
 
                 //Idle animation only if we have no ground, because otherwise the enemy will keep walking when it's not suppose to do.
@@ -145,7 +145,7 @@ namespace SimplePlatformer.Enemy
         private void CheckPlayer()
         {
             Collider2D[] boxAttackRadius = Physics2D.OverlapBoxAll(transform.position, _bossData.attackRadius, 0, 1 << LayerMask.NameToLayer("Player"));
-            playerPosition = (playerGO.transform.position - transform.position).normalized;
+            playerDirection = (playerGO.transform.position - transform.position).normalized;
             if (!isAttacking)
             {
                 //Player IN RANGE
@@ -190,7 +190,7 @@ namespace SimplePlatformer.Enemy
             //Mage Hand Attack
             if (_currentAttack.Equals(AttackType.CAST_HANDS))
             {
-                maxAttacks = 1;
+                maxAttacks = 2;
                 MageHandAttack();
                 //Counter
                 countAttacks += 1;
@@ -209,11 +209,20 @@ namespace SimplePlatformer.Enemy
             StartCoroutine(CreateProjectile(.8f, new Vector2(-4, -3)));
 
         }
-
+        /// <summary>
+        /// Handles the Mage Hand Attack
+        /// - Plays the Animation and Start the cooldown
+        /// - Creates 3 Mages Hands following the players direaction
+        /// </summary>
         private void MageHandAttack()
         {
-            StartCoroutine(CooldownAttack(3));
+            StartCoroutine(CooldownAttack(2.2f));
             anim.Play(_bossData.animation.enemyAttack[1]);
+            //Mage Hand
+            
+            float xOffset = 4f;
+            float seconds = 0.4f;
+            StartCoroutine(CreateMagesHands(seconds,xOffset));
 
         }
 
@@ -252,6 +261,34 @@ namespace SimplePlatformer.Enemy
             //Custom parameters
             instance.GetComponent<Fireball>().speed = _bossData.projectileSpeed;
             instance.GetComponent<Fireball>().damage = _bossData.projectileDamage;
+        }
+
+        /// <summary>
+        /// Instantiates 3 mages hands.
+        /// 
+        /// </summary>
+        /// <param name="_waitSeconds"></param>
+        /// <param name="_xOffset"></param>
+        /// <returns></returns>
+        private IEnumerator CreateMagesHands(float _waitSeconds, float _xOffset)
+        {
+            //position y above head
+            float position_y = 3.87f;
+            float destroyAfter = 1.4f;
+            yield return new WaitForSeconds(_waitSeconds);
+            Vector2 position = new Vector2(playerGO.transform.position.x, position_y);
+            SoundManager.instance.Play("MageHand");
+            GameObject instance1 = Instantiate(_bossData.mageHandGO,position,Quaternion.identity);
+            Destroy(instance1, destroyAfter);
+            _xOffset = PlayerDirNormalizedNoZero() * _xOffset;
+            yield return new WaitForSeconds(_waitSeconds);
+            SoundManager.instance.Play("MageHand");
+            GameObject instance2 = Instantiate(_bossData.mageHandGO, instance1.transform.position + new Vector3(_xOffset,0), Quaternion.identity);
+            Destroy(instance2, destroyAfter);
+            yield return new WaitForSeconds(_waitSeconds);
+            SoundManager.instance.Play("MageHand");
+            GameObject instance3 = Instantiate(_bossData.mageHandGO, instance2.transform.position + new Vector3(_xOffset, 0), Quaternion.identity);
+            Destroy(instance3, destroyAfter);
 
         }
 
@@ -259,7 +296,7 @@ namespace SimplePlatformer.Enemy
         {
             yield return new WaitForSeconds(_seconds);
             isAttacking = false;
-            FlipByTargetDirection(playerPosition.x);
+            FlipByTargetDirection(playerDirection.x);
         }
         #endregion
         #region Stages & Next Attacks
@@ -312,6 +349,9 @@ namespace SimplePlatformer.Enemy
                         }
                         #endregion
                         break;
+                    case AttackType.CAST_HANDS:
+                        _currentAttack = AttackType.BASIC_ATTACK;
+                        break;
                 }
             }
         }
@@ -340,9 +380,10 @@ namespace SimplePlatformer.Enemy
         #endregion
 
 
-        /// <summary>
+        /// 
         /// Utils
-        /// </summary>
+        /// 
+
         public void FlipByTargetDirection(float _dirX)
         {
             if (_dirX > 0)
@@ -355,13 +396,49 @@ namespace SimplePlatformer.Enemy
             }
         }
 
+        /// <summary>
+        /// Returns the player direaction normalized between 0,1,-1
+        /// </summary>
+        /// <returns></returns>
+        private int PlayerDirNormalized()
+        {
+            if (playerDirection.x == 0) return 0;
+            if(playerDirection.x > 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        /// <summary>
+        /// Returns the player direaction normalized between 1,-1
+        /// When it's 0, returns -1
+        /// </summary>
+        /// <returns></returns>
+        private int PlayerDirNormalizedNoZero()
+        {
+            if (playerDirection.x > 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
         public void SwishSound()
         {
             SoundManager.instance.Play(_bossData.swishSound);
         }
+        
 
         public void TakeDamage(float damage, Vector3 attackerPosition)
         {
+
             if (healthSystem.GetHealth() > 0)
             {
                 SoundManager.instance.Play("Damage");
@@ -374,6 +451,25 @@ namespace SimplePlatformer.Enemy
                 {
                     Die();
                 }
+            }
+            //Change Stages
+            switch (_currentStage)
+            {
+                case Stage.STAGE_1:
+                    if(healthSystem.GetHealthPercent() < 0.75f)
+                    {
+                        //Under 70% of health
+                        StartNextStage();
+
+                    }
+                    break;
+                case Stage.STAGE_2:
+                    if (healthSystem.GetHealthPercent() < 0.5f)
+                    {
+                        //Under 50% of health
+                        StartNextStage();
+                    }
+                    break;
             }
         }
 

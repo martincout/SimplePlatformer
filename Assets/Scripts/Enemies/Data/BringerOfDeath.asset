@@ -16,7 +16,7 @@ MonoBehaviour:
   prefab: {fileID: 8953090005841576917, guid: f723fdff7091557468e71013060acf55, type: 3}
   enemyName: Bringer Of Death
   description: 
-  maxHealth: 1000
+  maxHealth: 2000
   damage: 15
   speed: 200
   attackRadius: {x: 18.26, y: 6.36}
@@ -29,4 +29,5 @@ MonoBehaviour:
   projectileGO: {fileID: 8012012429621506207, guid: 4046443aa18f49b469595faff52145bf, type: 3}
   projectileSpeed: 8
   projectileDamage: 10
+  mageHandGO: {fileID: 4054788525680606253, guid: cb84c6cdede58da4bbb2da39df691a95, type: 3}
   animation: {fileID: 11400000, guid: d65e31fd5cd0d034bb99ae7faf08add4, type: 2}

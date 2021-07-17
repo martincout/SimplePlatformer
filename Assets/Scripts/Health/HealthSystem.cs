@@ -63,8 +63,8 @@ public class HealthSystem : MonoBehaviour
     /// Gets the health with a normalized value (0 to 1)
     /// </summary>
     /// <returns></returns>
-    public float GetHealthNormalized()
+    public float GetHealthPercent()
     {
-        return Mathf.Clamp(currentHealth, 0, 1);
+        return currentHealth / maxHealth;
     }
 }

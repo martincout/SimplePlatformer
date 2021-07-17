@@ -8,12 +8,8 @@ public class Hitbox : MonoBehaviour
     public float damage;
     public GameObject boss;
 
-    private void Start()
-    {
-        boss = transform.parent.gameObject;
-    }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag(targetTag))
         {
@@ -22,5 +18,10 @@ public class Hitbox : MonoBehaviour
                 collision.GetComponent<IDamageable>().TakeDamage(damage,boss.transform.position);
             }
         }
+    }
+
+    public void MageHandHitSound()
+    {
+        SoundManager.instance.Play("MageHandHit");
     }
 }
