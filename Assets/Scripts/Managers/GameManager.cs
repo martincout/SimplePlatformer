@@ -71,18 +71,8 @@ public class GameManager : MonoBehaviour
         // We want to be a Singleton (i.e. there should only ever be
         // one GameStatus instance at any given time.)
 
-
-        if (instance != null)
-        {
-            // Someone ELSE is the singleton already.
-            // So let's just destroy ourselves before we cause trouble.
-            Destroy(this.gameObject);
-            return;
-        }
-
         // If we get here, the we are "the one". Let's act like it.
-        instance = this;    // We are a Highlander
-        DontDestroyOnLoad(this.gameObject);  // Become immortal
+        instance = this;    
 
         InitializeKeys();
 

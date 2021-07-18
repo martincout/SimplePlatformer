@@ -9,6 +9,7 @@ public class DialogueYesNo : MonoBehaviour
     public Button firstSelected;
     private bool activated = true;
     public PlayerController player;
+    public int cost = 50;
     private void OnEnable()
     {
         player.playerInteractableBehaviour.enabled = false;
@@ -23,7 +24,6 @@ public class DialogueYesNo : MonoBehaviour
 
     public void Yes()
     {
-
         activated = false;
         if (!activated)
         {
