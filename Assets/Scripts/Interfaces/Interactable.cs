@@ -35,7 +35,5 @@ public abstract class Interactable : MonoBehaviour
             source.PlayOneShot(sound);
             Destroy(audioGm, 2f);
         }
-
-
     }
 }

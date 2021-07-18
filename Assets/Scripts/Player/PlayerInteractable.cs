@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace SimplePlatformer.Player
 {
@@ -11,6 +12,7 @@ namespace SimplePlatformer.Player
         private GameObject buttonRef;
         private float buttonOffset;
         private Collider2D interact;
+
         // Update is called once per frame
         void Update()
         {

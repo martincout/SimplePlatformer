@@ -20,10 +20,13 @@ public class CampFire : Interactable
 
     public override void Interact()
     {
-        base.Interact();
-        anim.Play(CAMPFIRE_ON);
-        RespawnManager.currentRespawn = gameObject;
-        EventSystems.NewSpawnHandler();
-        Instantiate(lightGO, transform.position, Quaternion.identity);
+        if (!interacted)
+        {
+            base.Interact();
+            anim.Play(CAMPFIRE_ON);
+            RespawnManager.currentRespawn = gameObject;
+            EventSystems.NewSpawnHandler();
+            Instantiate(lightGO, transform.position, Quaternion.identity);
+        }
     }
 }

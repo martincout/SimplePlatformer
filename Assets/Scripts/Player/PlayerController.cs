@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -23,7 +24,6 @@ namespace SimplePlatformer.Player
 
         //Aux
         protected float invincibleTime = 1f;
-
         protected static Vector2 rawInputMovement;
 
         //Take damage
