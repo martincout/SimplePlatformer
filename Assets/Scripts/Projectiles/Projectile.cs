@@ -8,6 +8,7 @@ public class Projectile : MonoBehaviour, IDamageable
     public float damage;
     public GameObject player;
     private Vector2 direction;
+    private Rigidbody2D rb;
 
     private void OnEnable()
     {
@@ -21,15 +22,14 @@ public class Projectile : MonoBehaviour, IDamageable
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player").gameObject;
         direction = player.transform.position - transform.position;
-        transform.rotation = Quaternion.AngleAxis(180, direction);
     }
 
     private void FixedUpdate()
     {
-        
-        transform.position = direction.normalized * speed * Time.deltaTime;
+        rb.velocity = direction.normalized * speed * Time.deltaTime;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -41,6 +41,7 @@ public class Projectile : MonoBehaviour, IDamageable
             {
                 collision.GetComponent<IDamageable>().TakeDamage(damage, transform.position);
             }
+            SoundManager.instance.Play("Crack");
             Destroy(gameObject,0.4f);
             GetComponent<CircleCollider2D>().enabled = false;
         }
@@ -50,9 +51,12 @@ public class Projectile : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage, Vector3 attackerPosition)
     {
+        GetComponent<Collider2D>().enabled = false;
         GetComponent<Animator>().Play("projectileDestroy");
         Destroy(gameObject, 0.4f);
+        SoundManager.instance.Play("Crack");
     }
+
 
     public void DieInstantly()
     {

@@ -247,6 +247,10 @@ namespace SimplePlatformer.Enemy
         {
             if (playerGO != null)
             {
+                if (name.Equals("Demon (1)"))
+                {
+                    Debug.Log(FollowPlayer());
+                }
                 if (!currentState.Equals(State.FRIENDLY))
                 {
                     if (patrollingEnabled)
@@ -255,6 +259,7 @@ namespace SimplePlatformer.Enemy
                         if (FollowPlayer())
                         {
                             currentState = State.CHASING;
+                            sawPlayer = true;
                         }
                         else
                         {
@@ -274,6 +279,7 @@ namespace SimplePlatformer.Enemy
                     if (sawPlayer)
                     {
                         currentState = State.CHASING;
+                        
                         currentVisionRadius = _enemyData.visionRadiusUpgrade;
                     }
                 }

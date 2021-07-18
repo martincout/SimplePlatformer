@@ -20,7 +20,7 @@ MonoBehaviour:
   damage: 100
   speed: 400
   visionRadius: 7
-  visionRadiusUpgrade: 10
+  visionRadiusUpgrade: 12
   attackRadius: {x: 5.09, y: 2.55}
   attackRange: 1.59
   attackRate: 1.3

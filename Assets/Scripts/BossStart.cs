@@ -3,16 +3,16 @@ using SimplePlatformer.Enemy;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class BossStart : MonoBehaviour
 {
-    public CinemachineVirtualCamera camera;
+    public new CinemachineVirtualCamera camera;
     public CinemachineVirtualCamera bossCamera;
     public BossBehaviour boss;
     public GameObject celldoor;
     public Transform celldoorPosition;
-    public AudioClip BGM;
-    public AudioSource BGMGO;
+    public AudioMixer audioMixer;
     private bool oneTime = false;
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -20,12 +20,12 @@ public class BossStart : MonoBehaviour
         {
             oneTime = true;
             camera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenY = 0.77f;
-            StartCoroutine(FocusBoss(2f));
+            StartCoroutine(FocusBoss(1f));
             boss.ChangeState(BossBehaviour.State.START);
             boss.DisplayHealthBar();
             Instantiate(celldoor, celldoorPosition,true);
-            BGMGO.clip = BGM;
-            BGMGO.Play();
+            StartCoroutine(FadeMixerGroup.StartFadeOut(audioMixer, "vol1", 1f, 0f));
+            StartCoroutine(FadeMixerGroup.StartFadeIn(audioMixer, "vol2", 2f, 0f));
         }
     }
     private IEnumerator FocusBoss(float _sec)

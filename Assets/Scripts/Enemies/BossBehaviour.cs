@@ -18,6 +18,7 @@ namespace SimplePlatformer.Enemy
         private Rigidbody2D rb2d;
         private Animator anim;
         public Transform fireballsPosition;
+        public AudioClip mageHandHit;
         /// <summary>
         /// Ground Detection
         /// </summary>
@@ -277,16 +278,16 @@ namespace SimplePlatformer.Enemy
             float destroyAfter = 1.4f;
             yield return new WaitForSeconds(_waitSeconds);
             Vector2 position = new Vector2(playerGO.transform.position.x, position_y);
-            SoundManager.instance.Play("MageHand");
+            GetComponent<AudioSource>().PlayOneShot(mageHandHit);
             GameObject instance1 = Instantiate(_bossData.mageHandGO,position,Quaternion.identity);
             Destroy(instance1, destroyAfter);
             _xOffset = PlayerDirNormalizedNoZero() * _xOffset;
             yield return new WaitForSeconds(_waitSeconds);
-            SoundManager.instance.Play("MageHand");
+            GetComponent<AudioSource>().PlayOneShot(mageHandHit);
             GameObject instance2 = Instantiate(_bossData.mageHandGO, instance1.transform.position + new Vector3(_xOffset,0), Quaternion.identity);
             Destroy(instance2, destroyAfter);
             yield return new WaitForSeconds(_waitSeconds);
-            SoundManager.instance.Play("MageHand");
+            GetComponent<AudioSource>().PlayOneShot(mageHandHit);
             GameObject instance3 = Instantiate(_bossData.mageHandGO, instance2.transform.position + new Vector3(_xOffset, 0), Quaternion.identity);
             Destroy(instance3, destroyAfter);
 

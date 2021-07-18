@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using SimplePlatformer.Enemy;
+using UnityEngine.Audio;
 
 public class LevelManager : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class LevelManager : MonoBehaviour
     private List<RespawnEntityData> bosses;
     public Room currentRoom;
     public CanvasGroup bossHealthbar;
+    public AudioMixer audioMixer;
 
     public CinemachineVirtualCameraBase virtualCamera;
 
@@ -81,6 +83,8 @@ public class LevelManager : MonoBehaviour
         //Set the follow to all virtual cameras with the respawn Event
         EventSystems.RespawnHandler?.Invoke(player);
 
+        StartCoroutine(FadeMixerGroup.StartFadeOut(audioMixer, "vol2", 1f, 0f));
+        StartCoroutine(FadeMixerGroup.StartFadeIn(audioMixer, "vol1", 2f, 0f));
     }
 
     public void FadeBossHealthBar()

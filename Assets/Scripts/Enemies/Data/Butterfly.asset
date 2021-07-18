@@ -16,7 +16,7 @@ MonoBehaviour:
   prefab: {fileID: 5599430386791468312, guid: 0799890dd8e71a044959329c5278331e, type: 3}
   enemyName: Butterfly
   description: Flying Enemy
-  maxHealth: 30
+  maxHealth: 10
   damage: 60
   speed: 300
   visionRadius: 9.69

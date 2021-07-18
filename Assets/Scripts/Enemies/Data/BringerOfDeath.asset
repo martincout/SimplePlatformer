@@ -17,7 +17,7 @@ MonoBehaviour:
   enemyName: Bringer Of Death
   description: 
   maxHealth: 2000
-  damage: 15
+  damage: 35
   speed: 200
   attackRadius: {x: 18.26, y: 6.36}
   attackRange: 0
