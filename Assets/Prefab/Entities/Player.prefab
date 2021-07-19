@@ -452,7 +452,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
-  speed: 10
+  speed: 8
   dustFootsteps: {fileID: 71617679584371750}
   raycastLeftOffset: {x: 0.19, y: 0, z: 0}
   raycastRightOffset: {x: 0.19, y: 0, z: 0}
@@ -517,7 +517,7 @@ MonoBehaviour:
   playerInteractableBehaviour: {fileID: 0}
   thrust: 10
   buttonInteract: {fileID: 4778406685189288635, guid: 1378888f90720814492fbfb4860632b2, type: 3}
-  size: {x: 3, y: 2.2}
+  size: {x: 1.88, y: 0.67}
 --- !u!114 &46930375
 MonoBehaviour:
   m_ObjectHideFlags: 0

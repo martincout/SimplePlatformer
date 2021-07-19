@@ -29,7 +29,10 @@ namespace SimplePlatformer.Player
                     buttonRef = Instantiate(buttonInteract, pos, Quaternion.identity, interact.transform);
                     btnInstantiated = true;
                 }
-
+                if (interact.GetComponent<Interactable>().closerToInteract)
+                {
+                    interact.GetComponent<Interactable>().Interact();
+                }
             }
             //Destroy UI BUTTON 
             if (interact == null && btnInstantiated)
@@ -46,10 +49,12 @@ namespace SimplePlatformer.Player
             //If there is an Interactable object near
             if (interact != null)
             {
+                Debug.Log("h2i");
                 interact.GetComponent<Interactable>().Interact();
                 DestroyButton(buttonRef);
                 btnInstantiated = false;
             }
+
         }
 
         private void DestroyButton(GameObject btn)
