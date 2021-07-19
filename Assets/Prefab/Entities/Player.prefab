@@ -447,6 +447,8 @@ MonoBehaviour:
   fallMultiplier: 2
   lowFallMultiplier: 3
   jumpForce: 20
+  hangTime: 1
+  hangTimeCounter: 0
   groundedHeight: 0.1
   heightOffset: 0.25
   groundLayer:

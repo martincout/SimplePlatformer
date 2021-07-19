@@ -7,9 +7,11 @@ namespace SimplePlatformer.Player
     {
         //Jump
 
-        [SerializeField] private float fallMultiplier = 2f;
-        [SerializeField] private float lowFallMultiplier = 8f;
+        [Tooltip("Multipies the fall after jump"), SerializeField] private float fallMultiplier = 2f;
+        [Tooltip("When the player Stops Pressing Jump in mid air, multiplies the fall"), SerializeField] private float lowFallMultiplier = 8f;
         [SerializeField] private float jumpForce = 4f;
+        [Tooltip("Hang time in the air"), SerializeField] private float hangTime = 0.2f;
+        [Tooltip("Hang time counter, decreasing value"), SerializeField] private float hangTimeCounter = 0f;
         //Check Ground
         public float groundedHeight = 0.5f;
         public float heightOffset = 0.25f; // we dont want to cast from the players feet (may cast underground sometimes), so we offset it a bit
@@ -63,6 +65,15 @@ namespace SimplePlatformer.Player
         public void FixedUpdate()
         {
             CheckGround();
+            if (pv.isGrounded)
+            {
+                hangTimeCounter = hangTime;
+            }
+            else
+            {
+                hangTimeCounter -= Time.deltaTime;
+            }
+
             if (!pv.isStunned)
             {
                 Move();
@@ -134,19 +145,6 @@ namespace SimplePlatformer.Player
             }
         }
 
-        private void BetterJump()
-        {
-            if (rb2d.velocity.y < 0)
-            {
-                rb2d.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
-            }
-            else if (rb2d.velocity.y > 0 && !jumpingHeld)
-            {
-                rb2d.velocity += Vector2.up * Physics2D.gravity.y * (lowFallMultiplier - 1) * Time.deltaTime;
-            }
-
-        }
-
         private void CheckGround()
         {
             //Raycast position calculation. (from the center-bottom of the collider 2d, with an offset)
@@ -176,10 +174,27 @@ namespace SimplePlatformer.Player
 
         }
 
+        //JUMP METHODS --------------
+
+        private void BetterJump()
+        {
+            if (rb2d.velocity.y < 0)
+            {
+                rb2d.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+            }
+            else if (rb2d.velocity.y > 0 && !jumpingHeld)
+            {
+                rb2d.velocity += Vector2.up * Physics2D.gravity.y * (lowFallMultiplier - 1) * Time.deltaTime;
+            }
+
+        }
+
         public void StartJumping()
         {
             if (pv.isGrounded) SoundManager.instance.Play("Jump");
             jumpingHeld = true;
+            
+
         }
 
         public void CancelJumping()
@@ -190,22 +205,24 @@ namespace SimplePlatformer.Player
 
         public void JumpUpdate()
         {
-            if (pv.isGrounded && !jumpingHeld)
+            if (hangTimeCounter > 0 && !jumpingHeld)
             {
                 pv.isJumping = false;
             }
-            if (pv.isGrounded && jumpingHeld)
+            if (hangTimeCounter > 0 && jumpingHeld)
             {
                 pv.isJumping = true;
             }
 
             if (pv.isJumping)
             {
+                hangTimeCounter = 0f;
                 float multiplies = 50;
                 rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce * (Time.deltaTime * multiplies));
             }
 
         }
+
 
         private void Move()
         {

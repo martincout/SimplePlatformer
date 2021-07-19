@@ -4,11 +4,14 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-/// <summary>
-/// Handles States
-/// </summary>
+
 namespace SimplePlatformer.Player
 {
+    /// <summary>
+    /// Handles all the player general behaviour.
+    /// - Input
+    /// - Health, Damage, Knockback
+    /// </summary>
     public class PlayerController : MonoBehaviour, IDamageable, IItem
     {
         [Header("Sub Behaviours")]
