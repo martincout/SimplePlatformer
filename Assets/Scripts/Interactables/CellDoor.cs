@@ -19,7 +19,7 @@ public class CellDoor : Interactable
         if (GameManager.GetInstance().GetKeys()[keyNeeded] > 0 || openWithLever)
         {
             PlaySound();
-            StartCoroutine( PlayAnimation());
+            StartCoroutine(PlayAnimation());
             Destroy(gameObject, 1f);
             GameManager.GetInstance().DeleteKey(keyNeeded);
         }

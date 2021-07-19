@@ -11,6 +11,8 @@ public class PickUp : MonoBehaviour
 
     private void Start()
     {
+        Animator anim = GetComponent<Animator>();
+        if (item.animation != null && anim != null) { anim.Play(item.animation); }
         StartCoroutine(WaitForPickup());
     }
 
@@ -72,8 +74,7 @@ public class PickUp : MonoBehaviour
     
     private IEnumerator WaitForPickup()
     {
-        
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         canPickUp = true;
     }
 }

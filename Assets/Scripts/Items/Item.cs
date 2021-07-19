@@ -15,6 +15,6 @@ public class Item : ScriptableObject
     public float value;
     public GameObject particleGameobject;
     public Category category;
-
+    public string animation;
     
 }
