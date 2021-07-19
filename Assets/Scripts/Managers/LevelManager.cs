@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using SimplePlatformer.Enemy;
 using UnityEngine.Audio;
+using SimplePlatformer.Player;
 
 public class LevelManager : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class LevelManager : MonoBehaviour
     public Room currentRoom;
     public CanvasGroup bossHealthbar;
     public AudioMixer audioMixer;
+    [SerializeField] private GameObject player;
 
     public CinemachineVirtualCameraBase virtualCamera;
 
@@ -46,11 +48,11 @@ public class LevelManager : MonoBehaviour
         enemies = new List<RespawnEntityData>();
         foreach (Transform child in enemyContainer.transform)
         {
-            enemies.Add(new RespawnEntityData(child.GetComponent<Enemy>(),child.position));
+            enemies.Add(new RespawnEntityData(child.GetComponent<Enemy>(), child.position));
         }
         //Gets bosses
         bosses = new List<RespawnEntityData>();
-        foreach(Transform child in bossContainer.transform)
+        foreach (Transform child in bossContainer.transform)
         {
             bosses.Add(new RespawnEntityData(child.GetComponent<BossBehaviour>(), child.position));
         }
@@ -59,32 +61,36 @@ public class LevelManager : MonoBehaviour
         //Current spawnpoint
         currentRespawnPoint = RespawnManager.currentRespawn.transform;
     }
-   
+
 
     public void Respawn()
     {
-        //Set an event to respawn all enemies because every enemy handles his own destruction
-        EventSystems.RespawnEnemiesHandler();
-        foreach (RespawnEntityData ed in enemies)
+        if (player == null)
         {
-            GameObject instance = Instantiate(ed.enemy._enemyData.prefab, ed.position, Quaternion.identity, enemyContainer.transform);
-            instance.GetComponent<Enemy>().dropItem = ed.enemy.dropItem;
-            instance.GetComponent<Enemy>().dropChance = ed.enemy.dropChance;
-            instance.GetComponent<Enemy>().patrollingEnabled = ed.enemy.patrollingEnabled;
-        }
-        foreach(RespawnEntityData bs in bosses)
-        {
-            GameObject instance = Instantiate(bs.boss._bossData.prefab, bs.position, Quaternion.identity, bossContainer.transform);
-        }
-        //PlayerAlive();
-        GameObject player = Instantiate(playerPrefab, currentRespawnPoint.position, Quaternion.identity);
-        //Set the follow to the actual virtual camera (don't know why I did this)
-        virtualCamera.Follow = player.transform;
-        //Set the follow to all virtual cameras with the respawn Event
-        EventSystems.RespawnHandler?.Invoke(player);
+            //Set an event to respawn all enemies because every enemy handles his own destruction
+            EventSystems.RespawnEnemiesHandler();
+            foreach (RespawnEntityData ed in enemies)
+            {
+                GameObject instance = Instantiate(ed.enemy._enemyData.prefab, ed.position, Quaternion.identity, enemyContainer.transform);
+                instance.GetComponent<Enemy>().dropItem = ed.enemy.dropItem;
+                instance.GetComponent<Enemy>().dropChance = ed.enemy.dropChance;
+                instance.GetComponent<Enemy>().patrollingEnabled = ed.enemy.patrollingEnabled;
+            }
+            foreach (RespawnEntityData bs in bosses)
+            {
+                GameObject instance = Instantiate(bs.boss._bossData.prefab, bs.position, Quaternion.identity, bossContainer.transform);
+            }
 
-        StartCoroutine(FadeMixerGroup.StartFadeOut(audioMixer, "vol2", 1f, 0f));
-        StartCoroutine(FadeMixerGroup.StartFadeIn(audioMixer, "vol1", 2f, 0f));
+            player = Instantiate(playerPrefab, currentRespawnPoint.position, Quaternion.identity);
+
+            //Set the follow to the actual virtual camera (don't know why I did this)
+            virtualCamera.Follow = player.transform;
+            //Set the follow to all virtual cameras with the respawn Event
+            EventSystems.RespawnHandler?.Invoke(player);
+            StartCoroutine(FadeMixerGroup.StartFadeOut(audioMixer, "vol2", 1f, 0f));
+            StartCoroutine(FadeMixerGroup.StartFadeIn(audioMixer, "vol1", 2f, 0f));
+        }
+
     }
 
     public void FadeBossHealthBar()
@@ -98,5 +104,5 @@ public class LevelManager : MonoBehaviour
         currentRespawnPoint = RespawnManager.currentRespawn.transform;
     }
 
-    
+
 }

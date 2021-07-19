@@ -9,6 +9,9 @@ namespace SimplePlatformer.Enemy
         [SerializeField] private float attackRange = 0.2f;
         [HideInInspector] public bool checkForHitBox = false;
         [SerializeField] private float rayLength = 0.2f;
+        [SerializeField] private float gravity = 20f;
+
+
 
         private RaycastHit2D raycastGround;
         private RaycastHit2D raycastWall;
@@ -24,7 +27,8 @@ namespace SimplePlatformer.Enemy
         protected override void Start()
         {
             base.Start();
-            groundDetector = transform.GetChild(3)?.GetComponent<Transform>();
+            rb2d.gravityScale = gravity;
+            groundDetector = transform.GetChild(2)?.GetComponent<Transform>();
         }
 
         //TODO (Change the name of the Move Behaviour)

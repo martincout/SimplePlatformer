@@ -49,7 +49,6 @@ namespace SimplePlatformer.Player
             //If there is an Interactable object near
             if (interact != null)
             {
-                Debug.Log("h2i");
                 interact.GetComponent<Interactable>().Interact();
                 DestroyButton(buttonRef);
                 btnInstantiated = false;

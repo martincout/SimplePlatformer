@@ -74,7 +74,7 @@ namespace SimplePlatformer.Player
                 hangTimeCounter -= Time.deltaTime;
             }
 
-            if (!pv.isStunned)
+            if (!pv.isStunned && !pv.movePrevent)
             {
                 Move();
             }
@@ -104,7 +104,7 @@ namespace SimplePlatformer.Player
 
             isJumpingAnim = info.IsName(PlayerVariables.PLAYER_JUMP);
             isFallingAnim = info.IsName(PlayerVariables.PLAYER_FALLING);
-            isAttackingAnim = info.IsName(PlayerVariables.PLAYER_ATTACKING);
+            isAttackingAnim = info.IsName(PlayerVariables.PLAYER_ATTACK1);
             Flip();
             if (!isJumpingAnim && pv.isGrounded && !isAttackingAnim)
             {

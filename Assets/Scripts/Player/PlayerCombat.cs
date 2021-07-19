@@ -23,9 +23,11 @@ namespace SimplePlatformer.Player
         {
             NONE,
             FIRST,
-            SECOND
+            SECOND,
+            THIRD
         }
         private ComboState comboState;
+
 
         [SerializeField] private float timeNextCombo = 0.3f;
         private float elapsedNextCombo = 0;
@@ -67,6 +69,9 @@ namespace SimplePlatformer.Player
         private void Update()
         {
             CheckHitBoxColission();
+            //Suspend the player in air when air attacking
+            //SuspendInAir();
+
             //Used to exit the animation state when we are doing combos
             anim.SetFloat("timeCombo", elapsedNextCombo);
             //Combos
@@ -78,6 +83,7 @@ namespace SimplePlatformer.Player
             else if (!comboState.Equals(ComboState.NONE))
             {
                 pv.isAttacking = false;
+                pv.airAttacked = true;
                 comboState = ComboState.NONE;
                 elapsedAttackRate = attackRate;
                 rb2d.drag = initialDrag;
@@ -106,7 +112,6 @@ namespace SimplePlatformer.Player
         {
             if (!pv.isStunned && !pv.itsDying && !pv.cannotAttack)
             {
-
                 #region Attack
                 //Cooldown of the attack finished and if we are not in a Combo
                 if (elapsedAttackRate <= 0 || !comboState.Equals(ComboState.NONE))
@@ -119,36 +124,69 @@ namespace SimplePlatformer.Player
                         switch (comboState)
                         {
                             case ComboState.NONE:
-                                anim.Play(PlayerVariables.PLAYER_ATTACKING);
+                                anim.Play(PlayerVariables.PLAYER_ATTACK1);
                                 comboState = ComboState.FIRST;
                                 elapsedNextCombo = timeNextCombo;
                                 break;
                             case ComboState.FIRST:
-                                anim.Play(PlayerVariables.PLAYER_COMBO);
+                                anim.Play(PlayerVariables.PLAYER_ATTACK2);
                                 comboState = ComboState.SECOND;
                                 elapsedNextCombo = 0.2f;
                                 break;
+                            case ComboState.SECOND:
+                                anim.Play(PlayerVariables.PLAYER_ATTACK3);
+                                comboState = ComboState.THIRD;
+                                elapsedNextCombo = 0.4f;
+                                break;
                         }
-
-
                     }
                     //If I'm in the Air
                     else if (!pv.airAttacked)
                     {
-                        comboState = ComboState.FIRST;
+                        //Check for the Combo state
+                        switch (comboState)
+                        {
+                            case ComboState.NONE:
+                                //SetSuspendInAir();
+                                anim.Play(PlayerVariables.PLAYER_AIRATTACK);
+                                comboState = ComboState.FIRST;
+                                elapsedNextCombo = timeNextCombo;
+                                break;
+                            case ComboState.FIRST:
+                                anim.Play(PlayerVariables.PLAYER_AIRATTACK2);
+                                comboState = ComboState.SECOND;
+                                elapsedNextCombo = 0.4f;
+                                break;
+                        }
                         rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
-                        elapsedNextCombo = 0.2f;
-                        anim.Play(PlayerVariables.PLAYER_AIRATTACK);
-                        pv.airAttacked = true;
 
                     }
                     //don't slide on the floor
                     rb2d.drag = attackDrag;
-
                 }
             }
             #endregion
         }
+
+        //private void SetSuspendInAir()
+        //{
+        //    pv.movePrevent = true;
+        //    rb2d.gravityScale = 0;
+        //}
+
+        //private void SuspendInAir()
+        //{
+        //    if(pv.isAttacking && !pv.isGrounded)
+        //    {
+        //        if (!pv.isStunned) rb2d.velocity = Vector2.zero;
+        //    }
+        //    else
+        //    {
+        //        pv.movePrevent = false;
+        //        rb2d.gravityScale = 1f;
+        //    }
+            
+        //}
 
         public void SwishSound()
         {
