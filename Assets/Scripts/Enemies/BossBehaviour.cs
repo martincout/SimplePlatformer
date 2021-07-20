@@ -159,6 +159,14 @@ namespace SimplePlatformer.Enemy
                 {
                     Attack();
                 }
+                else
+                {
+                    if (!_currentAttack.Equals(AttackType.BASIC_ATTACK))
+                    {
+                        Attack();
+                    }
+                }
+
             }
 
         }
