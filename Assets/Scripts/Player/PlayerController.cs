@@ -81,6 +81,7 @@ namespace SimplePlatformer.Player
 
         private void Update()
         {
+            if (Time.timeScale == 0) return;
             UpdatePlayerMovement();
         }
 
@@ -210,6 +211,25 @@ namespace SimplePlatformer.Player
             if (item.category.Equals(Item.Category.CONSUMABLE))
             {
                 healthSystem.Heal(item.value);
+            }
+        }
+
+        public void DisablePlayerState(bool set)
+        {
+            switch (set)
+            {
+                case true:
+                    pv.cannotAttack = true;
+                    pv.movePrevent = true;
+                    pv.canInteract = false;
+                    rb2d.velocity = Vector2.zero;
+                    anim.Play(PlayerVariables.PLAYER_IDLE);
+                    break;
+                case false:
+                    pv.cannotAttack = false;
+                    pv.movePrevent = false;
+                    pv.canInteract = true;
+                    break;
             }
         }
 

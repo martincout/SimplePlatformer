@@ -16,6 +16,7 @@ namespace SimplePlatformer.Player
         // Update is called once per frame
         void Update()
         {
+            if (!pv.canInteract) return;
             interact = Physics2D.OverlapBox(transform.position, size, 0, 1 << LayerMask.NameToLayer("Interactable"));
             if (interact != null && interact.GetComponent<Interactable>() != null && !interact.GetComponent<Interactable>().interacted)
             {
@@ -46,6 +47,7 @@ namespace SimplePlatformer.Player
 
         public void Interact()
         {
+            if (!pv.canInteract) return;
             //If there is an Interactable object near
             if (interact != null)
             {

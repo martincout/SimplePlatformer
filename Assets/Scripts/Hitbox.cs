@@ -7,7 +7,7 @@ public class Hitbox : MonoBehaviour
     public string targetTag;
     public float damage;
     public GameObject boss;
-
+    public AudioClip mageHandImpact;
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -22,6 +22,6 @@ public class Hitbox : MonoBehaviour
 
     public void MageHandHitSound()
     {
-        SoundManager.instance.Play("MageHandHit");
+        GetComponent<AudioSource>().PlayOneShot(mageHandImpact);
     }
 }

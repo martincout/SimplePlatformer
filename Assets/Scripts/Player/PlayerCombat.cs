@@ -28,10 +28,9 @@ namespace SimplePlatformer.Player
         }
         private ComboState comboState;
 
-
-        [SerializeField] private float timeNextCombo = 0.3f;
-        private float elapsedNextCombo = 0;
-        private float elapsedAttackRate = 0;
+        private float timeNextCombo = 0.3f;
+        [SerializeField] private float elapsedNextCombo = 0;
+        [SerializeField] private float elapsedAttackRate = 0;
         public LayerMask enemyLayer;
         public LayerMask damageableLayer;
 
@@ -131,12 +130,14 @@ namespace SimplePlatformer.Player
                             case ComboState.FIRST:
                                 anim.Play(PlayerVariables.PLAYER_ATTACK2);
                                 comboState = ComboState.SECOND;
-                                elapsedNextCombo = 0.2f;
+                                elapsedNextCombo = 0.3f;
+                                elapsedAttackRate = 1f;
                                 break;
                             case ComboState.SECOND:
                                 anim.Play(PlayerVariables.PLAYER_ATTACK3);
                                 comboState = ComboState.THIRD;
                                 elapsedNextCombo = 0.4f;
+                                
                                 break;
                         }
                     }
@@ -159,7 +160,6 @@ namespace SimplePlatformer.Player
                                 break;
                         }
                         rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
-
                     }
                     //don't slide on the floor
                     rb2d.drag = attackDrag;

@@ -12,9 +12,7 @@ public class DialogueYesNo : MonoBehaviour
     public int cost = 50;
     private void OnEnable()
     {
-        player.playerInteractableBehaviour.enabled = false;
-        player.playerCombatBehaviour.enabled = false;
-        player.playerMovementBehaviour.enabled = false;
+        player.DisablePlayerState(true);
         //Interctable false because Select doesn't work the second time
         firstSelected.interactable = false;
         firstSelected.interactable = true;
@@ -27,9 +25,7 @@ public class DialogueYesNo : MonoBehaviour
         activated = false;
         if (!activated)
         {
-            player.playerInteractableBehaviour.enabled = true;
-            player.playerCombatBehaviour.enabled = true;
-            player.playerMovementBehaviour.enabled = true;
+            player.DisablePlayerState(false);
             player.EnableGameplayControls();
             gameObject.SetActive(false);
         }
@@ -41,9 +37,7 @@ public class DialogueYesNo : MonoBehaviour
         activated = false;
         if (!activated)
         {
-            player.playerInteractableBehaviour.enabled = true;
-            player.playerCombatBehaviour.enabled = true;
-            player.playerMovementBehaviour.enabled = true;
+            player.DisablePlayerState(false);
             player.EnableGameplayControls();
             gameObject.SetActive(false);
         }

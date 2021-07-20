@@ -239,7 +239,7 @@ MonoBehaviour:
   friendly: 0
   patrollingEnabled: 1
   headingRight: 0
-  knockbackDontInterruptAttack: 0
+  knockbackDontInterruptAttack: 1
   attackPoint: {fileID: 1759597274406321206}
   attackRange: 1.59
   checkForHitBox: 0

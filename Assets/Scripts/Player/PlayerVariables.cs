@@ -18,14 +18,15 @@ namespace SimplePlatformer.Player
         //States
         public bool isJumping = false;
         public bool movePrevent;
+        public bool cannotAttack;
         public bool isFacingRight;
         public bool isAttacking;
         public bool isStunned;
         public bool itsDying;
         public bool invincible;
         public bool airAttacked;
-        public bool cannotAttack;
         public bool isGrounded;
+        public bool canInteract = true;
     }
 }
 

@@ -77,12 +77,13 @@ namespace SimplePlatformer.Player
             if (!pv.isStunned && !pv.movePrevent)
             {
                 Move();
+                JumpUpdate();
+                BetterJump();
             }
-            JumpUpdate();
-            BetterJump();
         }
         private void Update()
         {
+            if (pv.movePrevent) return;
             if (!pv.isStunned)
             {
                 if (!pv.isAttacking)
@@ -191,10 +192,8 @@ namespace SimplePlatformer.Player
 
         public void StartJumping()
         {
-            if (pv.isGrounded) SoundManager.instance.Play("Jump");
+            if (pv.isGrounded && !pv.movePrevent) SoundManager.instance.Play("Jump");
             jumpingHeld = true;
-            
-
         }
 
         public void CancelJumping()
@@ -226,10 +225,6 @@ namespace SimplePlatformer.Player
 
         private void Move()
         {
-            //if(movementDirection.x != 0)
-            //{
-            //    Debug.Log(movementDirection.x);
-            //}
             float multiplies = 50;
             rb2d.velocity = new Vector2(movementDirection.x * speed * (Time.deltaTime * multiplies), rb2d.velocity.y);
         }
