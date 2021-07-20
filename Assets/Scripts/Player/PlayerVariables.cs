@@ -15,6 +15,7 @@ namespace SimplePlatformer.Player
         public static readonly string PLAYER_ATTACK1 = "playerAttack";
         public static readonly string PLAYER_ATTACK2 = "playerAttack2";
         public static readonly string PLAYER_ATTACK3 = "playerAttack3";
+        public static readonly string PLAYER_BOW = "playerBow";
         //States
         public bool isJumping = false;
         public bool movePrevent;

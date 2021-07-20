@@ -82,6 +82,7 @@ public class GameManager : MonoBehaviour
     public void TogglePauseState()
     {
         isPaused = !isPaused;
+        player.DisablePlayerState(isPaused);
         ToggleTimeScale();
         SwitchFocusedPlayerControlScheme();
         UpdateUIMenu();

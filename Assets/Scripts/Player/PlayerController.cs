@@ -277,6 +277,15 @@ namespace SimplePlatformer.Player
             }
         }
 
+        public void OnBowAttack(InputAction.CallbackContext value)
+        {
+            if (value.started)
+            {
+                playerCombatBehaviour.BowAttack();
+            }
+        }
+
+
         //This is called from Player Input, when a button has been pushed, that correspons with the 'TogglePause' action
         public void OnTogglePause(InputAction.CallbackContext value)
         {

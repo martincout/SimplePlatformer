@@ -13,6 +13,9 @@ namespace SimplePlatformer.Player
         //The time elapsed for the next hit with the hit box (attack)
         [SerializeField] private float initialDrag;
         [SerializeField] private float attackDrag;
+        [SerializeField] private GameObject arrowPF;
+        [SerializeField] private Transform arrowTR;
+        [SerializeField] private bool hasBow;
         [Header("HitBox")]
         public Vector3 boxSize;
         public float rotation;
@@ -97,7 +100,7 @@ namespace SimplePlatformer.Player
         }
 
 
-        public void OnDrawGizmos()
+        public void OnDrawGizmosSelected()
         {
             if (hitBoxPos == null)
                 return;
@@ -166,6 +169,32 @@ namespace SimplePlatformer.Player
                 }
             }
             #endregion
+        }
+
+        public void BowAttack()
+        {
+            if (!pv.isStunned && !pv.itsDying && !pv.cannotAttack)
+            {
+                if(elapsedAttackRate <= 0)
+                {
+                    pv.isAttacking = true;
+                    anim.Play(PlayerVariables.PLAYER_BOW);
+                    StartCoroutine(InstantiateArrow(0.4f));
+                    comboState = ComboState.FIRST;
+                    elapsedNextCombo = 0.7f;
+                    elapsedAttackRate = 1f;
+                    EnableMovementAfter(4f);
+                    //don't slide on the floor
+                    rb2d.drag = attackDrag;
+                }
+            }
+        }
+
+        private IEnumerator InstantiateArrow(float _sec)
+        {
+            yield return new WaitForSeconds(_sec);
+            GameObject instance = Instantiate(arrowPF, arrowTR.position, Quaternion.identity);
+            instance.GetComponent<Arrow>().Setup(pv.isFacingRight);
         }
 
         //private void SetSuspendInAir()
