@@ -6,30 +6,41 @@ using UnityEngine.Experimental.Rendering.Universal;
 public class LightFireballController : MonoBehaviour
 {
     private Light2D light;
-    private float maxIntensity = 4.7f;
+    private float targetIntensity = 4.7f;
     private float speed = 10;
-    private float destroyAfter = 0.6f;
+    private float destroyAfter = 1f;
     // Start is called before the first frame update
     void Start()
     {
         light = GetComponent<Light2D>();
         light.intensity = 0f;
+        StartCoroutine(StartFadeIn());
         Destroy(this.gameObject, destroyAfter);
     }
 
-    // Update is called once per frame
-    void Update()
+    public IEnumerator StartFadeIn()
     {
-        light.intensity = Mathf.PingPong(Time.time * speed, maxIntensity);
-        //light.intensity += step * Time.deltaTime;
-        //light.intensity = magnitude + Mathf.Sin(Time.timeSinceLevelLoad * frequency) * magnitude;
+        float currentTime = 0;
+        float currentIntensity = 0;
+        float duration = 0.6f;
 
-        //light.intensity = Mathf.Lerp(0,4.7f,t);
-        //Debug.Log(Mathf.Lerp(0, 4.7f, t));
-        //if(light.intensity >= 4.7f)
-        //{
-        //    Destroy(gameObject,destroyAfter);
-        //}
+        while (currentTime < duration)
+        {
+            currentTime += Time.deltaTime;
+            float newIntensity = Mathf.Lerp(currentIntensity, targetIntensity, currentTime / duration);
+            light.intensity = newIntensity;
+            yield return null;
+        }
+        currentTime = 0f;
+        duration = 0.2f;
+        while (currentTime < duration)
+        {
+            currentTime += Time.deltaTime;
+            float newIntensity = Mathf.Lerp(targetIntensity, 0, currentTime / duration);
+            light.intensity = newIntensity;
+            yield return null;
+        }
+        yield break;
     }
 
 

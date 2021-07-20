@@ -14,7 +14,7 @@ namespace SimplePlatformer.Enemy
         #region Variables
         [Expandable]
         public BossData _bossData;
-        protected HealthSystem healthSystem;
+        public HealthSystem healthSystem;
         private Rigidbody2D rb2d;
         private Animator anim;
         public Transform fireballsPosition;
@@ -30,6 +30,8 @@ namespace SimplePlatformer.Enemy
         /// </summary>
         private Vector2 playerDirection;
         [SerializeField] private GameObject playerGO;
+
+        public static Action<GameObject> OnBossRespawn;
 
         /// <summary>
         /// Basic States
@@ -63,6 +65,8 @@ namespace SimplePlatformer.Enemy
             CAST_HANDS
         }
 
+        
+
         private AttackType _currentAttack;
 
         /// <summary>
@@ -84,6 +88,7 @@ namespace SimplePlatformer.Enemy
             anim = GetComponent<Animator>();
             _currentState = State.WAITING;
             _currentStage = Stage.STAGE_1;
+            OnBossRespawn?.Invoke(gameObject);
         }
         private void Update()
         {
@@ -360,10 +365,7 @@ namespace SimplePlatformer.Enemy
 
         #endregion
 
-        public void DisplayHealthBar()
-        {
-            LeanTween.alphaCanvas(healthSystem.healthBar.GetComponent<CanvasGroup>(), 1.0f, 1f);
-        }
+        
 
         #region Debug
         private void OnDrawGizmosSelected()
@@ -491,6 +493,11 @@ namespace SimplePlatformer.Enemy
         public void DieInstantly()
         {
             //He nothing
+        }
+
+        public void DisplayHealthBar()
+        {
+            LeanTween.alphaCanvas(healthSystem.healthBar.GetComponent<CanvasGroup>(), 1.0f, 1f);
         }
 
     }//End class
