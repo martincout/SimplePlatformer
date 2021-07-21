@@ -27,15 +27,17 @@ public class CellDoor : Interactable
             PlaySound();
             StartCoroutine(PlayAnimation());
             GameManager.GetInstance().DeleteKey(keyNeeded);
-            Destroy(gameObject, 1.5f);
         }
     }
 
     private IEnumerator PlayAnimation()
     {
-        Instantiate(particle, transform.GetChild(0));
+        GameObject p = Instantiate(particle, transform.GetChild(0).position,Quaternion.identity);
+        Destroy(p, 0.5f);
         yield return new WaitForSeconds(0.5f);
         LeanTween.alpha(gameObject, 0, 1f).setEase(LeanTweenType.linear);
+        yield return new WaitForSeconds(1f);
+        gameObject.SetActive(false);
     }
 
 }

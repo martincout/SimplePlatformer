@@ -274,7 +274,7 @@ MonoBehaviour:
   attackRange: 0.4
   hitboxEnabled: 0
   rayLength: 0.2
-  gravity: 20
+  gravity: 15
   isSphereHitBox: 0
   hitboxSize: {x: 1, y: 2.6}
   angle: 29.24

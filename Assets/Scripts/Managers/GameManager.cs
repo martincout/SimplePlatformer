@@ -7,32 +7,6 @@ using SimplePlatformer.Player;
 
 public class GameManager : MonoBehaviour
 {
-
-    // There are 3 major ways to persist this data between scene changes.
-    //  1) Save the info into something persist (PlayerPrefs, a save file)
-    //			- This preserves data even between game executions, not just scene changes
-    //		** This is a very, very minimalist implentation. Has the benefit of
-    //			true persistence. Also, you don't need a single, central class to store
-    //			data in this way. Each object could save/load it's own info.
-    //
-    //  2) Static class data.  Very simple. Occasionally leads to weirdness from
-    //		inside the Unity Editor, but not actually breaking things. You could
-    //		do really messy "global" style variable with this, but you can also
-    //		do really nice encapsulation as well.
-    //			** This is the ideal implementation if your persist data
-    //				is just that:  Data. It doesn't DO anything. It can
-    //				be implemented as a purely static class.
-    //
-    //  3) DontDestroyOnLoad -- This flags a GameObject such that when we change
-    //		from one scene to another, it doesn't get destroyed. (i.e. it is still
-    //		present in the newly loaded scene. To use this to the best possible
-    //		advantage, you need to use the Unity Singleton Design Pattern.
-    //			** This is the ideal implementatino if this class needs to DO
-    //			things, not just store things. In other words, maybe you need
-    //			it to have an Update function that modifies the game data regularly
-    //			and will need to do so on every scene.
-    //
-
     protected int score = 0;
     public bool isPaused = false;
     public bool playerDeath = false;
@@ -56,28 +30,37 @@ public class GameManager : MonoBehaviour
         return keys;
     }
 
-    
-
     // Use this for initialization
     void Start()
     {
-        // "Implementation #1"
-        // Load data from PlayerPrefs -- this might be from the
-        // previous scene, or maybe even from the previous execution (i.e. saved
-        // between quitting and reloading the game)
-        //score = PlayerPrefs.GetInt("score", 0);
-        //numLives = PlayerPrefs.GetInt("lives", 3);
-
-        // We want to be a Singleton (i.e. there should only ever be
-        // one GameStatus instance at any given time.)
-
-        // If we get here, the we are "the one". Let's act like it.
         instance = this;    
 
         InitializeKeys();
 
     }
-    
+    //------
+    //Save
+    //------
+
+    public void SaveGame()
+    {
+        SaveSystem.SaveGame(player, score);
+    }
+
+    public void LoadGame()
+    {
+        GameData data = SaveSystem.LoadGame();
+
+        score = data.score;
+        Vector3 position;
+        position.x = data.position[0];
+        position.y = data.position[1];
+        position.z = data.position[2];
+
+        player.transform.position = position;
+        player.playerCombatBehaviour.hasBow = data.hasBow;
+        player.healthSystem.SetHealth(data.health);
+    }
 
     public void TogglePauseState()
     {
@@ -134,7 +117,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void InitializeKeys()
     {
-
         if (keys == null)
         {
             keys = new Dictionary<KeyColor, int>();

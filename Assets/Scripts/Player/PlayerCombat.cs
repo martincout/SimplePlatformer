@@ -15,7 +15,7 @@ namespace SimplePlatformer.Player
         [SerializeField] private float attackDrag;
         [SerializeField] private GameObject arrowPF;
         [SerializeField] private Transform arrowTR;
-        [SerializeField] private bool hasBow;
+        [SerializeField] public bool hasBow = false;
         [Header("HitBox")]
         public Vector3 boxSize;
         public float rotation;
@@ -191,40 +191,40 @@ namespace SimplePlatformer.Player
         /// </summary>
         public void BowAttack()
         {
-            if (!pv.isStunned && !pv.itsDying && !pv.cannotAttack)
+            if (!pv.isStunned && !pv.itsDying && !pv.cannotAttack && !hasBow) return;
+
+            if (elapsedAttackRate <= 0)
             {
-                if (elapsedAttackRate <= 0)
+                pv.isAttacking = true;
+                pv.isBowAttacking = true;
+                StartCoroutine(EnableMovementAfter(0.7f));
+
+                //Animation
+                if (pv.isGrounded)
                 {
-                    pv.isAttacking = true;
-                    pv.isBowAttacking = true;
-                    StartCoroutine(EnableMovementAfter(0.7f));
+                    anim.Play(PlayerVariables.PLAYER_BOW);
 
-                    //Animation
-                    if (pv.isGrounded)
-                    {
-                        anim.Play(PlayerVariables.PLAYER_BOW);
+                }
+                else
+                {
+                    anim.Play(PlayerVariables.PLAYER_BOWAIR);
+                }
 
-                    }
-                    else
-                    {
-                        anim.Play(PlayerVariables.PLAYER_BOWAIR);
-                    }
+                //Instatiate
+                StartCoroutine(InstantiateArrow(0.4f));
 
-                    //Instatiate
-                    StartCoroutine(InstantiateArrow(0.4f));
+                //Timers and Combo
+                comboState = ComboState.FIRST;
+                elapsedAttackRate = 1f;
+                elapsedNextCombo = 0.7f;
 
-                    //Timers and Combo
-                    comboState = ComboState.FIRST;
-                    elapsedAttackRate = 1f;
-                    elapsedNextCombo = 0.7f;
-
-                    //Sets gravity to 0 when in the air
-                    if (!pv.isGrounded)
-                    {
-                        SetSuspendInAir();
-                    }
+                //Sets gravity to 0 when in the air
+                if (!pv.isGrounded)
+                {
+                    SetSuspendInAir();
                 }
             }
+
         }
 
         private IEnumerator InstantiateArrow(float _sec)
