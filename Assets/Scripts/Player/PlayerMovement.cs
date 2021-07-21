@@ -64,6 +64,8 @@ namespace SimplePlatformer.Player
 
         public void FixedUpdate()
         {
+            if (pv.movePrevent) 
+                rb2d.velocity = Vector2.zero;
             CheckGround();
             if (pv.isGrounded)
             {

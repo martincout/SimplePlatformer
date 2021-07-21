@@ -37,10 +37,12 @@ public class Arrow : MonoBehaviour
             if (col.GetComponent<IDamageable>() != null)
             {
                 col.GetComponent<IDamageable>().TakeDamage(damage, transform.position);
+                ManageArrows.RemoveArrow(this);
                 Destroy(gameObject);
             }
             if (col.IsTouchingLayers(collisionLayer))
             {
+                ManageArrows.RemoveArrow(this);
                 Destroy(gameObject);
             }
         }

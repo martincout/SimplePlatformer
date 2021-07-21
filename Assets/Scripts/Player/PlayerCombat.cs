@@ -72,7 +72,7 @@ namespace SimplePlatformer.Player
         {
             CheckHitBoxColission();
             //Suspend the player in air when air attacking
-            //SuspendInAir();
+            SuspendInAir();
 
             //Used to exit the animation state when we are doing combos
             anim.SetFloat("timeCombo", elapsedNextCombo);
@@ -86,6 +86,7 @@ namespace SimplePlatformer.Player
             {
                 pv.isAttacking = false;
                 pv.airAttacked = true;
+                pv.isBowAttacking = false;
                 comboState = ComboState.NONE;
                 elapsedAttackRate = attackRate;
                 rb2d.drag = initialDrag;
@@ -110,18 +111,27 @@ namespace SimplePlatformer.Player
 
             Gizmos.DrawCube(Vector3.zero, boxSize); // Because size is halfExtents
         }
+
+        /// <summary>
+        /// Handles all the attack behaviour, is called by the Input System
+        /// - Checks for states
+        /// - Sets isAttacking
+        /// - Handles the combo attacks and times
+        /// - Floor drag
+        /// </summary>
         public void Attack()
         {
-            if (!pv.isStunned && !pv.itsDying && !pv.cannotAttack)
+            if (!pv.isStunned && !pv.itsDying && !pv.cannotAttack && !pv.isBowAttacking)
             {
                 #region Attack
                 //Cooldown of the attack finished and if we are not in a Combo
                 if (elapsedAttackRate <= 0 || !comboState.Equals(ComboState.NONE))
                 {
-                    pv.isAttacking = true;
+
                     //If i'm grounded
                     if (pv.isGrounded)
                     {
+                        pv.isAttacking = true;
                         //Check for the Combo state
                         switch (comboState)
                         {
@@ -140,13 +150,16 @@ namespace SimplePlatformer.Player
                                 anim.Play(PlayerVariables.PLAYER_ATTACK3);
                                 comboState = ComboState.THIRD;
                                 elapsedNextCombo = 0.4f;
-                                
+
                                 break;
                         }
+                        //don't slide on the floor
+                        //rb2d.drag = attackDrag;
                     }
                     //If I'm in the Air
                     else if (!pv.airAttacked)
                     {
+                        pv.isAttacking = true;
                         //Check for the Combo state
                         switch (comboState)
                         {
@@ -162,30 +175,54 @@ namespace SimplePlatformer.Player
                                 elapsedNextCombo = 0.4f;
                                 break;
                         }
-                        rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
                     }
-                    //don't slide on the floor
-                    rb2d.drag = attackDrag;
+
                 }
             }
             #endregion
         }
 
+        /// <summary>
+        /// Handles the bow Attack Behaviour.
+        /// - Instantiates the arrow
+        /// - Sets isAttacking
+        /// - Timers
+        /// - Floor drag
+        /// </summary>
         public void BowAttack()
         {
             if (!pv.isStunned && !pv.itsDying && !pv.cannotAttack)
             {
-                if(elapsedAttackRate <= 0)
+                if (elapsedAttackRate <= 0)
                 {
                     pv.isAttacking = true;
-                    anim.Play(PlayerVariables.PLAYER_BOW);
+                    pv.isBowAttacking = true;
+                    StartCoroutine(EnableMovementAfter(0.7f));
+
+                    //Animation
+                    if (pv.isGrounded)
+                    {
+                        anim.Play(PlayerVariables.PLAYER_BOW);
+
+                    }
+                    else
+                    {
+                        anim.Play(PlayerVariables.PLAYER_BOWAIR);
+                    }
+
+                    //Instatiate
                     StartCoroutine(InstantiateArrow(0.4f));
+
+                    //Timers and Combo
                     comboState = ComboState.FIRST;
-                    elapsedNextCombo = 0.7f;
                     elapsedAttackRate = 1f;
-                    EnableMovementAfter(4f);
-                    //don't slide on the floor
-                    rb2d.drag = attackDrag;
+                    elapsedNextCombo = 0.7f;
+
+                    //Sets gravity to 0 when in the air
+                    if (!pv.isGrounded)
+                    {
+                        SetSuspendInAir();
+                    }
                 }
             }
         }
@@ -195,32 +232,31 @@ namespace SimplePlatformer.Player
             yield return new WaitForSeconds(_sec);
             GameObject instance = Instantiate(arrowPF, arrowTR.position, Quaternion.identity);
             instance.GetComponent<Arrow>().Setup(pv.isFacingRight);
+            ManageArrows.AddArrow(instance.GetComponent<Arrow>());
         }
 
-        //private void SetSuspendInAir()
-        //{
-        //    pv.movePrevent = true;
-        //    rb2d.gravityScale = 0;
-        //}
+        private void SetSuspendInAir()
+        {
+            rb2d.gravityScale = 0;
+        }
 
-        //private void SuspendInAir()
-        //{
-        //    if(pv.isAttacking && !pv.isGrounded)
-        //    {
-        //        if (!pv.isStunned) rb2d.velocity = Vector2.zero;
-        //    }
-        //    else
-        //    {
-        //        pv.movePrevent = false;
-        //        rb2d.gravityScale = 1f;
-        //    }
-            
-        //}
+        private void SuspendInAir()
+        {
+            if (pv.isAttacking && !pv.isGrounded)
+            {
+                if (!pv.isStunned) rb2d.velocity = Vector2.zero;
+            }
+            else
+            {
+                rb2d.gravityScale = 1f;
+            }
+        }
 
         public void SwishSound()
         {
             SoundManager.instance.Play("Swish");
         }
+
 
         /// <summary>
         /// Enables the Hitbox turning hitboxEnable true, and then false

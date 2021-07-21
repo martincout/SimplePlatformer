@@ -91,12 +91,6 @@ namespace SimplePlatformer.Player
             playerMovementBehaviour.UpdateMovementData(rawInputMovement);
         }
 
-        internal IEnumerator EnableMovementAfter(float seconds)
-        {
-            pv.movePrevent = true;
-            yield return new WaitForSeconds(seconds);
-            pv.movePrevent = false;
-        }
 
         internal IEnumerator InvinbibleCo()
         {
@@ -233,6 +227,12 @@ namespace SimplePlatformer.Player
             }
         }
 
+        protected IEnumerator EnableMovementAfter(float _sec)
+        {
+            pv.movePrevent = true;
+            yield return new WaitForSeconds(_sec);
+            pv.movePrevent = false;
+        }
 
         //INPUT SYSTEM ACTION METHODS --------------
 

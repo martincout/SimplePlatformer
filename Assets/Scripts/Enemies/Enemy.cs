@@ -328,8 +328,9 @@ namespace SimplePlatformer.Enemy
         private IEnumerator DieCo()
         {
             rb2d.velocity = Vector2.zero;
+            rb2d.simulated = false;
             anim.Play(_enemyData.animation.enemyDeath);
-            if(bodyHitCollider!=null)bodyHitCollider.enabled = false;
+            if(bodyHitCollider!=null) bodyHitCollider.enabled = false;
             yield return new WaitForSeconds(0.55f);
             enabled = false;
             rb2d.velocity = Vector2.zero;
