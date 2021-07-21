@@ -6,11 +6,17 @@ public class CellDoor : Interactable
     public bool openWithLever;
     public KeyColor keyNeeded;
     public GameObject particle;
+    private Renderer render;
 
     public void Reset()
     {
         interactOneTime = false;
         closerToInteract = true;
+    }
+
+    private void Start()
+    {
+        render = transform.GetChild(0).GetComponent<Renderer>();
     }
 
     public override void Interact()
@@ -20,8 +26,8 @@ public class CellDoor : Interactable
         {
             PlaySound();
             StartCoroutine(PlayAnimation());
-            Destroy(gameObject, 1f);
             GameManager.GetInstance().DeleteKey(keyNeeded);
+            Destroy(gameObject, 1.5f);
         }
     }
 
@@ -29,7 +35,7 @@ public class CellDoor : Interactable
     {
         Instantiate(particle, transform.GetChild(0));
         yield return new WaitForSeconds(0.5f);
-        LeanTween.alpha(gameObject, 0f, 1f).setEase(LeanTweenType.linear);
-
+        LeanTween.alpha(gameObject, 0, 1f).setEase(LeanTweenType.linear);
     }
+
 }

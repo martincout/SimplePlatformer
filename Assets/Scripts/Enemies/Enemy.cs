@@ -227,8 +227,6 @@ namespace SimplePlatformer.Enemy
 
         #region Attack
 
-
-
         /// <summary>
         /// Damage to the Character
         /// </summary>
@@ -400,7 +398,6 @@ namespace SimplePlatformer.Enemy
                 Gizmos.DrawLine(transform.position, playerGO.transform.position);
             }
         }
-
 
     }
 

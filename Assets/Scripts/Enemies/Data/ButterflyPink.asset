@@ -26,8 +26,8 @@ MonoBehaviour:
   attackRate: 0.7
   stunTime: 0.3
   thrust: 20
-  damageSound: 
+  damageSound: Damage
   swishSound: 
   projectileSpeed: 600
   projectileDamage: 60
-  animation: {fileID: 11400000, guid: 86a9979f31f5fe14ba492c7dc6ff36f6, type: 2}
+  animation: {fileID: 11400000, guid: c9c3476717603ea44955e86c3a85f3c6, type: 2}

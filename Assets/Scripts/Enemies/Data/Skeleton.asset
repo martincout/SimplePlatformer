@@ -25,7 +25,7 @@ MonoBehaviour:
   attackRange: 0.4
   attackRate: 2
   stunTime: 0.1
-  thrust: 10
+  thrust: 5
   damageSound: skeletonHit
   swishSound: HeavySwish
   projectileSpeed: 0

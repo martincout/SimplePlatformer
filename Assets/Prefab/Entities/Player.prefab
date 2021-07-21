@@ -494,7 +494,7 @@ MonoBehaviour:
   fallMultiplier: 2
   lowFallMultiplier: 3
   jumpForce: 20
-  hangTime: 1
+  hangTime: 0.5
   hangTimeCounter: 0
   groundedHeight: 0.1
   heightOffset: 0.25
@@ -525,12 +525,13 @@ MonoBehaviour:
   attackRate: 0.2
   attackDamage: 10
   initialDrag: 1.5
-  attackDrag: 3
+  attackDrag: 15
   arrowPF: {fileID: 6022562897493695571, guid: 03df0211b64834c4a8c615f774ede4eb, type: 3}
   arrowTR: {fileID: 404100619}
   hasBow: 0
   boxSize: {x: 2.73, y: 1.94, z: 0}
   rotation: 0
+  hitboxEnable: 0
   elapsedNextCombo: 0
   elapsedAttackRate: 0
   enemyLayer:
@@ -551,7 +552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 182c733c54ea2944aaec17b15eda03ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 200
+  maxHealth: 99999
   healthBar: {fileID: 0}
 --- !u!114 &190104470
 MonoBehaviour:

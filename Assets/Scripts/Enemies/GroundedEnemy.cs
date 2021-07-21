@@ -7,17 +7,17 @@ namespace SimplePlatformer.Enemy
     {
         [SerializeField] private Transform attackPoint;
         [SerializeField] private float attackRange = 0.2f;
-        [HideInInspector] public bool checkForHitBox = false;
+        [HideInInspector] public bool hitboxEnabled = false;
         [SerializeField] private float rayLength = 0.2f;
         [SerializeField] private float gravity = 20f;
-
-
+        [SerializeField] private bool isSphereHitBox = true;
+        [SerializeField] private Vector2 hitboxSize = Vector2.one;
+        [SerializeField] private float angle = 1f;
 
         private RaycastHit2D raycastGround;
         private RaycastHit2D raycastWall;
         public Transform groundDetector;
         private Vector3 raycastDir;
-
 
         /// <summary>
         /// Position of the BoxCollider in the world space. Used to check wall collisions
@@ -29,6 +29,32 @@ namespace SimplePlatformer.Enemy
             base.Start();
             rb2d.gravityScale = gravity;
             groundDetector = transform.GetChild(2)?.GetComponent<Transform>();
+        }
+
+        /// <summary>
+        /// Updates Hitbox
+        /// </summary>
+        protected override void FixedUpdate()
+        {
+            if (!currentState.Equals(State.DEATH))
+            {
+                base.FixedUpdate();
+            }
+        }
+
+        /// <summary>
+        /// Updates States
+        /// </summary>
+        protected override void Update()
+        {
+            if (!currentState.Equals(State.DEATH))
+            {
+                base.Update();
+                //Updates center of the box collider to check for walls
+                CapsuleColliderCenter = new Vector2(GetComponent<CapsuleCollider2D>().bounds.center.x, GetComponent<CapsuleCollider2D>().bounds.center.y - 0.2f);
+                UpdateState();
+                CheckHitBox();
+            }
         }
 
         //TODO (Change the name of the Move Behaviour)
@@ -159,19 +185,7 @@ namespace SimplePlatformer.Enemy
             }
         }
 
-        protected override void OnDrawGizmosSelected()
-        {
-            base.OnDrawGizmosSelected();
-            Gizmos.color = Color.green;
-            Gizmos.DrawRay(groundDetector.position, Vector2.down * rayLength);
-        }
 
-        protected void OnDrawGizmos()
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(attackPoint.position, attackRange);
-            Gizmos.DrawRay(CapsuleColliderCenter, raycastDir);
-        }
 
         protected bool CheckGround()
         {
@@ -217,31 +231,6 @@ namespace SimplePlatformer.Enemy
         }
 
 
-        /// <summary>
-        /// Updates Hitbox
-        /// </summary>
-        protected override void FixedUpdate()
-        {
-            if (!currentState.Equals(State.DEATH))
-            {
-                base.FixedUpdate();
-            }
-        }
-
-        /// <summary>
-        /// Updates States
-        /// </summary>
-        protected override void Update()
-        {
-            if (!currentState.Equals(State.DEATH))
-            {
-                base.Update();
-                //Updates center of the box collider to check for walls
-                CapsuleColliderCenter = new Vector2(GetComponent<CapsuleCollider2D>().bounds.center.x, GetComponent<CapsuleCollider2D>().bounds.center.y - 0.2f);
-                UpdateState();
-                CheckHitBox();
-            }
-        }
 
         /// <summary>
         /// Updates the currentState of the enemy. Check the distance between the target and this enemy. And also set
@@ -279,7 +268,7 @@ namespace SimplePlatformer.Enemy
                     if (sawPlayer)
                     {
                         currentState = State.CHASING;
-                        
+
                         currentVisionRadius = _enemyData.visionRadiusUpgrade;
                     }
                 }
@@ -288,8 +277,10 @@ namespace SimplePlatformer.Enemy
 
         protected void CheckHitBox()
         {
-            if (checkForHitBox)
+            if (!hitboxEnabled) return;
+            if (isSphereHitBox)
             {
+                //Sphere Hitbox
                 Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, 1 << LayerMask.NameToLayer("Player"));
 
                 foreach (Collider2D col in hits)
@@ -300,13 +291,80 @@ namespace SimplePlatformer.Enemy
                         col.GetComponent<IDamageable>().TakeDamage(_enemyData.damage, transform.position);
                     }
                 }
-
             }
+            else
+            {
+                //Cube Hitbox
+                Collider2D[] hits = Physics2D.OverlapBoxAll(attackPoint.position, hitboxSize, angle,1 << LayerMask.NameToLayer("Player"));
+
+                foreach (Collider2D col in hits)
+                {
+                    if (col.GetComponent<IDamageable>() != null)
+                    {
+                        col.GetComponent<IDamageable>().TakeDamage(_enemyData.damage, transform.position);
+                    }
+                }
+            }
+
         }
 
         public void SwishSound()
         {
             SoundManager.instance.Play(_enemyData.swishSound);
         }
+
+        //Debug
+
+        protected override void OnDrawGizmosSelected()
+        {
+            base.OnDrawGizmosSelected();
+            Gizmos.color = Color.green;
+            Gizmos.DrawRay(groundDetector.position, Vector2.down * rayLength);
+        }
+
+        protected void OnDrawGizmos()
+        {
+            Gizmos.color = Color.green;
+            if (isSphereHitBox)
+            {
+                Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+            }
+            else
+            {
+                DebugDrawBox(attackPoint.position, hitboxSize, angle, Color.green, 0f);
+            }
+            Gizmos.DrawRay(CapsuleColliderCenter, raycastDir);
+        }
+
+        /// <summary>
+        /// Wire Box With rotation
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="size"></param>
+        /// <param name="angle"></param>
+        /// <param name="color"></param>
+        /// <param name="duration"></param>
+        void DebugDrawBox(Vector2 point, Vector2 size, float angle, Color color, float duration)
+        {
+
+            var orientation = Quaternion.Euler(0, 0, angle);
+
+            // Basis vectors, half the size in each direction from the center.
+            Vector2 right = orientation * Vector2.right * size.x / 2f;
+            Vector2 up = orientation * Vector2.up * size.y / 2f;
+
+            // Four box corners.
+            var topLeft = point + up - right;
+            var topRight = point + up + right;
+            var bottomRight = point - up + right;
+            var bottomLeft = point - up - right;
+
+            // Now we've reduced the problem to drawing lines.
+            Debug.DrawLine(topLeft, topRight, color, duration);
+            Debug.DrawLine(topRight, bottomRight, color, duration);
+            Debug.DrawLine(bottomRight, bottomLeft, color, duration);
+            Debug.DrawLine(bottomLeft, topLeft, color, duration);
+        }
+
     }
 }

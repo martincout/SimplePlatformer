@@ -19,7 +19,7 @@ namespace SimplePlatformer.Player
         [Header("HitBox")]
         public Vector3 boxSize;
         public float rotation;
-        private bool hitboxEnable;
+        [HideInInspector] public bool hitboxEnable;
 
         //Combos
         public enum ComboState
@@ -154,7 +154,7 @@ namespace SimplePlatformer.Player
                                 break;
                         }
                         //don't slide on the floor
-                        //rb2d.drag = attackDrag;
+                        rb2d.drag = attackDrag;
                     }
                     //If I'm in the Air
                     else if (!pv.airAttacked)

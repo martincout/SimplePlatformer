@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1420334740985765413}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.447, y: 0.82, z: 0}
+  m_LocalPosition: {x: 0.78, y: 0.14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2176091399308069505}
@@ -55,7 +55,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3852594918874512916}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.32, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2176091399308069505}
@@ -212,10 +212,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 2
+  m_Mass: 1
   m_LinearDrag: 1
   m_AngularDrag: 0.05
-  m_GravityScale: 15
+  m_GravityScale: 20
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -268,13 +268,16 @@ MonoBehaviour:
   bodyHitCollider: {fileID: 0}
   friendly: 0
   patrollingEnabled: 0
-  headingRight: 0
+  headingRight: 1
   knockbackDontInterruptAttack: 0
   attackPoint: {fileID: 1706790442775499563}
   attackRange: 0.4
-  checkForHitBox: 0
+  hitboxEnabled: 0
   rayLength: 0.2
   gravity: 20
+  isSphereHitBox: 0
+  hitboxSize: {x: 1, y: 2.6}
+  angle: 29.24
   groundDetector: {fileID: 763645537790649577}
 --- !u!70 &3241630369833414456
 CapsuleCollider2D:
@@ -289,6 +292,6 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.4327221, y: -0.3048786}
+  m_Offset: {x: 0, y: -0.3048786}
   m_Size: {x: 0.71824265, y: 1.8473256}
   m_Direction: 0
