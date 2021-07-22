@@ -77,6 +77,7 @@ namespace SimplePlatformer.Player
             pv.itsDying = false;
             pv.invincible = false;
             pv.airAttacked = false;
+            pv.canInteract = true;
         }
 
         private void Update()
@@ -155,7 +156,7 @@ namespace SimplePlatformer.Player
             rb2d.velocity = Vector2.zero;
             anim.Play("playerDie");
             yield return new WaitForSeconds(0.55f);
-            EventSystems.OnPlayerDeath?.Invoke();
+            GameEvents.OnPlayerDeath?.Invoke();
             GameManager.GetInstance().TogglePlayerDeath(true);
             pv.itsDying = false;
             Destroy(gameObject);

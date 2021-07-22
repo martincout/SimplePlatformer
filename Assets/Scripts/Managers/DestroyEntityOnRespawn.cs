@@ -4,12 +4,12 @@ public class DestroyEntityOnRespawn : MonoBehaviour
 {
     private void OnEnable()
     {
-        EventSystems.RespawnEnemiesHandler += DestroyThis;
+        GameEvents.RespawnEnemiesHandler += DestroyThis;
     }
 
     private void OnDisable()
     {
-        EventSystems.RespawnEnemiesHandler -= DestroyThis;
+        GameEvents.RespawnEnemiesHandler -= DestroyThis;
     }
 
     private void DestroyThis()

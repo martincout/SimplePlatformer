@@ -6,17 +6,11 @@ public class CellDoor : Interactable
     public bool openWithLever;
     public KeyColor keyNeeded;
     public GameObject particle;
-    private Renderer render;
 
     public void Reset()
     {
         interactOneTime = false;
         closerToInteract = true;
-    }
-
-    private void Start()
-    {
-        render = transform.GetChild(0).GetComponent<Renderer>();
     }
 
     public override void Interact()

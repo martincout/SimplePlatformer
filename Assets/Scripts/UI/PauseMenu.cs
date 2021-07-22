@@ -27,7 +27,7 @@ public class PauseMenu : MonoBehaviour
 
     private void OnEnable()
     {
-        EventSystems.RespawnHandler += UpdatePlayer;
+        GameEvents.RespawnHandler += UpdatePlayer;
 
     }
 
@@ -51,7 +51,7 @@ public class PauseMenu : MonoBehaviour
 
     private void OnDisable()
     {
-        EventSystems.RespawnHandler -= UpdatePlayer;
+        GameEvents.RespawnHandler -= UpdatePlayer;
     }
 
     private void UpdatePlayer(GameObject playerGO)

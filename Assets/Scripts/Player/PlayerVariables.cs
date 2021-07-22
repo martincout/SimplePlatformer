@@ -28,7 +28,7 @@ namespace SimplePlatformer.Player
         public bool invincible;
         public bool airAttacked;
         public bool isGrounded;
-        public bool canInteract = true;
+        public bool canInteract;
         public bool isBowAttacking;
     }
 }

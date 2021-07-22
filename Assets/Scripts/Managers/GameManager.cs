@@ -33,33 +33,33 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        instance = this;    
+        instance = this;
+        Debug.Log(GlobalControl.Instance.IsSceneBeingLoaded) ;
+        if (GlobalControl.Instance.IsSceneBeingLoaded)
+        {
+            score = GlobalControl.Instance.LocalCopyOfData.score;
+            Vector3 position;
+            position.x = GlobalControl.Instance.LocalCopyOfData.position[0];
+            position.y = GlobalControl.Instance.LocalCopyOfData.position[1];
+            position.z = GlobalControl.Instance.LocalCopyOfData.position[2];
+
+            player.transform.position = position;
+            player.playerCombatBehaviour.hasBow = GlobalControl.Instance.LocalCopyOfData.hasBow;
+            player.healthSystem.SetHealth(GlobalControl.Instance.LocalCopyOfData.health);
+
+            GlobalControl.Instance.IsSceneBeingLoaded = false;
+        }
 
         InitializeKeys();
 
     }
+
     //------
     //Save
     //------
-
     public void SaveGame()
     {
         SaveSystem.SaveGame(player, score);
-    }
-
-    public void LoadGame()
-    {
-        GameData data = SaveSystem.LoadGame();
-
-        score = data.score;
-        Vector3 position;
-        position.x = data.position[0];
-        position.y = data.position[1];
-        position.z = data.position[2];
-
-        player.transform.position = position;
-        player.playerCombatBehaviour.hasBow = data.hasBow;
-        player.healthSystem.SetHealth(data.health);
     }
 
     public void TogglePauseState()
@@ -143,7 +143,7 @@ public class GameManager : MonoBehaviour
         {
             keys[kc] += 1;
         }
-        EventSystems.UpdateKeysHandler();
+        GameEvents.UpdateKeysHandler();
         
     }
 
@@ -157,7 +157,7 @@ public class GameManager : MonoBehaviour
         if (keys.ContainsKey(kc) && keys[kc] > 0)
         {
             keys[kc] -= 1;
-            EventSystems.UpdateKeysHandler();
+            GameEvents.UpdateKeysHandler();
             return true;
         }
         else
@@ -167,9 +167,9 @@ public class GameManager : MonoBehaviour
         
     }
 
-    private void OnEnable() => EventSystems.RespawnHandler += UpdatePlayer;
+    private void OnEnable() => GameEvents.RespawnHandler += UpdatePlayer;
 
-    private void OnDisable() => EventSystems.RespawnHandler -= UpdatePlayer;
+    private void OnDisable() => GameEvents.RespawnHandler -= UpdatePlayer;
 
 
     public void UpdatePlayer(GameObject p_player)

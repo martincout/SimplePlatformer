@@ -14,9 +14,11 @@ public class LevelManager : MonoBehaviour
     public GameObject playerPrefab;
     public GameObject enemyContainer;
     public GameObject bossContainer;
+    public GameObject celldoorsContainer;
     //Enemies positions and prefabs
     private List<RespawnEntityData> enemies;
     private List<RespawnEntityData> bosses;
+    private List<GameObject> celldoors = new List<GameObject>();
     public Room currentRoom;
     public CanvasGroup bossHealthbar;
     public AudioMixer audioMixer;
@@ -26,15 +28,15 @@ public class LevelManager : MonoBehaviour
 
     private void OnEnable()
     {
-        EventSystems.NewSpawnHandler += UpdateNewSpawn;
-        EventSystems.OnPlayerDeath += FadeBossHealthBar;
+        GameEvents.NewSpawnHandler += UpdateNewSpawn;
+        GameEvents.OnPlayerDeath += FadeBossHealthBar;
     }
 
     private void OnDisable()
     {
 
-        EventSystems.NewSpawnHandler -= UpdateNewSpawn;
-        EventSystems.OnPlayerDeath -= FadeBossHealthBar;
+        GameEvents.NewSpawnHandler -= UpdateNewSpawn;
+        GameEvents.OnPlayerDeath -= FadeBossHealthBar;
     }
 
     public void UpdateCurrentRoom(GameObject room)
@@ -56,6 +58,11 @@ public class LevelManager : MonoBehaviour
         {
             bosses.Add(new RespawnEntityData(child.GetComponent<BossBehaviour>(), child.position));
         }
+
+        foreach (Transform child in celldoorsContainer.transform)
+        {
+            celldoors.Add(child.gameObject);
+        }
         //Instance
         instance = this;
         //Current spawnpoint
@@ -68,7 +75,7 @@ public class LevelManager : MonoBehaviour
         if (player == null)
         {
             //Set an event to respawn all enemies because every enemy handles his own destruction
-            EventSystems.RespawnEnemiesHandler();
+            GameEvents.RespawnEnemiesHandler();
             foreach (RespawnEntityData ed in enemies)
             {
                 GameObject instance = Instantiate(ed.enemy._enemyData.prefab, ed.position, Quaternion.identity, enemyContainer.transform);
@@ -86,7 +93,7 @@ public class LevelManager : MonoBehaviour
             //Set the follow to the actual virtual camera (don't know why I did this)
             virtualCamera.Follow = player.transform;
             //Set the follow to all virtual cameras with the respawn Event
-            EventSystems.RespawnHandler?.Invoke(player);
+            GameEvents.RespawnHandler?.Invoke(player);
             StartCoroutine(FadeMixerGroup.StartFadeOut(audioMixer, "vol2", 1f, 0f));
             StartCoroutine(FadeMixerGroup.StartFadeIn(audioMixer, "vol1", 2f, 0f));
         }

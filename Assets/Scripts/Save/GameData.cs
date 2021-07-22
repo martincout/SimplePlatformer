@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using SimplePlatformer.Player;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class GameData
@@ -8,6 +9,8 @@ public class GameData
     public float[] position;
     public bool hasBow;
     public int score;
+    public List<bool> campfires;
+    public List<bool> celldors;
 
     public GameData(PlayerController player, int score)
     {

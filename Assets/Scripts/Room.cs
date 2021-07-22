@@ -19,10 +19,10 @@ public class Room : MonoBehaviour
 
     private void OnEnable()
     {
-        EventSystems.RespawnHandler += SetFollow;
+        GameEvents.RespawnHandler += SetFollow;
     }private void OnDisable()
     {
-        EventSystems.RespawnHandler -= SetFollow;
+        GameEvents.RespawnHandler -= SetFollow;
     }
 
     private void SetFollow(GameObject playerGO)

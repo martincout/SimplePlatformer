@@ -494,7 +494,7 @@ MonoBehaviour:
   fallMultiplier: 2
   lowFallMultiplier: 2
   jumpForce: 20
-  hangTime: 0.5
+  hangTime: 0.3
   hangTimeCounter: 0
   groundedHeight: 0.1
   heightOffset: 0.25
@@ -552,7 +552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 182c733c54ea2944aaec17b15eda03ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 99999
+  maxHealth: 200
   healthBar: {fileID: 0}
 --- !u!114 &190104470
 MonoBehaviour:
