@@ -12,7 +12,10 @@ public class DebugScript : Editor
         DrawDefaultInspector();
 
         GameManager myScript = (GameManager)target;
-
+        if (GUILayout.Button("Add 50 Gold"))
+        {
+            myScript.AddScore(50);
+        }
         if (GUILayout.Button("Blue"))
         {
             myScript.AddKey(KeyColor.BLUE);

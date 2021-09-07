@@ -34,7 +34,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         instance = this;
-        Debug.Log(GlobalControl.Instance.IsSceneBeingLoaded) ;
         if (GlobalControl.Instance.IsSceneBeingLoaded)
         {
             score = GlobalControl.Instance.LocalCopyOfData.score;

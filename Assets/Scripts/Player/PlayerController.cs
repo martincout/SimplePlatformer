@@ -32,6 +32,12 @@ namespace SimplePlatformer.Player
         //Take damage
         private float stunTime = 0.3f;
         internal HealthSystem healthSystem;
+
+        public static explicit operator PlayerController(GameObject v)
+        {
+            throw new NotImplementedException();
+        }
+
         protected CharacterParticles characterParticles;
         protected Animator anim;
         protected Rigidbody2D rb2d;

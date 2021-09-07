@@ -78,13 +78,17 @@ namespace SimplePlatformer.Enemy
         public GameObject fireLight;
         #endregion
 
+        private void Awake()
+        {
+            rb2d = GetComponent<Rigidbody2D>();
+            anim = GetComponent<Animator>();
+        }
+
         private void Start()
         {
             playerGO = GameManager.GetInstance().player.gameObject;
             healthSystem = GetComponent<HealthSystem>();
             healthSystem.SetMaxHealth(_bossData.maxHealth);
-            rb2d = GetComponent<Rigidbody2D>();
-            anim = GetComponent<Animator>();
             _currentState = State.WAITING;
             _currentStage = Stage.STAGE_1;
             OnBossRespawn?.Invoke(gameObject);
@@ -368,7 +372,6 @@ namespace SimplePlatformer.Enemy
 
 
         #endregion
-
         
 
         #region Debug
@@ -485,6 +488,7 @@ namespace SimplePlatformer.Enemy
             SoundManager.instance.Play("DeathBoss");
             ChangeState(State.DEAD);
             anim.Play(_bossData.animation.enemyDeath);
+            GameEvents.OnBossDeath?.Invoke();
             Destroy(gameObject, 1f);
         }
 

@@ -16,4 +16,5 @@ public static class GameEvents
     /// </summary>
     public static Action UpdateKeysHandler;
     public static Action OnPlayerDeath;
+    public static Action OnBossDeath;
 }

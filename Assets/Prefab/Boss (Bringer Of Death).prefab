@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bossData: {fileID: 11400000, guid: b04385b12b4f8da418267b38c2c9baab, type: 2}
-  healthSystem: {fileID: 0}
+  healthSystem: {fileID: 8953090005841576904}
   fireballsPosition: {fileID: 61797833}
   groundDetector: {fileID: 8953090006607890097}
   rayLength: 0.2
@@ -237,7 +237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 182c733c54ea2944aaec17b15eda03ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
+  maxHealth: 1500
   healthBar: {fileID: 0}
 --- !u!50 &8953090005841576911
 Rigidbody2D:
@@ -372,7 +372,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -8353433489134569600, guid: 844efb90bcf48d14e894ae5c3c1240e2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
