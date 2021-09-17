@@ -79,7 +79,7 @@ GameObject:
   - component: {fileID: 1230279906}
   - component: {fileID: 190104470}
   - component: {fileID: 46930375}
-  - component: {fileID: 668373913}
+  - component: {fileID: 668373916}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -493,7 +493,7 @@ MonoBehaviour:
   thrust: 10
   fallMultiplier: 2
   lowFallMultiplier: 2
-  jumpForce: 15
+  jumpForce: 17
   hangTime: 0.3
   hangTimeCounter: 0
   groundedHeight: 0.1
@@ -501,7 +501,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
-  speed: 12
+  speed: 10.2
   dustFootsteps: {fileID: 71617679584371750}
   raycastLeftOffset: {x: 0.19, y: 0, z: 0}
   raycastRightOffset: {x: 0.19, y: 0, z: 0}
@@ -586,8 +586,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hurtParticle: {fileID: 5658987648466605111, guid: 3457e53a1c0697e4a8780b4e658197df, type: 3}
   footstepsParticle: {fileID: 71617679584371749}
---- !u!70 &668373913
-CapsuleCollider2D:
+--- !u!61 &668373916
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -599,9 +599,19 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.1083374}
-  m_Size: {x: 0.5, y: 1.7723885}
-  m_Direction: 0
+  m_Offset: {x: 0.018179178, y: -0.37223297}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.61823606, y: 1.2489635}
+  m_EdgeRadius: 0.001
 --- !u!1 &2400351565626025960
 GameObject:
   m_ObjectHideFlags: 0

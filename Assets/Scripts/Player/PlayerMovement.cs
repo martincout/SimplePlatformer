@@ -21,7 +21,7 @@ namespace SimplePlatformer.Player
         private Vector2 movementDirection;
 
         //Hurt Collider
-        CapsuleCollider2D capsuleCollider;
+        BoxCollider2D boxCollider;
 
         //Particles
         public ParticleSystem dustFootsteps;
@@ -52,7 +52,7 @@ namespace SimplePlatformer.Player
             rb2d = GetComponent<Rigidbody2D>();
             sprRender = GetComponent<SpriteRenderer>();
             groundLayer = 1 << LayerMask.NameToLayer("Ground");
-            capsuleCollider = GetComponent<CapsuleCollider2D>();
+            boxCollider = GetComponent<BoxCollider2D>();
             footsteps = GetComponent<AudioSource>();
             dustFootsteps = transform.GetChild(2).GetComponent<ParticleSystem>();
         }
@@ -151,8 +151,8 @@ namespace SimplePlatformer.Player
         private void CheckGround()
         {
             //Raycast position calculation. (from the center-bottom of the collider 2d, with an offset)
-            Vector3 raycastPositionLeft = capsuleCollider.bounds.center - new Vector3(0, capsuleCollider.bounds.extents.y, 0) - raycastLeftOffset;
-            Vector3 raycastPositionRight = capsuleCollider.bounds.center - new Vector3(0, capsuleCollider.bounds.extents.y, 0) + raycastRightOffset;
+            Vector3 raycastPositionLeft = boxCollider.bounds.center - new Vector3(0, boxCollider.bounds.extents.y, 0) - raycastLeftOffset;
+            Vector3 raycastPositionRight = boxCollider.bounds.center - new Vector3(0, boxCollider.bounds.extents.y, 0) + raycastRightOffset;
             //Raycast2d
             raycastLeft = Physics2D.Raycast(raycastPositionLeft, Vector2.down, groundedHeight, groundLayer);
             raycastRight = Physics2D.Raycast(raycastPositionRight, Vector2.down, groundedHeight, groundLayer);
