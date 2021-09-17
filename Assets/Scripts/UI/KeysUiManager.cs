@@ -32,6 +32,9 @@ public class KeysUiManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Gets the Keys Dictionary from the GameManager and Updates the UI
+    /// </summary>
     private void UpdateList()
     {
         foreach (KeyValuePair<KeyColor, int> ky in GameManager.GetInstance().GetKeys())

@@ -21,7 +21,6 @@ public class GlobalControl : MonoBehaviour
             return;
         }
         DontDestroyOnLoad(this.gameObject);
-
         Instance = this;
     }
 

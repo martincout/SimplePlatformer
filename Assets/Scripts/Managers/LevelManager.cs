@@ -18,7 +18,7 @@ public class LevelManager : MonoBehaviour
     //Enemies positions and prefabs
     private List<RespawnEntityData> enemies;
     private List<RespawnEntityData> bosses;
-    private List<GameObject> celldoors = new List<GameObject>();
+    public List<CellDoor> celldoors = new List<CellDoor>();
     public Room currentRoom;
     public CanvasGroup bossHealthbar;
     public AudioMixer audioMixer;
@@ -61,13 +61,15 @@ public class LevelManager : MonoBehaviour
 
         foreach (Transform child in celldoorsContainer.transform)
         {
-            celldoors.Add(child.gameObject);
+            celldoors.Add(child.gameObject.GetComponent<CellDoor>());
         }
         //Instance
         instance = this;
         //Current spawnpoint
         currentRespawnPoint = RespawnManager.currentRespawn.transform;
     }
+
+
 
 
     public void Respawn()

@@ -5,12 +5,17 @@ using UnityEngine.SceneManagement;
 using System;
 using SimplePlatformer.Player;
 
+/// <summary>
+/// Manages alot of things...
+/// </summary>
 public class GameManager : MonoBehaviour
 {
     protected int score = 0;
     public bool isPaused = false;
     public bool playerDeath = false;
     public PlayerController player;
+    public RespawnManager respawnManager;
+    public LevelManager levelManager;
 
     /// <summary>
     /// Type of key and quantity
@@ -31,7 +36,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Use this for initialization
-    void Start()
+    public void Start()
     {
         instance = this;
         if (GlobalControl.Instance.IsSceneBeingLoaded)
@@ -45,11 +50,17 @@ public class GameManager : MonoBehaviour
             player.transform.position = position;
             player.playerCombatBehaviour.hasBow = GlobalControl.Instance.LocalCopyOfData.hasBow;
             player.healthSystem.SetHealth(GlobalControl.Instance.LocalCopyOfData.health);
-
-            GlobalControl.Instance.IsSceneBeingLoaded = false;
+            
         }
 
+        //Loads the spawns or start from the first spawn (if it is a new game)
+        respawnManager.SetSpawn(GlobalControl.Instance.IsSceneBeingLoaded);
+
+        //Loads the keys 
         InitializeKeys();
+
+        //End Loading
+        GlobalControl.Instance.IsSceneBeingLoaded = false;
 
     }
 
@@ -58,7 +69,9 @@ public class GameManager : MonoBehaviour
     //------
     public void SaveGame()
     {
-        SaveSystem.SaveGame(player, score);
+        List<CampFire> campFires = respawnManager.respawns;
+        List<CellDoor> cellDoors = levelManager.celldoors;
+        SaveSystem.SaveGame(player, score, campFires,cellDoors,GetKeys());
     }
 
     public void TogglePauseState()
@@ -118,13 +131,29 @@ public class GameManager : MonoBehaviour
     {
         if (keys == null)
         {
-            keys = new Dictionary<KeyColor, int>();
+            this.keys = new Dictionary<KeyColor, int>();
         }
 
-        foreach (KeyColor kc in (KeyColor[]) Enum.GetValues(typeof(KeyColor)))
+        //Everything to 0
+        foreach (KeyColor kc in (KeyColor[])Enum.GetValues(typeof(KeyColor)))
         {
-            keys.Add(kc,0);
+            this.keys.Add(kc, 0);
         }
+
+        if (GlobalControl.Instance.IsSceneBeingLoaded)
+        {
+            //Loading
+            int i = 0;
+            List<int> keys = GlobalControl.Instance.LocalCopyOfData.keys;
+            //Foreach through the Enum of Key Colors and store it into a List<int> with the amount of keys of each color
+            foreach (KeyColor kc in (KeyColor[])Enum.GetValues(typeof(KeyColor)))
+            {
+                this.keys[kc] = keys[i];
+                i++;
+            }
+            GameEvents.UpdateKeysHandler();
+        }
+        
     }
 
     /// <summary>
