@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PurpleCoin
   m_EditorClassIdentifier: 
   itemName: Purple Coin
-  value: 35
+  value: 20
   particleGameobject: {fileID: 8630751632015259347, guid: 8e2fe719b3df8194ab9bb431bcb9f7ff, type: 3}
   category: 0
   animation: purpleCoinIdle

@@ -19,8 +19,9 @@ public class RespawnManager : MonoBehaviour
     }
     /// <summary>
     /// This function is invoked in the GameManager class
+    /// Load the spawns
     /// </summary>
-    public void SetSpawn(bool loading)
+    public void LoadSpawns(bool loading)
     {
         if (!loading)
         {
@@ -35,7 +36,10 @@ public class RespawnManager : MonoBehaviour
             for (int i = 0; i < maxCampfires; i++)
             {
                 //If the campfire is true, then it has been activated or interacted with it
-                respawns[i].GetComponent<CampFire>().Interact();
+                if (campfiresBool[i])
+                {
+                    respawns[i].GetComponent<CampFire>().Interact();
+                }
                 //Sets the current spawn finding the last campfire lighted
                 if (campfiresBool[i] == false && campfiresBool[i - 1] == true)
                 {

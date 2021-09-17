@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
         }
 
         //Loads the spawns or start from the first spawn (if it is a new game)
-        respawnManager.SetSpawn(GlobalControl.Instance.IsSceneBeingLoaded);
+        respawnManager.LoadSpawns(GlobalControl.Instance.IsSceneBeingLoaded);
 
         //Loads the keys 
         InitializeKeys();

@@ -493,7 +493,7 @@ MonoBehaviour:
   thrust: 10
   fallMultiplier: 2
   lowFallMultiplier: 2
-  jumpForce: 17
+  jumpForce: 16.2
   hangTime: 0.3
   hangTimeCounter: 0
   groundedHeight: 0.1
