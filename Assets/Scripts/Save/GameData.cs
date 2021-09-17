@@ -43,10 +43,12 @@ public class GameData
             }
         }
         //Save Celldoors
-        foreach(CellDoor c in cellDoors)
+
+        foreach (CellDoor c in cellDoors)
         {
-            this.cellDoors.Add(c.enabled);
+            this.cellDoors.Add(c.gameObject.activeSelf);
         }
+
         //Save keys
         int value = 0;
         //Foreach through the Enum of Key Colors and store it into a List<int> with the amount of keys of each color

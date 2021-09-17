@@ -35,7 +35,7 @@ public class RespawnManager : MonoBehaviour
             for (int i = 0; i < maxCampfires; i++)
             {
                 //If the campfire is true, then it has been activated or interacted with it
-                respawns[i].GetComponent<CampFire>().interacted = campfiresBool[i];
+                respawns[i].GetComponent<CampFire>().Interact();
                 //Sets the current spawn finding the last campfire lighted
                 if (campfiresBool[i] == false && campfiresBool[i - 1] == true)
                 {

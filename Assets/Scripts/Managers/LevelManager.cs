@@ -44,7 +44,7 @@ public class LevelManager : MonoBehaviour
         currentRoom = room.GetComponent<Room>();
     }
 
-    private void Start()
+    private void Awake()
     {
         //Gets enemies
         enemies = new List<RespawnEntityData>();
@@ -65,12 +65,26 @@ public class LevelManager : MonoBehaviour
         }
         //Instance
         instance = this;
+        
+    }
+
+    private void Start()
+    {
         //Current spawnpoint
         currentRespawnPoint = RespawnManager.currentRespawn.transform;
     }
 
 
-
+    public void SetCelldoors()
+    {
+        int i = 0;
+        List<bool> cellDoorsBool = GlobalControl.Instance.LocalCopyOfData.cellDoors;
+        foreach (CellDoor c in celldoors)
+        {
+            c.gameObject.SetActive(cellDoorsBool[i]);
+            i++;
+        }
+    }
 
     public void Respawn()
     {
@@ -112,6 +126,5 @@ public class LevelManager : MonoBehaviour
     {
         currentRespawnPoint = RespawnManager.currentRespawn.transform;
     }
-
 
 }

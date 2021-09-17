@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
             player.transform.position = position;
             player.playerCombatBehaviour.hasBow = GlobalControl.Instance.LocalCopyOfData.hasBow;
             player.healthSystem.SetHealth(GlobalControl.Instance.LocalCopyOfData.health);
-            
+            levelManager.SetCelldoors();
         }
 
         //Loads the spawns or start from the first spawn (if it is a new game)

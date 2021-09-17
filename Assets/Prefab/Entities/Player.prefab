@@ -493,7 +493,7 @@ MonoBehaviour:
   thrust: 10
   fallMultiplier: 2
   lowFallMultiplier: 2
-  jumpForce: 20
+  jumpForce: 15
   hangTime: 0.3
   hangTimeCounter: 0
   groundedHeight: 0.1
@@ -501,7 +501,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
-  speed: 9
+  speed: 12
   dustFootsteps: {fileID: 71617679584371750}
   raycastLeftOffset: {x: 0.19, y: 0, z: 0}
   raycastRightOffset: {x: 0.19, y: 0, z: 0}

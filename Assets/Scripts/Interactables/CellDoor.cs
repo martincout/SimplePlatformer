@@ -20,7 +20,8 @@ public class CellDoor : Interactable
         {
             PlaySound();
             StartCoroutine(PlayAnimation());
-            GameManager.GetInstance().DeleteKey(keyNeeded);
+            if(!openWithLever)
+                GameManager.GetInstance().DeleteKey(keyNeeded);
         }
     }
 
