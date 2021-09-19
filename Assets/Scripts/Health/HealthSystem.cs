@@ -6,6 +6,12 @@ public class HealthSystem : MonoBehaviour
     private float currentHealth;
     public HealthBar healthBar;
 
+    public HealthSystem(float maxHealth)
+    {
+        this.maxHealth = maxHealth;
+        this.currentHealth = maxHealth;
+    }
+
     private void Start()
     {
         currentHealth = maxHealth;

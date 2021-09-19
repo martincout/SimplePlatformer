@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SimplePlatformer.Player
 {
-    public class PlayerMovement : PlayerController
+    public class PlayerMovement : MonoBehaviour
     {
         //Jump
 
@@ -16,25 +16,6 @@ namespace SimplePlatformer.Player
         public float groundedHeight = 0.5f;
         public float heightOffset = 0.25f; // we dont want to cast from the players feet (may cast underground sometimes), so we offset it a bit
         public LayerMask groundLayer;
-        //Movement
-        [SerializeField] float speed;
-        private Vector2 movementDirection;
-
-        //Hurt Collider
-        BoxCollider2D boxCollider;
-
-        //Particles
-        public ParticleSystem dustFootsteps;
-        //States
-
-        private bool isJumpingAnim = false;
-        private bool isFallingAnim = false;
-        private bool isAttackingAnim = false;
-
-        //Components
-        private SpriteRenderer sprRender;
-        private AudioSource footsteps;
-
         /// <summary>
         /// Raycast to check if it's grounded
         /// </summary>
@@ -46,10 +27,38 @@ namespace SimplePlatformer.Player
         public Vector3 raycastLeftOffset = new Vector2(0.5f, 0);
         public Vector3 raycastRightOffset = new Vector2(0.5f, 0);
 
+        private PlayerVariables pv;
+
+        //Movement
+        [SerializeField] float speed;
+        private Vector2 movementDirection;
+
+        //Hurt Collider
+        BoxCollider2D boxCollider;
+
+        //Particles
+        public ParticleSystem dustFootsteps;
+        //States
+        private bool isJumpingAnim = false;
+        private bool isFallingAnim = false;
+        private bool isAttackingAnim = false;
+        private bool jumpingHeld;
+
+        //Components
+        private SpriteRenderer sprRender;
+        private AudioSource footsteps;
+        private Rigidbody2D rb;
+        private Animator anim;
+       
+        public void Setup(PlayerVariables pv)
+        {
+            this.pv = pv;
+        }
+
         public void Awake()
         {
             anim = GetComponent<Animator>();
-            rb2d = GetComponent<Rigidbody2D>();
+            rb = GetComponent<Rigidbody2D>();
             sprRender = GetComponent<SpriteRenderer>();
             groundLayer = 1 << LayerMask.NameToLayer("Ground");
             boxCollider = GetComponent<BoxCollider2D>();
@@ -57,15 +66,15 @@ namespace SimplePlatformer.Player
             dustFootsteps = transform.GetChild(2).GetComponent<ParticleSystem>();
         }
 
-        public void Start()
+        private void Start()
         {
-            pv.isGrounded = false;
+            pv = new PlayerVariables();
         }
 
         public void FixedUpdate()
         {
             if (pv.movePrevent) 
-                rb2d.velocity = Vector2.zero;
+                rb.velocity = Vector2.zero;
             CheckGround();
             if (pv.isGrounded)
             {
@@ -125,7 +134,7 @@ namespace SimplePlatformer.Player
             {
                 anim.Play(PlayerVariables.PLAYER_JUMP);
             }
-            if (rb2d.velocity.y < -0.2 && !pv.isGrounded)
+            if (rb.velocity.y < -0.2 && !pv.isGrounded)
             {
                 anim.Play(PlayerVariables.PLAYER_FALLING);
             }
@@ -181,13 +190,13 @@ namespace SimplePlatformer.Player
 
         private void BetterJump()
         {
-            if (rb2d.velocity.y < 0)
+            if (rb.velocity.y < 0)
             {
-                rb2d.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+                rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
             }
-            else if (rb2d.velocity.y > 0 && !jumpingHeld)
+            else if (rb.velocity.y > 0 && !jumpingHeld)
             {
-                rb2d.velocity += Vector2.up * Physics2D.gravity.y * (lowFallMultiplier - 1) * Time.deltaTime;
+                rb.velocity += Vector2.up * Physics2D.gravity.y * (lowFallMultiplier - 1) * Time.deltaTime;
             }
 
         }
@@ -195,7 +204,7 @@ namespace SimplePlatformer.Player
         public void StartJumping()
         {
             if (pv.isGrounded && !pv.movePrevent) SoundManager.instance.Play("Jump");
-            jumpingHeld = true;
+            this.jumpingHeld = true;
         }
 
         public void CancelJumping()
@@ -219,7 +228,7 @@ namespace SimplePlatformer.Player
             {
                 hangTimeCounter = 0f;
                 float multiplies = 50;
-                rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce * (Time.deltaTime * multiplies));
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce * (Time.deltaTime * multiplies));
             }
 
         }
@@ -228,7 +237,7 @@ namespace SimplePlatformer.Player
         private void Move()
         {
             float multiplies = 50;
-            rb2d.velocity = new Vector2(movementDirection.x * speed * (Time.deltaTime * multiplies), rb2d.velocity.y);
+            rb.velocity = new Vector2(movementDirection.x * speed * (Time.deltaTime * multiplies), rb.velocity.y);
         }
 
         private void footstep()

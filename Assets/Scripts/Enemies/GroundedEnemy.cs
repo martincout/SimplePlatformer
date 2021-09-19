@@ -12,7 +12,8 @@ namespace SimplePlatformer.Enemy
         [SerializeField] private float gravity = 20f;
         [SerializeField] private bool isSphereHitBox = true;
         [SerializeField] private Vector2 hitboxSize = Vector2.one;
-        [SerializeField] private float angle = 1f;
+        [Tooltip("Angle of the hit box"), SerializeField] private float angle = 1f;
+        private float negativeAngle; //Opposite value of the angle
 
         private RaycastHit2D raycastGround;
         private RaycastHit2D raycastWall;
@@ -29,6 +30,7 @@ namespace SimplePlatformer.Enemy
             base.Start();
             rb2d.gravityScale = gravity;
             groundDetector = transform.GetChild(2)?.GetComponent<Transform>();
+            negativeAngle = -angle;
         }
 
         /// <summary>
@@ -129,6 +131,7 @@ namespace SimplePlatformer.Enemy
             if (!isAttacking)
             {
                 FlipByTargetDirection(dirX);
+                SetAngleByHeadingDirection();
             }
             //Check if there is a player in the attack radius
             if (boxAttackRadius.Length > 0)
@@ -145,6 +148,20 @@ namespace SimplePlatformer.Enemy
             UpdateMovement();
 
         }
+
+        /// <summary>
+        /// Sets the angle of the hit box
+        /// </summary>
+        private void SetAngleByHeadingDirection()
+        {
+            if (dirX < 0)
+            {
+                angle = negativeAngle;
+            }
+            else if(dirX > 0)
+                angle = Mathf.Abs(angle);
+        }
+
         /// <summary>
         /// Update Movement 
         /// Check the Direction X of the target and don't update the movement if it's attacking because otherwise, it'll follow

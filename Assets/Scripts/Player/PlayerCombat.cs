@@ -3,8 +3,9 @@ using UnityEngine;
 
 namespace SimplePlatformer.Player
 {
-    public class PlayerCombat : PlayerController
+    public class PlayerCombat : MonoBehaviour
     {
+        PlayerController playerController;
         //Attack    
         [Header("Attack")]
         public Transform hitBoxPos;
@@ -37,17 +38,28 @@ namespace SimplePlatformer.Player
         public LayerMask enemyLayer;
         public LayerMask damageableLayer;
 
+        private Animator anim;
+        private Rigidbody2D rb;
+        private Renderer render;
+        private PlayerVariables pv;
+
+        internal void Setup(PlayerVariables pv, PlayerController playerController)
+        {
+            this.pv = pv;
+            this.playerController = playerController;
+        }
+
         private void Awake()
         {
-            healthSystem = GetComponent<HealthSystem>();
             hitBoxPos = transform.GetChild(1).transform;
             anim = GetComponent<Animator>();
-            rb2d = GetComponent<Rigidbody2D>();
+            rb = GetComponent<Rigidbody2D>();
             render = GetComponent<Renderer>();
         }
         private void Start()
         {
             comboState = ComboState.NONE;
+            this.pv = new PlayerVariables();
         }
         public void CheckHitBoxColission()
         {
@@ -60,7 +72,7 @@ namespace SimplePlatformer.Player
                     col.GetComponent<IDamageable>().TakeDamage(attackDamage, transform.position);
                     if (col.GetComponent<FallingCellCage>())
                     {
-                        Knockback(col.transform.position, 15f);
+                        playerController.Knockback(col.transform.position, 15f);
                     }
                     hitboxEnable = false;
                     //if (!isJumping) StartCoroutine(ImpulseBackwards());
@@ -89,7 +101,7 @@ namespace SimplePlatformer.Player
                 pv.isBowAttacking = false;
                 comboState = ComboState.NONE;
                 elapsedAttackRate = attackRate;
-                rb2d.drag = initialDrag;
+                rb.drag = initialDrag;
             }
 
             //Attack rate
@@ -154,7 +166,7 @@ namespace SimplePlatformer.Player
                                 break;
                         }
                         //don't slide on the floor
-                        rb2d.drag = attackDrag;
+                        rb.drag = attackDrag;
                     }
                     //If I'm in the Air
                     else if (!pv.airAttacked)
@@ -237,24 +249,31 @@ namespace SimplePlatformer.Player
 
         private void SetSuspendInAir()
         {
-            rb2d.gravityScale = 0;
+            rb.gravityScale = 0;
         }
 
         private void SuspendInAir()
         {
             if (pv.isAttacking && !pv.isGrounded)
             {
-                if (!pv.isStunned) rb2d.velocity = Vector2.zero;
+                if (!pv.isStunned) rb.velocity = Vector2.zero;
             }
             else
             {
-                rb2d.gravityScale = 1f;
+                rb.gravityScale = 1f;
             }
         }
 
         public void SwishSound()
         {
             SoundManager.instance.Play("Swish");
+        }
+
+        private IEnumerator EnableMovementAfter(float _sec)
+        {
+            pv.movePrevent = true;
+            yield return new WaitForSeconds(_sec);
+            pv.movePrevent = false;
         }
 
 

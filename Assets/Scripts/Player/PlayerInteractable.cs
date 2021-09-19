@@ -4,7 +4,7 @@ using UnityEngine;
 namespace SimplePlatformer.Player
 {
     //need to change to fixedUpdate
-    public class PlayerInteractable : PlayerController
+    public class PlayerInteractable : MonoBehaviour
     {
         public GameObject buttonInteract;
         public Vector2 size;
@@ -12,6 +12,17 @@ namespace SimplePlatformer.Player
         private GameObject buttonRef;
         private float buttonOffset;
         private Collider2D interact;
+        private PlayerVariables pv;
+
+        public void Setup(PlayerVariables pv)
+        {
+            this.pv = pv;
+        }
+
+        private void Start()
+        {
+            this.pv = new PlayerVariables();
+        }
 
         // Update is called once per frame
         void Update()

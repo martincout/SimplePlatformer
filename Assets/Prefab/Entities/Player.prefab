@@ -76,7 +76,6 @@ GameObject:
   - component: {fileID: 4772911900496007040}
   - component: {fileID: 540259816510785638}
   - component: {fileID: 1712452806}
-  - component: {fileID: 1230279906}
   - component: {fileID: 190104470}
   - component: {fileID: 46930375}
   - component: {fileID: 668373916}
@@ -320,8 +319,8 @@ MonoBehaviour:
     m_ActionName: PlayerControlls/Attack[/Keyboard/z]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 540259816510785638}
-        m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerBase, Assembly-CSharp
+      - m_Target: {fileID: 4772911900496007040}
+        m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerController, Assembly-CSharp
         m_MethodName: OnMovement
         m_Mode: 0
         m_Arguments:
@@ -474,6 +473,8 @@ MonoBehaviour:
   playerMovementBehaviour: {fileID: 540259816510785638}
   playerCombatBehaviour: {fileID: 1712452806}
   playerInteractableBehaviour: {fileID: 190104470}
+  MaxHealth: 200
+  healthBar: {fileID: 0}
   thrust: 10
 --- !u!114 &540259816510785638
 MonoBehaviour:
@@ -487,10 +488,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c48ec48d39dce409a1ab122509351a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMovementBehaviour: {fileID: 0}
-  playerCombatBehaviour: {fileID: 0}
-  playerInteractableBehaviour: {fileID: 0}
-  thrust: 10
   fallMultiplier: 2
   lowFallMultiplier: 2
   jumpForce: 16.2
@@ -501,10 +498,10 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
-  speed: 10.2
-  dustFootsteps: {fileID: 71617679584371750}
   raycastLeftOffset: {x: 0.19, y: 0, z: 0}
   raycastRightOffset: {x: 0.19, y: 0, z: 0}
+  speed: 10.2
+  dustFootsteps: {fileID: 71617679584371750}
 --- !u!114 &1712452806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -517,10 +514,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 383fb6d6c8ac3df448c175f0bf5a0c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMovementBehaviour: {fileID: 0}
-  playerCombatBehaviour: {fileID: 0}
-  playerInteractableBehaviour: {fileID: 0}
-  thrust: 10
   hitBoxPos: {fileID: 1308520645}
   attackRate: 0.2
   attackDamage: 10
@@ -540,20 +533,6 @@ MonoBehaviour:
   damageableLayer:
     serializedVersion: 2
     m_Bits: 4096
---- !u!114 &1230279906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 540259816510785635}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 182c733c54ea2944aaec17b15eda03ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 200
-  healthBar: {fileID: 0}
 --- !u!114 &190104470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -566,10 +545,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7071081ab6c011945abcd989c08cf847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMovementBehaviour: {fileID: 0}
-  playerCombatBehaviour: {fileID: 0}
-  playerInteractableBehaviour: {fileID: 0}
-  thrust: 10
   buttonInteract: {fileID: 4778406685189288635, guid: 1378888f90720814492fbfb4860632b2, type: 3}
   size: {x: 1.88, y: 0.67}
 --- !u!114 &46930375

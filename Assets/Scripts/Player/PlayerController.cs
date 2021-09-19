@@ -18,8 +18,10 @@ namespace SimplePlatformer.Player
         public PlayerMovement playerMovementBehaviour;
         public PlayerCombat playerCombatBehaviour;
         public PlayerInteractable playerInteractableBehaviour;
+        public float MaxHealth = 200;
 
-        public static PlayerVariables pv = new PlayerVariables();
+        public HealthBar healthBar;
+        internal PlayerVariables pv = new PlayerVariables();
 
         //Action Maps
         private string actionMapPlayerControls = "PlayerControlls";
@@ -32,11 +34,6 @@ namespace SimplePlatformer.Player
         //Take damage
         private float stunTime = 0.3f;
         internal HealthSystem healthSystem;
-
-        public static explicit operator PlayerController(GameObject v)
-        {
-            throw new NotImplementedException();
-        }
 
         protected CharacterParticles characterParticles;
         protected Animator anim;
@@ -61,7 +58,7 @@ namespace SimplePlatformer.Player
             playerMovementBehaviour = GetComponent<PlayerMovement>();
             playerCombatBehaviour = GetComponent<PlayerCombat>();
             playerInteractableBehaviour = GetComponent<PlayerInteractable>();
-            healthSystem = GetComponent<HealthSystem>();
+            healthSystem = gameObject.AddComponent<HealthSystem>();
             characterParticles = GetComponent<CharacterParticles>();
             anim = GetComponent<Animator>();
             rb2d = GetComponent<Rigidbody2D>();
@@ -70,10 +67,11 @@ namespace SimplePlatformer.Player
         }
         private void Start()
         {
+            healthSystem.SetHealthBar(healthBar);
+            healthSystem.SetMaxHealth(MaxHealth);
             currentControlScheme = "Keyboard&Mouse";
             playerInput.SwitchCurrentControlScheme("Keyboard&Mouse", Keyboard.current);
             playerInput.SwitchCurrentActionMap("PlayerControlls");
-            healthSystem.SetHealthBar(GameObject.Find("HealthBar").GetComponent<HealthBar>());
             pv.cannotAttack = false;
             pv.movePrevent = false;
             pv.isFacingRight = true;
@@ -84,6 +82,9 @@ namespace SimplePlatformer.Player
             pv.invincible = false;
             pv.airAttacked = false;
             pv.canInteract = true;
+            playerCombatBehaviour.Setup(pv,this);
+            playerMovementBehaviour.Setup(pv);
+            playerInteractableBehaviour.Setup(pv);
         }
 
         private void Update()
@@ -168,7 +169,7 @@ namespace SimplePlatformer.Player
             Destroy(gameObject);
         }
 
-        protected void Knockback(Vector3 attackerPos, float thrust)
+        internal void Knockback(Vector3 attackerPos, float thrust)
         {
             if (!pv.isStunned)
             {
@@ -234,12 +235,7 @@ namespace SimplePlatformer.Player
             }
         }
 
-        protected IEnumerator EnableMovementAfter(float _sec)
-        {
-            pv.movePrevent = true;
-            yield return new WaitForSeconds(_sec);
-            pv.movePrevent = false;
-        }
+        
 
         //INPUT SYSTEM ACTION METHODS --------------
 
