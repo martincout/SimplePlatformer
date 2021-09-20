@@ -31,6 +31,7 @@ public class GlobalControl : MonoBehaviour
     public void LoadGame()
     {
         LocalCopyOfData = SaveSystem.LoadGame();
+        if (LocalCopyOfData == null) return;
         IsSceneBeingLoaded = true;
         SceneManager.LoadScene(1);
     }

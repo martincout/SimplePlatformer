@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
             player.playerCombatBehaviour.hasBow = GlobalControl.Instance.LocalCopyOfData.hasBow;
             player.healthSystem.SetHealth(GlobalControl.Instance.LocalCopyOfData.health);
             levelManager.SetCelldoors();
+            levelManager.SetLevelKeys();
         }
 
         //Loads the spawns or start from the first spawn (if it is a new game)
@@ -71,7 +72,8 @@ public class GameManager : MonoBehaviour
     {
         List<CampFire> campFires = respawnManager.respawns;
         List<CellDoor> cellDoors = levelManager.celldoors;
-        SaveSystem.SaveGame(player, score, campFires,cellDoors,GetKeys());
+        List<GameObject> levelKeys = levelManager.levelKeys;
+        SaveSystem.SaveGame(player, score, campFires,cellDoors,GetKeys(),levelKeys);
     }
 
     public void TogglePauseState()

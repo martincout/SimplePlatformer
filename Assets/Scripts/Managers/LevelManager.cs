@@ -15,14 +15,17 @@ public class LevelManager : MonoBehaviour
     public GameObject enemyContainer;
     public GameObject bossContainer;
     public GameObject celldoorsContainer;
+    public GameObject keysContainer;
     //Enemies positions and prefabs
     private List<RespawnEntityData> enemies;
     private List<RespawnEntityData> bosses;
-    public List<CellDoor> celldoors = new List<CellDoor>();
+    internal List<GameObject> levelKeys;
+    public List<CellDoor> celldoors;
     public Room currentRoom;
     public CanvasGroup bossHealthbar;
     public AudioMixer audioMixer;
     [SerializeField] private GameObject player;
+    
 
     public CinemachineVirtualCameraBase virtualCamera;
 
@@ -58,10 +61,15 @@ public class LevelManager : MonoBehaviour
         {
             bosses.Add(new RespawnEntityData(child.GetComponent<BossBehaviour>(), child.position));
         }
-
+        celldoors = new List<CellDoor>();
         foreach (Transform child in celldoorsContainer.transform)
         {
             celldoors.Add(child.gameObject.GetComponent<CellDoor>());
+        }
+        levelKeys = new List<GameObject>();
+        foreach(Transform child in keysContainer.transform)
+        {
+            levelKeys.Add(child.gameObject);
         }
         //Instance
         instance = this;
@@ -82,6 +90,17 @@ public class LevelManager : MonoBehaviour
         foreach (CellDoor c in celldoors)
         {
             c.gameObject.SetActive(cellDoorsBool[i]);
+            i++;
+        }
+    }
+
+    public void SetLevelKeys()
+    {
+        int i = 0;
+        List<bool> levelKeysBool = GlobalControl.Instance.LocalCopyOfData.levelKeys;
+        foreach (GameObject c in this.levelKeys)
+        {
+            c.gameObject.SetActive(levelKeysBool[i]);
             i++;
         }
     }

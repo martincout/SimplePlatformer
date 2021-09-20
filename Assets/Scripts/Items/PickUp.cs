@@ -49,26 +49,28 @@ public class PickUp : MonoBehaviour
 
     private void PickUpItem(Collider2D collision)
     {
-        GameObject instance = Instantiate(item.particleGameobject, transform.position, Quaternion.identity);
+        GameObject particles = Instantiate(item.particleGameobject, transform.position, Quaternion.identity);
         SoundManager.instance.Play("Coin");
+        //Particles
+        Destroy(particles, 1f);
 
         switch (item.category)
         {
             case Item.Category.COIN:
                 GameManager.GetInstance().AddScore((int)item.value);
+                Destroy(gameObject);
                 break;
             case Item.Category.CONSUMABLE:
                 //Just adding the value of the item as a health amount
                 collision.GetComponent<IItem>().ItemInteraction(item);
+                Destroy(gameObject);
                 break;
             case Item.Category.KEY:
                 GameManager.GetInstance().AddKey(((Key)item).color);
+                gameObject.SetActive(false);
                 break;
         }
 
-        Destroy(gameObject);
-        //Particles
-        Destroy(instance, 1f);
     }
 
     
