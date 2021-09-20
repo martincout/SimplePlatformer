@@ -21,7 +21,7 @@ namespace SimplePlatformer.Player
         public float MaxHealth = 200;
 
         public HealthBar healthBar;
-        internal PlayerVariables pv = new PlayerVariables();
+        internal PlayerVariables pv;
 
         //Action Maps
         private string actionMapPlayerControls = "PlayerControlls";
@@ -40,9 +40,7 @@ namespace SimplePlatformer.Player
         protected Rigidbody2D rb2d;
         protected Renderer render;
 
-
         public static PlayerInput playerInput;
-        protected static bool jumpingHeld = false;
 
         public float thrust = 10f;
         private string currentControlScheme;
@@ -67,21 +65,13 @@ namespace SimplePlatformer.Player
         }
         private void Start()
         {
+            pv = new PlayerVariables();
+            if (healthBar == null) healthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
             healthSystem.SetHealthBar(healthBar);
             healthSystem.SetMaxHealth(MaxHealth);
             currentControlScheme = "Keyboard&Mouse";
             playerInput.SwitchCurrentControlScheme("Keyboard&Mouse", Keyboard.current);
             playerInput.SwitchCurrentActionMap("PlayerControlls");
-            pv.cannotAttack = false;
-            pv.movePrevent = false;
-            pv.isFacingRight = true;
-            pv.isJumping = false;
-            pv.isAttacking = false;
-            pv.isStunned = false;
-            pv.itsDying = false;
-            pv.invincible = false;
-            pv.airAttacked = false;
-            pv.canInteract = true;
             playerCombatBehaviour.Setup(pv,this);
             playerMovementBehaviour.Setup(pv);
             playerInteractableBehaviour.Setup(pv);

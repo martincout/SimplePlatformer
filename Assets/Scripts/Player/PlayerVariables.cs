@@ -17,8 +17,9 @@ namespace SimplePlatformer.Player
         public static readonly string PLAYER_ATTACK3 = "playerAttack3";
         public static readonly string PLAYER_BOW = "playerBow";
         public static readonly string PLAYER_BOWAIR = "playerBowAir";
+
         //States
-        public bool isJumping = false;
+        public bool isJumping;
         public bool movePrevent;
         public bool cannotAttack;
         public bool isFacingRight;
@@ -30,6 +31,23 @@ namespace SimplePlatformer.Player
         public bool isGrounded;
         public bool canInteract;
         public bool isBowAttacking;
+
+        public PlayerVariables()
+        {
+            this.isJumping = false;
+            this.cannotAttack = false;
+            this.movePrevent = false;
+            this.isFacingRight = true;
+            this.isAttacking = false;
+            this.isStunned = false;
+            this.itsDying = false;
+            this.invincible = false;
+            this.airAttacked = false;
+            this.canInteract = true;
+        }
+
+        
+        
     }
 }
 

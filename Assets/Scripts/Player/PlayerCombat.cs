@@ -19,7 +19,7 @@ namespace SimplePlatformer.Player
         [SerializeField] public bool hasBow = false;
         [Header("HitBox")]
         public Vector3 boxSize;
-        public float rotation;
+        public float rotation; 
         [HideInInspector] public bool hitboxEnable;
 
         //Combos
@@ -162,7 +162,6 @@ namespace SimplePlatformer.Player
                                 anim.Play(PlayerVariables.PLAYER_ATTACK3);
                                 comboState = ComboState.THIRD;
                                 elapsedNextCombo = 0.4f;
-
                                 break;
                         }
                         //don't slide on the floor
