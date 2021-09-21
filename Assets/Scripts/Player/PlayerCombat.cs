@@ -202,7 +202,7 @@ namespace SimplePlatformer.Player
         /// </summary>
         public void BowAttack()
         {
-            if (pv.isStunned || pv.itsDying || pv.cannotAttack && !hasBow) return;
+            if (pv.isStunned || pv.itsDying || pv.cannotAttack || !hasBow) return;
 
             if (elapsedAttackRate <= 0)
             {

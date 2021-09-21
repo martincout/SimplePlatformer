@@ -7,15 +7,15 @@ using UnityEngine;
 
 public static class SaveSystem
 {
-    public static void SaveGame(PlayerController player, int score, List<CampFire> campFires, 
-        List<CellDoor> cellDoors,Dictionary<KeyColor,int> keys, List<GameObject> levelKeys)
+    public static void SaveGame(PlayerController player, int score, List<CampFire> campFires,
+        List<CellDoor> cellDoors, Dictionary<KeyColor, int> keys, List<GameObject> levelKeys, List<Chest> chests)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         //Path combine for multiple platforms
         string path = Path.Combine(Application.persistentDataPath, "player.save");
         FileStream stream = new FileStream(path, FileMode.Create);
 
-        GameData data = new GameData(player, score, campFires, cellDoors, keys,levelKeys);
+        GameData data = new GameData(player, score, campFires, cellDoors, keys,levelKeys,chests);
 
         formatter.Serialize(stream, data);
 

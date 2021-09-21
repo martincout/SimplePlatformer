@@ -36,10 +36,10 @@ public class GameManager : MonoBehaviour
         return keys;
     }
 
-    // Use this for initialization
     public void Start()
     {
         instance = this;
+        //Loading Data
         if (GlobalControl.Instance.IsSceneBeingLoaded)
         {
             score = GlobalControl.Instance.LocalCopyOfData.score;
@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
             player.healthSystem.SetHealth(GlobalControl.Instance.LocalCopyOfData.health);
             levelManager.SetCelldoors();
             levelManager.SetLevelKeys();
+            levelManager.SetChests();
         }
 
         //Loads the spawns or start from the first spawn (if it is a new game)
@@ -74,7 +75,8 @@ public class GameManager : MonoBehaviour
         List<CampFire> campFires = respawnManager.respawns;
         List<CellDoor> cellDoors = levelManager.celldoors;
         List<GameObject> levelKeys = levelManager.levelKeys;
-        SaveSystem.SaveGame(player, score, campFires,cellDoors,GetKeys(),levelKeys);
+        List<Chest> chests = levelManager.chests;
+        SaveSystem.SaveGame(player, score, campFires,cellDoors,GetKeys(),levelKeys,chests);
     }
 
     public void TogglePauseState()

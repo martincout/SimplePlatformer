@@ -13,15 +13,18 @@ public class GameData
     public List<bool> campFires;
     public List<bool> cellDoors;
     public List<bool> levelKeys;
+    public List<bool> chests;
     //BLUE;RED;YELLOW;GRAY
     public List<int> keys;
 
-    public GameData(PlayerController player, int score, List<CampFire> campFires, List<CellDoor> cellDoors, Dictionary<KeyColor,int> keys, List<GameObject> levelKeys)
+    public GameData(PlayerController player, int score, List<CampFire> campFires, List<CellDoor> cellDoors, 
+        Dictionary<KeyColor,int> keys, List<GameObject> levelKeys, List<Chest> chests)
     {
         this.campFires = new List<bool>();
         this.cellDoors = new List<bool>();
         this.keys = new List<int>();
         this.levelKeys = new List<bool>();
+        this.chests = new List<bool>();
         health = player.healthSystem.GetHealth();
         position = new float[3];
         position[0] = player.transform.position.x;
@@ -33,6 +36,7 @@ public class GameData
         this.campFires.Clear();
         this.cellDoors.Clear();
         this.levelKeys.Clear();
+        this.chests.Clear();
         //Save Campfires
         foreach(CampFire c in campFires)
         {
@@ -65,6 +69,11 @@ public class GameData
         foreach(GameObject child in levelKeys)
         {
             this.levelKeys.Add(child.activeSelf);
+        }
+        //Foreach chests, is Open or not
+        foreach(Chest c in chests)
+        {
+            this.chests.Add(c.interacted);
         }
     }
 }

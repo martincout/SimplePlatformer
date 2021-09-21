@@ -15,10 +15,12 @@ public class LevelManager : MonoBehaviour
     public GameObject bossContainer;
     public GameObject celldoorsContainer;
     public GameObject keysContainer;
+    public GameObject chestsContainer;
     //Enemies positions and prefabs
     private List<RespawnEntityData> enemies;
     private List<RespawnEntityData> bosses;
     internal List<GameObject> levelKeys;
+    internal List<Chest> chests;
     public List<CellDoor> celldoors;
     public Room currentRoom;
     public CanvasGroup bossHealthbar;
@@ -70,6 +72,12 @@ public class LevelManager : MonoBehaviour
         {
             levelKeys.Add(child.gameObject);
         }
+        chests = new List<Chest>();
+        foreach(Transform child in chestsContainer.transform)
+        {
+            chests.Add(child.gameObject.GetComponent<Chest>());
+        }
+
         //Instance
         instance = this;
         
@@ -100,6 +108,20 @@ public class LevelManager : MonoBehaviour
         foreach (GameObject c in this.levelKeys)
         {
             c.gameObject.SetActive(levelKeysBool[i]);
+            i++;
+        }
+    }
+
+    public void SetChests()
+    {
+        int i = 0;
+        List<bool> chestsBool = GlobalControl.Instance.LocalCopyOfData.chests;
+        foreach (Chest c in chests)
+        {
+            if (chestsBool[i])
+            {
+                c.Interacted();
+            }
             i++;
         }
     }

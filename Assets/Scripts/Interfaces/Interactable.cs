@@ -14,8 +14,8 @@ public abstract class Interactable : MonoBehaviour
 
     public virtual void Interact()
     {
-        PlaySound();
-        Interacted();
+            PlaySound();
+            Interacted();
     }
     public virtual void Interacted()
     {
