@@ -42,10 +42,10 @@ public class DialogueYesNo : MonoBehaviour
         activated = false;
         if (!activated)
         {
-            if (GameManager.GetInstance().GetScore() >= 50)
+            if (GameManager.GetInstance().GetScore() >= cost)
             {
                 player.playerCombatBehaviour.hasBow = true;
-                GameManager.GetInstance().AddScore(-50);
+                GameManager.GetInstance().AddScore(-cost);
             }
             player.DisablePlayerState(false);
             player.EnableGameplayControls();
