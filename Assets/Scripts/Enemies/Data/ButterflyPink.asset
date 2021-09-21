@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ButterflyPink
   m_EditorClassIdentifier: 
   model: {fileID: -7664605693119280686, guid: c75d6312447d8d0438599deac31e0b52, type: 3}
-  prefab: {fileID: 5599430386791468312, guid: 0799890dd8e71a044959329c5278331e, type: 3}
+  prefab: {fileID: 5042471562984645223, guid: 006982361f914564fa2386b54bce0a38, type: 3}
   enemyName: Butterfly
   description: Flying Enemy
   maxHealth: 30
