@@ -9,7 +9,6 @@ using SimplePlatformer.Player;
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance;
-
     public Transform currentRespawnPoint;
     public GameObject playerPrefab;
     public GameObject enemyContainer;

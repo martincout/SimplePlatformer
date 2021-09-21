@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     protected int score = 0;
     public bool isPaused = false;
     public bool playerDeath = false;
+    public bool hasBow;
     public PlayerController player;
     public RespawnManager respawnManager;
     public LevelManager levelManager;

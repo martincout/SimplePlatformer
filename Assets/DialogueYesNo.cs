@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class DialogueYesNo : MonoBehaviour
@@ -9,17 +10,26 @@ public class DialogueYesNo : MonoBehaviour
     public Button firstSelected;
     private bool activated = true;
     public PlayerController player;
-    public int cost = 50;
+    public int cost = 100;
+    //Input
+    public PlayerActions playerInput;
+    private InputAction cancel;
+    private void Awake()
+    {
+        playerInput = new PlayerActions();
+    }
+
     private void OnEnable()
     {
+        cancel = playerInput.UI.Cancel;
+        cancel.Enable();
+        playerInput.UI.Cancel.performed += No;
+
         player.DisablePlayerState(true);
         //Interctable false because Select doesn't work the second time
         firstSelected.interactable = false;
         firstSelected.interactable = true;
-
         StartCoroutine(Animation());
-        
-        
     }
 
     private IEnumerator Animation()
@@ -34,6 +44,8 @@ public class DialogueYesNo : MonoBehaviour
 
     private void OnDisable()
     {
+        cancel.Disable();
+        playerInput.UI.Cancel.performed -= No;
         transform.localScale = Vector2.zero;
     }
 
@@ -53,9 +65,8 @@ public class DialogueYesNo : MonoBehaviour
         }
     }
 
-    public void No()
+    public void No(InputAction.CallbackContext obj)
     {
-
         activated = false;
         if (!activated)
         {
