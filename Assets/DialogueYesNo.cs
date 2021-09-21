@@ -1,4 +1,5 @@
 ﻿using SimplePlatformer.Player;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,14 +10,16 @@ public class DialogueYesNo : MonoBehaviour
 {
     public Button firstSelected;
     private bool activated = true;
-    public PlayerController player;
+    [SerializeField] private PlayerController player;
     public int cost = 100;
     //Input
     public PlayerActions playerInput;
     private InputAction cancel;
+    [SerializeField] private GameObject dontHaveEnoughGO;
     private void Awake()
     {
         playerInput = new PlayerActions();
+        GameEvents.RespawnHandler += UpdatePlayer;
     }
 
     private void OnEnable()
@@ -30,6 +33,11 @@ public class DialogueYesNo : MonoBehaviour
         firstSelected.interactable = false;
         firstSelected.interactable = true;
         StartCoroutine(Animation());
+    }
+
+    private void UpdatePlayer(GameObject obj)
+    {
+        player = obj.GetComponent<PlayerController>();
     }
 
     private IEnumerator Animation()
@@ -59,11 +67,26 @@ public class DialogueYesNo : MonoBehaviour
                 player.playerCombatBehaviour.hasBow = true;
                 GameManager.GetInstance().AddScore(-cost);
             }
+            else
+            {
+                dontHaveEnoughGO.SetActive(true);
+            }
             player.DisablePlayerState(false);
             player.EnableGameplayControls();
             gameObject.SetActive(false);
         }
     }
+    public void No()
+    {
+        activated = false;
+        if (!activated)
+        {
+            player.DisablePlayerState(false);
+            player.EnableGameplayControls();
+            gameObject.SetActive(false);
+        }
+    }
+
 
     public void No(InputAction.CallbackContext obj)
     {
@@ -75,4 +98,5 @@ public class DialogueYesNo : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
+
 }

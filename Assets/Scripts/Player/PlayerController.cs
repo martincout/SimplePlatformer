@@ -214,7 +214,7 @@ namespace SimplePlatformer.Player
                     pv.cannotAttack = true;
                     pv.movePrevent = true;
                     pv.canInteract = false;
-                    rb2d.velocity = Vector2.zero;
+                    GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                     anim.Play(PlayerVariables.PLAYER_IDLE);
                     break;
                 case false:
