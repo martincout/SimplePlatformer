@@ -19,6 +19,10 @@ public class DialogueYesNo : MonoBehaviour
     private void Awake()
     {
         playerInput = new PlayerActions();
+    }
+
+    private void Start()
+    {
         GameEvents.RespawnHandler += UpdatePlayer;
     }
 
@@ -27,7 +31,7 @@ public class DialogueYesNo : MonoBehaviour
         cancel = playerInput.UI.Cancel;
         cancel.Enable();
         playerInput.UI.Cancel.performed += No;
-
+        if (player == null) player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         player.DisablePlayerState(true);
         //Interctable false because Select doesn't work the second time
         firstSelected.interactable = false;
