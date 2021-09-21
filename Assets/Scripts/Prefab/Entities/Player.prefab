@@ -480,8 +480,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
-  raycastLeftOffset: {x: 0.19, y: 0, z: 0}
-  raycastRightOffset: {x: 0.19, y: 0, z: 0}
+  raycastLeftOffset: {x: 0.32, y: 0, z: 0}
+  raycastRightOffset: {x: 0.32, y: 0, z: 0}
   speed: 10.2
   dustFootsteps: {fileID: 71617679584371750}
 --- !u!114 &1712452806

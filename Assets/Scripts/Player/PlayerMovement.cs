@@ -244,6 +244,7 @@ namespace SimplePlatformer.Player
         {
             footsteps.Play();
         }
+
     }//end class
 }//end namespace
 
