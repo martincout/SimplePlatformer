@@ -453,8 +453,8 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 77b3e4eb-f14c-4a65-8b52-014cdce470b6
     m_ActionName: PlayerControlls/New action
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_NeverAutoSwitchControlSchemes: 1
+  m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: PlayerControlls
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
@@ -546,6 +546,7 @@ MonoBehaviour:
   playerInteractableBehaviour: {fileID: 190104470}
   MaxHealth: 200
   healthBar: {fileID: 0}
+  _playerInput: {fileID: 0}
   thrust: 10
 --- !u!114 &46930375
 MonoBehaviour:
