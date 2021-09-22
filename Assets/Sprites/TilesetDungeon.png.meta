@@ -154,7 +154,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 832
-        width: 63
+        width: 64
         height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -1097,9 +1097,9 @@ TextureImporter:
       name: TilesetDungeon_45
       rect:
         serializedVersion: 2
-        x: 384
+        x: 388
         y: 704
-        width: 64
+        width: 56
         height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
