@@ -378,6 +378,17 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""4fd17d5c-cf72-4795-8a6b-ce5f8c9f4470"",
+                    ""path"": ""<Joystick>/stick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""7fe5077f-647a-441c-9682-e5ed61ead673"",
                     ""path"": ""<Keyboard>/c"",
                     ""interactions"": """",
