@@ -31,6 +31,7 @@ namespace SimplePlatformer.Player
         public bool isGrounded;
         public bool canInteract;
         public bool isBowAttacking;
+        public string secret;
 
         public PlayerVariables()
         {
