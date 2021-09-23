@@ -267,7 +267,6 @@ MonoBehaviour:
   playerInteractableBehaviour: {fileID: 3239688896410703354}
   MaxHealth: 200
   healthBar: {fileID: 0}
-  _playerInput: {fileID: 0}
   thrust: 10
 --- !u!114 &3239688896410703355
 MonoBehaviour:

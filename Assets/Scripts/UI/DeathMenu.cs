@@ -33,8 +33,8 @@ public class DeathMenu : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         canvasGroup.interactable = true;
-        canvasGroup.blocksRaycasts = true;
         firstSelected.Select();
+        canvasGroup.blocksRaycasts = true;
     }
 
     private IEnumerator FadeOut()
@@ -42,7 +42,7 @@ public class DeathMenu : MonoBehaviour
         float duration = .3f;
         LeanTween.alphaCanvas(canvasGroup, 0f, duration);
         yield return new WaitForSeconds(duration);
-        canvasGroup.blocksRaycasts = false;
+        
     }
 
     internal void UpdateUIMenuState(bool newState)
@@ -54,6 +54,7 @@ public class DeathMenu : MonoBehaviour
         else 
         {
             canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
             StartCoroutine(
                 FadeOut());
         }
