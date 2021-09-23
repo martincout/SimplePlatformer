@@ -15,9 +15,10 @@ GameObject:
   - component: {fileID: 3239688896410703244}
   - component: {fileID: 3239688896410703347}
   - component: {fileID: 3239688896410703354}
-  - component: {fileID: 3239688896410703234}
   - component: {fileID: 3239688896410703355}
   - component: {fileID: 3239688896410702469}
+  - component: {fileID: 3860018362170329550}
+  - component: {fileID: 1438952921177233807}
   m_Layer: 10
   m_Name: Player Android
   m_TagString: Player
@@ -250,24 +251,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonInteract: {fileID: 4778406685189288635, guid: 1378888f90720814492fbfb4860632b2, type: 3}
   size: {x: 1.88, y: 0.67}
---- !u!114 &3239688896410703234
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3239688896410702613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f9aea00e4f1cf43baad343424c7403, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerMovementBehaviour: {fileID: 3239688896410703244}
-  playerCombatBehaviour: {fileID: 3239688896410703347}
-  playerInteractableBehaviour: {fileID: 3239688896410703354}
-  MaxHealth: 200
-  healthBar: {fileID: 0}
-  thrust: 10
 --- !u!114 &3239688896410703355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,6 +291,37 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.61823606, y: 1.2489635}
   m_EdgeRadius: 0.001
+--- !u!114 &3860018362170329550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3239688896410702613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2555202df39dcef4e9bc76fbb68d3cae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMovementBehaviour: {fileID: 3239688896410703244}
+  playerCombatBehaviour: {fileID: 3239688896410703347}
+  playerInteractableBehaviour: {fileID: 3239688896410703354}
+  MaxHealth: 200
+  healthBar: {fileID: 0}
+  thrust: 10
+--- !u!114 &1438952921177233807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3239688896410702613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff6243a681b4dbd47a59e325ece6b0a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 3860018362170329550}
 --- !u!1 &3239688896410702622
 GameObject:
   m_ObjectHideFlags: 0

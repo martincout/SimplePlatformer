@@ -33,6 +33,7 @@ public class DeathMenu : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = true;
         firstSelected.Select();
     }
 
@@ -52,6 +53,7 @@ public class DeathMenu : MonoBehaviour
         else 
         {
             canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
             StartCoroutine(
                 FadeOut());
         }

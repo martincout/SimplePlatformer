@@ -55,11 +55,11 @@ namespace SimplePlatformer.Player
             anim = GetComponent<Animator>();
             rb = GetComponent<Rigidbody2D>();
             render = GetComponent<Renderer>();
+            this.pv = new PlayerVariables();
         }
         private void Start()
         {
             comboState = ComboState.NONE;
-            this.pv = new PlayerVariables();
         }
         public void CheckHitBoxColission()
         {

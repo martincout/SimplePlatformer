@@ -76,9 +76,9 @@ GameObject:
   - component: {fileID: 540259816510785638}
   - component: {fileID: 1712452806}
   - component: {fileID: 190104470}
-  - component: {fileID: 4772911900496007040}
   - component: {fileID: 46930375}
   - component: {fileID: 668373916}
+  - component: {fileID: 668373913}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -258,7 +258,7 @@ MonoBehaviour:
   m_DeviceLostEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4772911900496007040}
+      - m_Target: {fileID: 668373913}
         m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerController, Assembly-CSharp
         m_MethodName: OnDeviceLost
         m_Mode: 1
@@ -273,7 +273,7 @@ MonoBehaviour:
   m_DeviceRegainedEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4772911900496007040}
+      - m_Target: {fileID: 668373913}
         m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerController, Assembly-CSharp
         m_MethodName: OnDeviceRegained
         m_Mode: 1
@@ -288,7 +288,7 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4772911900496007040}
+      - m_Target: {fileID: 668373913}
         m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerController, Assembly-CSharp
         m_MethodName: OnControlsChanged
         m_Mode: 1
@@ -303,7 +303,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4772911900496007040}
+      - m_Target: {fileID: 668373913}
         m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerController, Assembly-CSharp
         m_MethodName: OnAttack
         m_Mode: 0
@@ -319,7 +319,7 @@ MonoBehaviour:
     m_ActionName: PlayerControlls/Attack[/Keyboard/z]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4772911900496007040}
+      - m_Target: {fileID: 668373913}
         m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerController, Assembly-CSharp
         m_MethodName: OnMovement
         m_Mode: 0
@@ -335,7 +335,7 @@ MonoBehaviour:
     m_ActionName: PlayerControlls/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4772911900496007040}
+      - m_Target: {fileID: 668373913}
         m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerController, Assembly-CSharp
         m_MethodName: OnJump
         m_Mode: 0
@@ -351,7 +351,7 @@ MonoBehaviour:
     m_ActionName: PlayerControlls/New action
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4772911900496007040}
+      - m_Target: {fileID: 668373913}
         m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerController, Assembly-CSharp
         m_MethodName: OnInteract
         m_Mode: 0
@@ -367,7 +367,7 @@ MonoBehaviour:
     m_ActionName: PlayerControlls/Interact[/Keyboard/e]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4772911900496007040}
+      - m_Target: {fileID: 668373913}
         m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerController, Assembly-CSharp
         m_MethodName: OnTogglePause
         m_Mode: 0
@@ -419,7 +419,7 @@ MonoBehaviour:
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4772911900496007040}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerController, Assembly-CSharp
         m_MethodName: OnTogglePause
         m_Mode: 0
@@ -439,7 +439,7 @@ MonoBehaviour:
     m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4772911900496007040}
+      - m_Target: {fileID: 668373913}
         m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerController, Assembly-CSharp
         m_MethodName: OnBowAttack
         m_Mode: 0
@@ -529,24 +529,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonInteract: {fileID: 4778406685189288635, guid: 1378888f90720814492fbfb4860632b2, type: 3}
   size: {x: 1.88, y: 0.67}
---- !u!114 &4772911900496007040
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 540259816510785635}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f9aea00e4f1cf43baad343424c7403, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerMovementBehaviour: {fileID: 540259816510785638}
-  playerCombatBehaviour: {fileID: 1712452806}
-  playerInteractableBehaviour: {fileID: 190104470}
-  MaxHealth: 200
-  healthBar: {fileID: 0}
-  thrust: 10
 --- !u!114 &46930375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -587,6 +569,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.61823606, y: 1.2489635}
   m_EdgeRadius: 0.001
+--- !u!114 &668373913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540259816510785635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2555202df39dcef4e9bc76fbb68d3cae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMovementBehaviour: {fileID: 540259816510785638}
+  playerCombatBehaviour: {fileID: 1712452806}
+  playerInteractableBehaviour: {fileID: 190104470}
+  MaxHealth: 200
+  healthBar: {fileID: 0}
+  thrust: 10
 --- !u!1 &2400351565626025960
 GameObject:
   m_ObjectHideFlags: 0

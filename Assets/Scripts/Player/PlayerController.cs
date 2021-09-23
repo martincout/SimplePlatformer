@@ -39,8 +39,8 @@ namespace SimplePlatformer.Player
         protected Animator anim;
         protected Rigidbody2D rb2d;
         protected Renderer render;
+        private PlayerInput _playerInput;
 
-        public static PlayerInput playerInput;
 
         public float thrust = 10f;
         private string currentControlScheme;
@@ -52,7 +52,7 @@ namespace SimplePlatformer.Player
 
         private void Awake()
         {
-            playerInput = GetComponent<PlayerInput>();
+            _playerInput = GetComponent<PlayerInput>();
             playerMovementBehaviour = GetComponent<PlayerMovement>();
             playerCombatBehaviour = GetComponent<PlayerCombat>();
             playerInteractableBehaviour = GetComponent<PlayerInteractable>();
@@ -69,9 +69,6 @@ namespace SimplePlatformer.Player
             if (healthBar == null) healthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
             healthSystem.SetHealthBar(healthBar);
             healthSystem.SetMaxHealth(MaxHealth);
-            currentControlScheme = "Keyboard&Mouse";
-            playerInput.SwitchCurrentControlScheme("Keyboard&Mouse", Keyboard.current);
-            playerInput.SwitchCurrentActionMap("PlayerControlls");
             playerCombatBehaviour.Setup(pv,this);
             playerMovementBehaviour.Setup(pv);
             playerInteractableBehaviour.Setup(pv);
@@ -83,6 +80,7 @@ namespace SimplePlatformer.Player
             UpdatePlayerMovement();
         }
 
+        
 
         void UpdatePlayerMovement()
         {
@@ -295,10 +293,10 @@ namespace SimplePlatformer.Player
         public void OnControlsChanged()
         {
 
-            if (playerInput.currentControlScheme != currentControlScheme)
+            if (_playerInput.currentControlScheme != currentControlScheme)
             {
 
-                currentControlScheme = playerInput.currentControlScheme;
+                currentControlScheme = _playerInput.currentControlScheme;
 
                 //playerVisualsBehaviour.UpdatePlayerVisuals();
                 RemoveAllBindingOverrides();
@@ -310,7 +308,7 @@ namespace SimplePlatformer.Player
 
         public void OnDeviceLost()
         {
-            currentControlScheme = playerInput.currentControlScheme;
+            currentControlScheme = _playerInput.currentControlScheme;
             //playerVisualsBehaviour.SetDisconnectedDeviceVisuals();
         }
 
@@ -328,19 +326,19 @@ namespace SimplePlatformer.Player
 
         void RemoveAllBindingOverrides()
         {
-            InputActionRebindingExtensions.RemoveAllBindingOverrides(playerInput.currentActionMap);
+            InputActionRebindingExtensions.RemoveAllBindingOverrides(_playerInput.currentActionMap);
         }
 
         //Switching Action Maps ----
 
         public void EnableGameplayControls()
         {
-            playerInput.SwitchCurrentActionMap(actionMapPlayerControls);
+            _playerInput.SwitchCurrentActionMap(actionMapPlayerControls);
         }
 
         public void EnablePauseMenuControls()
         {
-            playerInput.SwitchCurrentActionMap(actionMapMenuControls);
+            _playerInput.SwitchCurrentActionMap(actionMapMenuControls);
         }
 
     }
