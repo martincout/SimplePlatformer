@@ -19,7 +19,7 @@ namespace SimplePlatformer.Player
             this.pv = pv;
         }
 
-        private void Awake()
+        private void Start()
         {
             this.pv = new PlayerVariables();
         }

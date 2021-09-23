@@ -64,7 +64,11 @@ namespace SimplePlatformer.Player
             boxCollider = GetComponent<BoxCollider2D>();
             footsteps = GetComponent<AudioSource>();
             dustFootsteps = transform.GetChild(2).GetComponent<ParticleSystem>();
-            this.pv = new PlayerVariables();
+        }
+
+        private void Start()
+        {
+            pv = new PlayerVariables();
         }
 
         public void FixedUpdate()
