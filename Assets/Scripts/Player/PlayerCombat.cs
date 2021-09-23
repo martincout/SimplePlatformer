@@ -45,6 +45,7 @@ namespace SimplePlatformer.Player
 
         internal void Setup(PlayerVariables pv, PlayerController playerController)
         {
+            if (this.pv.Equals(pv)) Debug.Log("same");
             this.pv = pv;
             this.playerController = playerController;
         }
@@ -55,11 +56,11 @@ namespace SimplePlatformer.Player
             anim = GetComponent<Animator>();
             rb = GetComponent<Rigidbody2D>();
             render = GetComponent<Renderer>();
+            this.pv = new PlayerVariables();
         }
         private void Start()
         {
             comboState = ComboState.NONE;
-            this.pv = new PlayerVariables();
         }
         public void CheckHitBoxColission()
         {
@@ -111,7 +112,6 @@ namespace SimplePlatformer.Player
             }
 
         }
-
 
         public void OnDrawGizmosSelected()
         {

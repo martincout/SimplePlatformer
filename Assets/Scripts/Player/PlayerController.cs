@@ -40,7 +40,6 @@ namespace SimplePlatformer.Player
         protected Rigidbody2D rb2d;
         protected Renderer render;
 
-        public PlayerInput _playerInput;
         [SerializeField] private PlayerActions inputActions;
 
         public float thrust = 10f;
@@ -53,7 +52,6 @@ namespace SimplePlatformer.Player
 
         private void Awake()
         {
-            _playerInput = GetComponent<PlayerInput>();
             inputActions = new PlayerActions();
             playerMovementBehaviour = GetComponent<PlayerMovement>();
             playerCombatBehaviour = GetComponent<PlayerCombat>();
@@ -85,11 +83,26 @@ namespace SimplePlatformer.Player
         private void OnEnable()
         {
             inputActions.Enable();
+            inputActions.PlayerControlls.Jump.started += _ctx => OnJump(_ctx);
+            inputActions.PlayerControlls.Jump.performed += _ctx => OnJump(_ctx);
+            inputActions.PlayerControlls.Jump.canceled += _ctx => OnJump(_ctx);
+            inputActions.PlayerControlls.Attack.started += _ctx => OnAttack(_ctx);
+            inputActions.PlayerControlls.Bow.started += _ctx => OnBowAttack(_ctx);
+            inputActions.PlayerControlls.Interact.started += _ctx => OnInteract(_ctx);
+            inputActions.PlayerControlls.Pause.started += _ctx => OnTogglePause(_ctx);
+
         }
 
         private void OnDisable()
         {
             inputActions.Disable();
+            inputActions.PlayerControlls.Jump.started -= _ctx => OnJump(_ctx);
+            inputActions.PlayerControlls.Jump.performed -= _ctx => OnJump(_ctx);
+            inputActions.PlayerControlls.Jump.canceled -= _ctx => OnJump(_ctx);
+            inputActions.PlayerControlls.Attack.started -= _ctx => OnAttack(_ctx);
+            inputActions.PlayerControlls.Bow.started -= _ctx => OnBowAttack(_ctx);
+            inputActions.PlayerControlls.Interact.started -= _ctx => OnInteract(_ctx);
+            inputActions.PlayerControlls.Pause.started -= _ctx => OnTogglePause(_ctx);
         }
 
         void UpdatePlayerMovement()
@@ -301,55 +314,55 @@ namespace SimplePlatformer.Player
 
         //This is automatically called from PlayerInput, when the input device has changed
         //(IE: Keyboard -> Xbox Controller)
-        public void OnControlsChanged()
-        {
+        //public void OnControlsChanged()
+        //{
 
-            if (_playerInput.currentControlScheme != currentControlScheme)
-            {
+        //    if (_playerInput.currentControlScheme != currentControlScheme)
+        //    {
 
-                currentControlScheme = _playerInput.currentControlScheme;
+        //        currentControlScheme = _playerInput.currentControlScheme;
 
-                //playerVisualsBehaviour.UpdatePlayerVisuals();
-                RemoveAllBindingOverrides();
-            }
-        }
+        //        playerVisualsBehaviour.UpdatePlayerVisuals();
+        //        RemoveAllBindingOverrides();
+        //    }
+        //}
 
         //This is automatically called from PlayerInput, when the input device has been disconnected and can not be identified
         //IE: Device unplugged or has run out of batteries
 
-        public void OnDeviceLost()
-        {
-            currentControlScheme = _playerInput.currentControlScheme;
-            //playerVisualsBehaviour.SetDisconnectedDeviceVisuals();
-        }
+        //public void OnDeviceLost()
+        //{
+        //    currentControlScheme = _playerInput.currentControlScheme;
+        //    playerVisualsBehaviour.SetDisconnectedDeviceVisuals();
+        //}
 
 
-        public void OnDeviceRegained()
-        {
-            StartCoroutine(WaitForDeviceToBeRegained());
-        }
+        //public void OnDeviceRegained()
+        //{
+        //    StartCoroutine(WaitForDeviceToBeRegained());
+        //}
 
-        IEnumerator WaitForDeviceToBeRegained()
-        {
-            yield return new WaitForSeconds(0.1f);
-            //playerVisualsBehaviour.UpdatePlayerVisuals();
-        }
+        //IEnumerator WaitForDeviceToBeRegained()
+        //{
+        //    yield return new WaitForSeconds(0.1f);
+        //    playerVisualsBehaviour.UpdatePlayerVisuals();
+        //}
 
-        void RemoveAllBindingOverrides()
-        {
-            InputActionRebindingExtensions.RemoveAllBindingOverrides(_playerInput.currentActionMap);
-        }
+        //void RemoveAllBindingOverrides()
+        //{
+        //    InputActionRebindingExtensions.RemoveAllBindingOverrides(_playerInput.currentActionMap);
+        //}
 
         //Switching Action Maps ----
 
         public void EnableGameplayControls()
         {
-            _playerInput.SwitchCurrentActionMap(actionMapPlayerControls);
+            //_playerInput.SwitchCurrentActionMap(actionMapPlayerControls);
         }
 
         public void EnablePauseMenuControls()
         {
-            _playerInput.SwitchCurrentActionMap(actionMapMenuControls);
+           // _playerInput.SwitchCurrentActionMap(actionMapMenuControls);
         }
 
     }
