@@ -80,8 +80,4 @@ public class PauseMenu : MonoBehaviour
         player.GetComponent<PlayerCombat>().enabled = !disablePlayer;
     }
 
-    public void QuitMenu()
-    {
-        SceneManager.LoadScene(0);
-    }
 }

@@ -22,7 +22,12 @@ public class HandleLoadingScene : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(this.gameObject);
         }
-        
+    }
+
+    public void LoadingSceneAndSetNextId(int id)
+    {
+        SetIdScene(id);
+        SceneManager.LoadScene(1);
     }
 
     public void SetIdScene(int id)
