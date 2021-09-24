@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Has a copy of the Game Data saved through scenes.
+/// </summary>
 public class GlobalControl : MonoBehaviour
 {
     internal static GlobalControl Instance;

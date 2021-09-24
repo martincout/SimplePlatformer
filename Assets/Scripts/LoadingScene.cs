@@ -8,8 +8,11 @@ public class LoadingScene : MonoBehaviour
 {
     public Slider _progressBar;
     AsyncOperation gameLevel;
+    private int idScene;
+
     private void Start()
     {
+        idScene = HandleLoadingScene.Instance.GetIdScene();
         StartCoroutine(LoadAsyncOperations());
     }
 
@@ -20,7 +23,7 @@ public class LoadingScene : MonoBehaviour
 
     IEnumerator LoadAsyncOperations()
     {
-        gameLevel = SceneManager.LoadSceneAsync(2);
+        gameLevel = SceneManager.LoadSceneAsync(this.idScene);
         if (gameLevel.progress < 1)
         {
             yield return new WaitForEndOfFrame();
