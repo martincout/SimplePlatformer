@@ -13,7 +13,7 @@ public class MainMenu : MonoBehaviour
 
     public void LoadGame()
     {
-        GlobalControl.Instance.LoadGame();
+        GlobalControl.Instance.LoadGameData();
     }
 
     public void QuitGame()

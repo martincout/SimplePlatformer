@@ -170,7 +170,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -1139991698071292489, guid: 89492e7fd5fcb5f47bd1c90c9a98d009, type: 2}
   m_audioClip: {fileID: 8300000, guid: ac2fc6e5b711fb048b565155c03c31af, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.41
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -264,6 +264,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6723763547130763822}
   - component: {fileID: 6723763547130763823}
+  - component: {fileID: 1463001886}
   m_Layer: 0
   m_Name: SoundManager
   m_TagString: Untagged
@@ -313,14 +314,14 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Damage
     clip: {fileID: 8300000, guid: 9be257ae085216c4e85c6e2fc3db02e9, type: 3}
-    volume: 1
+    volume: 0.66
     pitch: 1
     isLoop: 0
     hasCooldown: 0
-    randomPitch: 1
-    priority: 128
+    randomPitch: 0
+    priority: 138
     MinRandomPitch: 0.81
-    MaxRandomPitch: 2.47
+    MaxRandomPitch: 1.71
     source: {fileID: 0}
   - name: Coin
     clip: {fileID: 8300000, guid: cdc6142b4e8cb954c83a214c2ef68050, type: 3}
@@ -487,3 +488,16 @@ MonoBehaviour:
     MinRandomPitch: 1
     MaxRandomPitch: 1.8
     source: {fileID: 0}
+--- !u!114 &1463001886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6723763547130763808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc4fbf71c2929e140beec92489038e19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterMixer: {fileID: 24100000, guid: 89492e7fd5fcb5f47bd1c90c9a98d009, type: 2}

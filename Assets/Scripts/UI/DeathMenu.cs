@@ -49,6 +49,7 @@ public class DeathMenu : MonoBehaviour
         if (newState == true)
         {
             DisplayDeathMenu();
+            SetButtonsInteractable(true);
         }
         else 
         {
@@ -56,6 +57,18 @@ public class DeathMenu : MonoBehaviour
             canvasGroup.blocksRaycasts = false;
             StartCoroutine(
                 FadeOut());
+            SetButtonsInteractable(false);
+        }
+    }
+
+    private void SetButtonsInteractable(bool interactable)
+    {
+        foreach (Transform t in transform)
+        {
+            if (t.GetComponent<Button>())
+            {
+                t.GetComponent<Button>().interactable = interactable;
+            }
         }
     }
 }
