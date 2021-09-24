@@ -39,11 +39,13 @@ public class PauseMenu : MonoBehaviour
             case true:
                 SetActive(Container);
                 SetActive(Menu);
+                SetButtonsInteractable(true);
                 firstSelectedButton.Select();
                 break;
             case false:
                 SetInactive(Container);
                 SetInactive(Menu);
+                SetButtonsInteractable(false);
                 SetInactive(Settings);
                 break;
         }
@@ -71,6 +73,24 @@ public class PauseMenu : MonoBehaviour
         cg.alpha = 0f;
         cg.blocksRaycasts = false;
         cg.interactable = false;
+    }
+
+    private void SetButtonsInteractable(bool interactable)
+    {
+        foreach (Transform t in Menu.transform)
+        {
+            if (t.GetComponent<Button>())
+            {
+                t.GetComponent<Button>().interactable = interactable;
+            }
+        }
+        foreach (Transform t in Settings.transform)
+        {
+            if (t.GetComponent<Button>())
+            {
+                t.GetComponent<Button>().interactable = interactable;
+            }
+        }
     }
 
     private void DisablePlayer()
