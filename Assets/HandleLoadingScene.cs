@@ -13,12 +13,16 @@ public class HandleLoadingScene : MonoBehaviour
     void Start()
     {
         idScene = 0;
-        Instance = this;
-        if (Instance != null && Instance != this)
+        if (Instance != null)
         {
-            Destroy(Instance.gameObject);
+            Destroy(this.gameObject);
         }
-        DontDestroyOnLoad(this.gameObject);
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        
     }
 
     public void SetIdScene(int id)

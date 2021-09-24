@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Loading.unity
     guid: 70eebab3aae9a70419210b1d7210998c
   - enabled: 1
+    path: Assets/Scenes/Level1Android.unity
+    guid: 5c0f64369d5c79948a73562e1d7799b4
+  - enabled: 0
     path: Assets/Scenes/Level1.unity
     guid: 19b1ca19db036864fbc565f12b911986
   - enabled: 1
