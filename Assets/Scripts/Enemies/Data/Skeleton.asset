@@ -16,8 +16,9 @@ MonoBehaviour:
   prefab: {fileID: 8702034491002796005, guid: f5c7f7edc3ca3fd4c8b87fe827d2a042, type: 3}
   enemyName: Skeleton
   description: Melee enemy
-  maxHealth: 100
+  maxHealth: 30
   damage: 60
+  bodyHitboxDamage: 60
   speed: 250
   visionRadius: 7
   visionRadiusUpgrade: 10

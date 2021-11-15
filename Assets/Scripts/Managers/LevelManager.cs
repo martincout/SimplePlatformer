@@ -150,6 +150,7 @@ public class LevelManager : MonoBehaviour
             virtualCamera.Follow = player.transform;
             //Set the follow to all virtual cameras with the respawn Event
             GameEvents.RespawnHandler?.Invoke(player);
+            GameManager.GetInstance().TogglePlayerDeath(false);
             StartCoroutine(FadeMixerGroup.StartFadeOut(audioMixer, "vol2", 1f, 0f));
             StartCoroutine(FadeMixerGroup.StartFadeIn(audioMixer, "vol1", 2f, 0f));
         }

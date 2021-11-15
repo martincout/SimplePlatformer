@@ -18,6 +18,7 @@ MonoBehaviour:
   description: Enemy
   maxHealth: 100
   damage: 100
+  bodyHitboxDamage: 80
   speed: 400
   visionRadius: 7
   visionRadiusUpgrade: 12

@@ -20,10 +20,13 @@ namespace SimplePlatformer.Enemy
         public Transform groundDetector;
         private Vector3 raycastDir;
 
+        private BoxCollider2D bodyHitbox;
+
         /// <summary>
         /// Position of the BoxCollider in the world space. Used to check wall collisions
         /// </summary>
         Vector2 CapsuleColliderCenter;
+
 
         protected override void Start()
         {
@@ -31,6 +34,13 @@ namespace SimplePlatformer.Enemy
             rb2d.gravityScale = gravity;
             groundDetector = transform.GetChild(2)?.GetComponent<Transform>();
             negativeAngle = -angle;
+            try
+            {
+                bodyHitbox = transform.GetChild(3).GetComponent<BoxCollider2D>();
+            }catch(UnityException)
+            {
+
+            }
         }
 
         /// <summary>
@@ -383,5 +393,16 @@ namespace SimplePlatformer.Enemy
             Debug.DrawLine(bottomLeft, topLeft, color, duration);
         }
 
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Player"))
+            {
+                if (collision.GetComponent<IDamageable>() != null)
+                {
+                    collision.GetComponent<IDamageable>().TakeDamage(_enemyData.bodyHitboxDamage, this.transform.position);
+                }
+            }
+        }
     }
 }

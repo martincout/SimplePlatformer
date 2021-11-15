@@ -11,6 +11,7 @@ namespace SimplePlatformer.Enemy
         public string description;
         public float maxHealth;
         public float damage = 60f;
+        public float bodyHitboxDamage;
         public float speed = 200f;
         //Vision
         [Header("Vision")]
