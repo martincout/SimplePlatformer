@@ -12,6 +12,8 @@ namespace SimplePlatformer.Player
         [SerializeField] private float jumpForce = 4f;
         [Tooltip("Hang time in the air"), SerializeField] private float hangTime = 0.2f;
         [Tooltip("Hang time counter, decreasing value"), SerializeField] private float hangTimeCounter = 0f;
+        
+        
         //Check Ground
         public float groundedHeight = 0.5f;
         public float heightOffset = 0.25f; // we dont want to cast from the players feet (may cast underground sometimes), so we offset it a bit
@@ -30,8 +32,18 @@ namespace SimplePlatformer.Player
         private PlayerVariables pv;
 
         //Movement
-        [SerializeField] float speed;
         private Vector2 movementDirection;
+        [Tooltip("The maximum speed that can perform gradually.")]
+        [SerializeField] private float maxSpeed = 10f;
+
+        [Tooltip("Current speed of the object.")]
+        [SerializeField] private float speed = 0f;
+
+        [Tooltip("The acceleration is how fast will the object reach the maximum speed.")]
+        [SerializeField] private float acceleration = 5f;
+
+        [Tooltip("The decelaration is how fast will the object reach a speed of 0.")]
+        [SerializeField] private float decelaration = 5f;
 
         //Hurt Collider
         BoxCollider2D boxCollider;
@@ -234,8 +246,8 @@ namespace SimplePlatformer.Player
 
         private void Move()
         {
-            float multiplies = 50;
-            rb.velocity = new Vector2(movementDirection.x * speed * (Time.deltaTime * multiplies), rb.velocity.y);
+            CalculateSpeed();
+            rb.velocity = new Vector2(movementDirection.x * speed, rb.velocity.y);
         }
 
         private void footstep()
@@ -243,6 +255,27 @@ namespace SimplePlatformer.Player
             footsteps.Play();
         }
 
+        /// <summary>
+        /// Gradually increments and decreases the speed
+        /// </summary>
+        private void CalculateSpeed()
+        {
+            if ((speed < maxSpeed) && movementDirection.x != 0)
+            {
+                speed += acceleration * Time.deltaTime;
+            }
+            else
+            {
+                if (speed > decelaration * Time.deltaTime)
+                {
+                    speed -= decelaration * Time.deltaTime;
+                }
+                else
+                {
+                    speed = 0;
+                }
+            }
+        }
     }//end class
 }//end namespace
 

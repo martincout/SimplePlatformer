@@ -19,7 +19,7 @@ MonoBehaviour:
   maxHealth: 30
   damage: 60
   bodyHitboxDamage: 60
-  speed: 250
+  speed: 150
   visionRadius: 7
   visionRadiusUpgrade: 10
   attackRadius: {x: 2.88, y: 2.5}
