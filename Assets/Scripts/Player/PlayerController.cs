@@ -333,7 +333,7 @@ namespace SimplePlatformer.Player
 
         public void EnableGameplayControls()
         {
-            _playerInput.SwitchCurrentActionMap(actionMapPlayerControls);
+            //_playerInput.SwitchCurrentActionMap(actionMapPlayerControls);
         }
 
         public void EnablePauseMenuControls()
