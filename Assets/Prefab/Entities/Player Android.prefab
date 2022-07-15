@@ -12,13 +12,7 @@ GameObject:
   - component: {fileID: 3239688896410702586}
   - component: {fileID: 3239688896410702493}
   - component: {fileID: 3239688896410702467}
-  - component: {fileID: 3239688896410703244}
-  - component: {fileID: 3239688896410703347}
-  - component: {fileID: 3239688896410703354}
-  - component: {fileID: 3239688896410703355}
   - component: {fileID: 3239688896410702469}
-  - component: {fileID: 3860018362170329550}
-  - component: {fileID: 1438952921177233807}
   m_Layer: 10
   m_Name: Player Android
   m_TagString: Player
@@ -180,94 +174,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &3239688896410703244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3239688896410702613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18c48ec48d39dce409a1ab122509351a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fallMultiplier: 2
-  lowFallMultiplier: 2
-  jumpForce: 16.2
-  hangTime: 0.1
-  hangTimeCounter: 0
-  groundedHeight: 0.1
-  heightOffset: 0.25
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  raycastLeftOffset: {x: 0.32, y: 0, z: 0}
-  raycastRightOffset: {x: 0.32, y: 0, z: 0}
-  maxSpeed: 12
-  speed: 0
-  acceleration: 60
-  decelaration: 50
-  dustFootsteps: {fileID: 3173841488275961323}
---- !u!114 &3239688896410703347
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3239688896410702613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 383fb6d6c8ac3df448c175f0bf5a0c7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitBoxPos: {fileID: 3239688896410702534}
-  attackRate: 0.2
-  attackDamage: 10
-  initialDrag: 1.5
-  attackDrag: 15
-  arrowPF: {fileID: 6022562897493695571, guid: 03df0211b64834c4a8c615f774ede4eb, type: 3}
-  arrowTR: {fileID: 3239688896410702535}
-  hasBow: 0
-  boxSize: {x: 2.73, y: 1.94, z: 0}
-  rotation: 0
-  hitboxEnable: 0
-  elapsedNextCombo: 0
-  elapsedAttackRate: 0
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  damageableLayer:
-    serializedVersion: 2
-    m_Bits: 4096
---- !u!114 &3239688896410703354
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3239688896410702613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7071081ab6c011945abcd989c08cf847, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonInteract: {fileID: 4778406685189288635, guid: 1378888f90720814492fbfb4860632b2, type: 3}
-  size: {x: 1.88, y: 0.67}
---- !u!114 &3239688896410703355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3239688896410702613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb1fa3522c6339b48b42bb250b24909d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hurtParticle: {fileID: 5658987648466605111, guid: 3457e53a1c0697e4a8780b4e658197df, type: 3}
-  footstepsParticle: {fileID: 3173841488275961320}
 --- !u!61 &3239688896410702469
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -294,37 +200,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.61823606, y: 1.2489635}
   m_EdgeRadius: 0.001
---- !u!114 &3860018362170329550
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3239688896410702613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2555202df39dcef4e9bc76fbb68d3cae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerMovementBehaviour: {fileID: 3239688896410703244}
-  playerCombatBehaviour: {fileID: 3239688896410703347}
-  playerInteractableBehaviour: {fileID: 3239688896410703354}
-  MaxHealth: 200
-  healthBar: {fileID: 0}
-  thrust: 10
---- !u!114 &1438952921177233807
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3239688896410702613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff6243a681b4dbd47a59e325ece6b0a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerController: {fileID: 3860018362170329550}
 --- !u!1 &3239688896410702622
 GameObject:
   m_ObjectHideFlags: 0
@@ -528,18 +403,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff267e505ee99f0488956b154e9b3e13, type: 3}
---- !u!1 &3173841488275961320 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2845281067396903470, guid: ff267e505ee99f0488956b154e9b3e13, type: 3}
-  m_PrefabInstance: {fileID: 826331413463943110}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3173841488275961321 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2845281067396903471, guid: ff267e505ee99f0488956b154e9b3e13, type: 3}
-  m_PrefabInstance: {fileID: 826331413463943110}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &3173841488275961323 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 2845281067396903469, guid: ff267e505ee99f0488956b154e9b3e13, type: 3}
   m_PrefabInstance: {fileID: 826331413463943110}
   m_PrefabAsset: {fileID: 0}

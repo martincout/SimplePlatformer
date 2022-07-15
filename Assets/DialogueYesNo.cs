@@ -1,4 +1,5 @@
-﻿using SimplePlatformer.Player;
+﻿using SimplePlatformer.Assets.Scripts.Player.States;
+using SimplePlatformer.Player;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ public class DialogueYesNo : MonoBehaviour
 {
     public Button firstSelected;
     private bool activated = true;
-    [SerializeField] private PlayerController player;
+    [SerializeField] private PlayerStateMachine player;
     public int cost = 100;
     //Input
     public PlayerActions playerInput;
@@ -41,7 +42,7 @@ public class DialogueYesNo : MonoBehaviour
 
     private void UpdatePlayer(GameObject obj)
     {
-        player = obj.GetComponent<PlayerController>();
+        player = obj.GetComponent<PlayerStateMachine>();
     }
 
     private IEnumerator Animation()
