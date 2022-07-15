@@ -86,7 +86,7 @@ namespace SimplePlatformer.Enemy
 
         private void Start()
         {
-            playerGO = GameManager.GetInstance().player.gameObject;
+            //playerGO = GameManager.GetInstance().player.gameObject;
             healthSystem = GetComponent<HealthSystem>();
             healthSystem.SetMaxHealth(_bossData.maxHealth);
             _currentState = State.WAITING;

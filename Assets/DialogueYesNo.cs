@@ -1,4 +1,5 @@
-﻿using SimplePlatformer.Assets.Scripts.Player.States;
+﻿using SimplePlatformer.Assets.Scripts.Player;
+using SimplePlatformer.Assets.Scripts.Player.States;
 using SimplePlatformer.Player;
 using System;
 using System.Collections;
@@ -11,7 +12,7 @@ public class DialogueYesNo : MonoBehaviour
 {
     public Button firstSelected;
     private bool activated = true;
-    [SerializeField] private PlayerStateMachine player;
+    [SerializeField] private IPlayer player;
     public int cost = 100;
     //Input
     public PlayerActions playerInput;
@@ -32,8 +33,8 @@ public class DialogueYesNo : MonoBehaviour
         cancel = playerInput.UI.Cancel;
         cancel.Enable();
         playerInput.UI.Cancel.performed += No;
-        if (player == null) player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        player.DisablePlayerState(true);
+        //if (player == null) player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        //player.DisablePlayerState(true);
         //Interctable false because Select doesn't work the second time
         firstSelected.interactable = false;
         firstSelected.interactable = true;
@@ -69,15 +70,15 @@ public class DialogueYesNo : MonoBehaviour
         {
             if (GameManager.GetInstance().GetScore() >= cost)
             {
-                player.playerCombatBehaviour.hasBow = true;
+                //player.playerCombatBehaviour.hasBow = true;
                 GameManager.GetInstance().AddScore(-cost);
             }
             else
             {
                 dontHaveEnoughGO.SetActive(true);
             }
-            player.DisablePlayerState(false);
-            player.EnableGameplayControls();
+            //player.DisablePlayerState(false);
+           // player.EnableGameplayControls();
             gameObject.SetActive(false);
         }
     }
@@ -86,8 +87,8 @@ public class DialogueYesNo : MonoBehaviour
         activated = false;
         if (!activated)
         {
-            player.DisablePlayerState(false);
-            player.EnableGameplayControls();
+            //player.DisablePlayerState(false);
+            //player.EnableGameplayControls();
             gameObject.SetActive(false);
         }
     }
@@ -98,8 +99,8 @@ public class DialogueYesNo : MonoBehaviour
         activated = false;
         if (!activated)
         {
-            player.DisablePlayerState(false);
-            player.EnableGameplayControls();
+            //player.DisablePlayerState(false);
+            //player.EnableGameplayControls();
             gameObject.SetActive(false);
         }
     }

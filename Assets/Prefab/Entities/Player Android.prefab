@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3239688896410702493}
   - component: {fileID: 3239688896410702467}
   - component: {fileID: 3239688896410702469}
+  - component: {fileID: 942215245}
   m_Layer: 10
   m_Name: Player Android
   m_TagString: Player
@@ -200,6 +201,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.61823606, y: 1.2489635}
   m_EdgeRadius: 0.001
+--- !u!114 &942215245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3239688896410702613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d34341cc179a7d24f916df852dd6685a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerData: {fileID: 11400000, guid: b6c8ec6923b715e4a8b5303cd2c10060, type: 2}
+  thrust: 10
 --- !u!1 &3239688896410702622
 GameObject:
   m_ObjectHideFlags: 0

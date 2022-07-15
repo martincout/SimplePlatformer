@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public bool isPaused = false;
     public bool playerDeath = false;
     public bool hasBow;
-    public PlayerController player;
+    //public PlayerController player;
     public RespawnManager respawnManager;
     public LevelManager levelManager;
 
@@ -48,9 +48,9 @@ public class GameManager : MonoBehaviour
             position.y = GlobalControl.Instance.LocalCopyOfData.position[1];
             position.z = GlobalControl.Instance.LocalCopyOfData.position[2];
 
-            player.transform.position = position;
-            player.playerCombatBehaviour.hasBow = GlobalControl.Instance.LocalCopyOfData.hasBow;
-            player.healthSystem.SetHealth(GlobalControl.Instance.LocalCopyOfData.health);
+            //player.transform.position = position;
+            //player.playerCombatBehaviour.hasBow = GlobalControl.Instance.LocalCopyOfData.hasBow;
+            //player.healthSystem.SetHealth(GlobalControl.Instance.LocalCopyOfData.health);
             levelManager.SetCelldoors();
             levelManager.SetLevelKeys();
             levelManager.SetChests();
@@ -76,13 +76,13 @@ public class GameManager : MonoBehaviour
         List<CellDoor> cellDoors = levelManager.celldoors;
         List<GameObject> levelKeys = levelManager.levelKeys;
         List<Chest> chests = levelManager.chests;
-        SaveSystem.SaveGame(player, score, campFires,cellDoors,GetKeys(),levelKeys,chests);
+        //SaveSystem.SaveGame(player, score, campFires,cellDoors,GetKeys(),levelKeys,chests);
     }
 
     public void TogglePauseState()
     {
         isPaused = !isPaused;
-        player.DisablePlayerState(isPaused);
+        //player.DisablePlayerState(isPaused);
         ToggleTimeScale();
         SwitchFocusedPlayerControlScheme();
         UpdateUIMenu();
@@ -207,7 +207,7 @@ public class GameManager : MonoBehaviour
 
     public void UpdatePlayer(GameObject p_player)
     {
-        player = p_player.GetComponent<PlayerController>();
+        //player = p_player.GetComponent<PlayerController>();
     }
 
     void OnDestroy()

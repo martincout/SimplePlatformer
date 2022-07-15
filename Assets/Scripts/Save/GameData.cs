@@ -17,7 +17,7 @@ public class GameData
     //BLUE;RED;YELLOW;GRAY
     public List<int> keys;
 
-    public GameData(PlayerController player, int score, List<CampFire> campFires, List<CellDoor> cellDoors, 
+    public GameData(int score, List<CampFire> campFires, List<CellDoor> cellDoors, 
         Dictionary<KeyColor,int> keys, List<GameObject> levelKeys, List<Chest> chests)
     {
         this.campFires = new List<bool>();
@@ -25,12 +25,12 @@ public class GameData
         this.keys = new List<int>();
         this.levelKeys = new List<bool>();
         this.chests = new List<bool>();
-        health = player.healthSystem.GetHealth();
+        //health = player.healthSystem.GetHealth();
         position = new float[3];
-        position[0] = player.transform.position.x;
-        position[1] = player.transform.position.y;
-        position[2] = player.transform.position.z;
-        hasBow = player.playerCombatBehaviour.hasBow;
+        //position[0] = player.transform.position.x;
+        //position[1] = player.transform.position.y;
+        //position[2] = player.transform.position.z;
+        //hasBow = player.playerCombatBehaviour.hasBow;
         this.score = score;
         //Clear
         this.campFires.Clear();

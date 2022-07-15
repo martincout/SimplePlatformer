@@ -12,8 +12,9 @@ namespace SimplePlatformer.Assets.Scripts.Player.States
         {
         }
 
-        public override void CheckSwitchStates()
+        public override bool CheckSwitchStates()
         {
+            return true;
         }
 
         public override void EnterState()

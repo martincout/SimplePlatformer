@@ -172,7 +172,8 @@ namespace SimplePlatformer.Enemy
 
         protected virtual void Update()
         {
-            notFollow = currentState.Equals(State.DEATH) || GameManager.GetInstance().playerDeath || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().GetPlayerItsDying();
+            notFollow = currentState.Equals(State.DEATH) || GameManager.GetInstance().playerDeath; 
+            //|| GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().GetPlayerItsDying();
             StunTimeReset();
             CooldownAttack();
 

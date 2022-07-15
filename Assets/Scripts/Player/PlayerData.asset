@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b215e619d3bad9d47b75822bbcc5e67e, type: 3}
+  m_Name: PlayerData
+  m_EditorClassIdentifier: 
+  MaxHealth: 200
+  actionMapPlayerControls: PlayerControlls
+  actionMapMenuControls: UI
+  InvincibleTime: 1
+  StunTime: 0.3
+  HealthBar: {fileID: 0}
+  FallMultiplier: 2
+  LowFallMultiplier: 8
+  JumpForce: 4
+  HangTime: 0.3
+  HangTimeCounter: 0
+  GroundedHeight: 0.5
+  HeightOffset: 0.25
+  GroundLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  RayCastLeftOffset: {x: 0.5, y: 0, z: 0}
+  RaycastRightOffset: {x: 0.5, y: 0, z: 0}
+  Acceleration: 50
+  Decelaration: 20
+  MaxSpeed: 10

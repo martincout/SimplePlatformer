@@ -16,7 +16,7 @@ public class PauseMenu : MonoBehaviour
     private void Start()
     {
 
-        player = FindObjectOfType<PlayerController>().gameObject;
+        //player = FindObjectOfType<PlayerController>().gameObject;
         Container = GetComponent<CanvasGroup>();
     }
 
@@ -96,8 +96,8 @@ public class PauseMenu : MonoBehaviour
     private void DisablePlayer()
     {
         disablePlayer = !disablePlayer;
-        player.GetComponent<PlayerMovement>().enabled = !disablePlayer;
-        player.GetComponent<PlayerCombat>().enabled = !disablePlayer;
+        //player.GetComponent<PlayerMovement>().enabled = !disablePlayer;
+        //player.GetComponent<PlayerCombat>().enabled = !disablePlayer;
     }
 
 }

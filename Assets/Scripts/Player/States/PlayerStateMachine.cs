@@ -3,16 +3,16 @@ using UnityEngine.InputSystem;
 
 namespace SimplePlatformer.Assets.Scripts.Player.States
 {
-    public class PlayerStateMachine : MonoBehaviour
+    public class PlayerStateMachine : MonoBehaviour, IPlayer
     {
         public PlayerData playerData;
-        private PlayerInput _playerInput;
         private Vector2 rawInputMovement;
         private Animator anim;
-        private Rigidbody2D rb;
+        private Rigidbody2D _rb;
         private Renderer render;
         public float thrust = 10f;
         private string currentControlScheme;
+        public Vector2 WorldPosition { get => this.transform.position; }
         // Current State -------------------------------------------------------------------------------------
         public PlayerBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
         private PlayerBaseState _currentState;
@@ -34,27 +34,25 @@ namespace SimplePlatformer.Assets.Scripts.Player.States
         private float MaxSpeed { get => playerData.MaxSpeed; }
         private float Acceleration { get => playerData.Acceleration; }
         private float Decelaration { get => playerData.Decelaration; }
+        
 
         private void Awake()
         {
-            #region Null Verifications
-            //Null verifications
-            if (playerData is null) playerData = ScriptableObject.CreateInstance<PlayerData>();
-            #endregion
             //State Machine
-            _playerInput = GetComponent<PlayerInput>();
             _stateFactory = new PlayerStateFactory(this);
             _currentState = _stateFactory.Grounded();
             _currentState.EnterState();
             //Colliders
             _boxCollider = GetComponent<BoxCollider2D>();
+            _rb = GetComponent<Rigidbody2D>();
         }
 
         private void Update()
         {
             _currentState.UpdateState();
             // Applied movement
-            UpdateMovement(rawInputMovement);
+            Move();
+            Debug.Log(Speed);
         }
 
         #region Input
@@ -67,7 +65,7 @@ namespace SimplePlatformer.Assets.Scripts.Player.States
         public void OnMovement(InputAction.CallbackContext value)
         {
             Vector2 inputMovement = value.ReadValue<Vector2>();
-            rawInputMovement = new Vector2(inputMovement.x, rb.velocity.y);
+            rawInputMovement = new Vector2(inputMovement.x, _rb.velocity.y);
         }
 
         //This is called from PlayerInput, when a button has been pushed, that corresponds with the 'Attack' action
@@ -120,7 +118,8 @@ namespace SimplePlatformer.Assets.Scripts.Player.States
         private void Move()
         {
             CalculateSpeed();
-            rb.velocity = new Vector2(MovementDirection.x * Speed, rb.velocity.y);
+            UpdateMovement(rawInputMovement);
+            _rb.velocity = new Vector2(MovementDirection.x * Speed, _rb.velocity.y);
         }
 
         public void UpdateMovement(Vector2 newMovementDirection)
