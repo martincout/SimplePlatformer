@@ -1,18 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.Universal;
+
 
 public class LightFireballController : MonoBehaviour
 {
-    private Light2D light;
+    private UnityEngine.Rendering.Universal.Light2D light;
     private float targetIntensity = 4.7f;
     private float speed = 10;
     private float destroyAfter = 1f;
     // Start is called before the first frame update
     void Start()
     {
-        light = GetComponent<Light2D>();
+        light = GetComponent<UnityEngine.Rendering.Universal.Light2D>();
         light.intensity = 0f;
         StartCoroutine(StartFadeIn());
         Destroy(this.gameObject, destroyAfter);
