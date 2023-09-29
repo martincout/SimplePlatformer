@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using SimplePlatformer.Assets.Scripts.Player;
+using System.Collections;
 using UnityEngine;
 
 namespace SimplePlatformer.Player
 {
-    public class PlayerCombat : MonoBehaviour
+    public partial class PlayerController : MonoBehaviour
     {
         PlayerController playerController;
         //Attack    
@@ -38,10 +39,7 @@ namespace SimplePlatformer.Player
         public LayerMask enemyLayer;
         public LayerMask damageableLayer;
 
-        private Animator anim;
         private Rigidbody2D rb;
-        private Renderer render;
-        private PlayerVariables pv;
 
         internal void Setup(PlayerVariables pv, PlayerController playerController)
         {
@@ -49,18 +47,6 @@ namespace SimplePlatformer.Player
             this.playerController = playerController;
         }
 
-        private void Awake()
-        {
-            hitBoxPos = transform.GetChild(1).transform;
-            anim = GetComponent<Animator>();
-            rb = GetComponent<Rigidbody2D>();
-            render = GetComponent<Renderer>();
-            this.pv = new PlayerVariables();
-        }
-        private void Start()
-        {
-            comboState = ComboState.NONE;
-        }
         public void CheckHitBoxColission()
         {
             if (!hitboxEnable) return;
@@ -79,39 +65,6 @@ namespace SimplePlatformer.Player
                 }
             }
         }
-
-        private void Update()
-        {
-            CheckHitBoxColission();
-            //Suspend the player in air when air attacking
-            SuspendInAir();
-
-            //Used to exit the animation state when we are doing combos
-            anim.SetFloat("timeCombo", elapsedNextCombo);
-            //Combos
-            if (elapsedNextCombo > 0)
-            {
-                elapsedNextCombo -= Time.deltaTime;
-            }
-            //Finished Attacking
-            else if (!comboState.Equals(ComboState.NONE))
-            {
-                pv.isAttacking = false;
-                pv.airAttacked = true;
-                pv.isBowAttacking = false;
-                comboState = ComboState.NONE;
-                elapsedAttackRate = attackRate;
-                rb.drag = initialDrag;
-            }
-
-            //Attack rate
-            if (elapsedAttackRate > 0)
-            {
-                elapsedAttackRate -= Time.deltaTime;
-            }
-
-        }
-
 
         public void OnDrawGizmosSelected()
         {
@@ -148,18 +101,18 @@ namespace SimplePlatformer.Player
                         switch (comboState)
                         {
                             case ComboState.NONE:
-                                anim.Play(PlayerVariables.PLAYER_ATTACK1);
+                                anim.Play(PlayerAnimations.PLAYER_ATTACK1);
                                 comboState = ComboState.FIRST;
                                 elapsedNextCombo = timeNextCombo;
                                 break;
                             case ComboState.FIRST:
-                                anim.Play(PlayerVariables.PLAYER_ATTACK2);
+                                anim.Play(PlayerAnimations.PLAYER_ATTACK2);
                                 comboState = ComboState.SECOND;
                                 elapsedNextCombo = 0.3f;
                                 elapsedAttackRate = 1f;
                                 break;
                             case ComboState.SECOND:
-                                anim.Play(PlayerVariables.PLAYER_ATTACK3);
+                                anim.Play(PlayerAnimations.PLAYER_ATTACK3);
                                 comboState = ComboState.THIRD;
                                 elapsedNextCombo = 0.4f;
                                 break;
@@ -176,12 +129,12 @@ namespace SimplePlatformer.Player
                         {
                             case ComboState.NONE:
                                 //SetSuspendInAir();
-                                anim.Play(PlayerVariables.PLAYER_AIRATTACK);
+                                anim.Play(PlayerAnimations.PLAYER_AIRATTACK);
                                 comboState = ComboState.FIRST;
                                 elapsedNextCombo = timeNextCombo;
                                 break;
                             case ComboState.FIRST:
-                                anim.Play(PlayerVariables.PLAYER_AIRATTACK2);
+                                anim.Play(PlayerAnimations.PLAYER_AIRATTACK2);
                                 comboState = ComboState.SECOND;
                                 elapsedNextCombo = 0.4f;
                                 break;

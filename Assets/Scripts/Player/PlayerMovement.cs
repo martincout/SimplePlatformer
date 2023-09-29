@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using SimplePlatformer.Assets.Scripts.Player;
+using System.Collections;
 using UnityEngine;
 
 namespace SimplePlatformer.Player
 {
-    public class PlayerMovement : MonoBehaviour
+    public partial class PlayerController : MonoBehaviour
     {
         //Jump
 
@@ -59,27 +60,11 @@ namespace SimplePlatformer.Player
         //Components
         private SpriteRenderer sprRender;
         private AudioSource footsteps;
-        private Rigidbody2D rb;
-        private Animator anim;
        
         public void Setup(PlayerVariables pv)
         {
             this.pv = pv;
         }
-
-        public void Awake()
-        {
-            anim = GetComponent<Animator>();
-            rb = GetComponent<Rigidbody2D>();
-            sprRender = GetComponent<SpriteRenderer>();
-            groundLayer = 1 << LayerMask.NameToLayer("Ground");
-            boxCollider = GetComponent<BoxCollider2D>();
-            footsteps = GetComponent<AudioSource>();
-            dustFootsteps = transform.GetChild(2).GetComponent<ParticleSystem>();
-            pv = new PlayerVariables();
-
-        }
-
 
         public void FixedUpdate()
         {
@@ -102,51 +87,39 @@ namespace SimplePlatformer.Player
                 BetterJump();
             }
         }
-        private void Update()
-        {
-            if (pv.movePrevent) return;
-            if (!pv.isStunned)
-            {
-                if (!pv.isAttacking)
-                {
-                    AnimationUpdate();
-                }
-            }
-        }
 
         public void UpdateMovementData(Vector2 newMovementDirection)
         {
             movementDirection = newMovementDirection;
         }
 
-
         private void AnimationUpdate()
         {
             AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
 
-            isJumpingAnim = info.IsName(PlayerVariables.PLAYER_JUMP);
-            isFallingAnim = info.IsName(PlayerVariables.PLAYER_FALLING);
-            isAttackingAnim = info.IsName(PlayerVariables.PLAYER_ATTACK1);
+            isJumpingAnim = info.IsName(PlayerAnimations.PLAYER_JUMP);
+            isFallingAnim = info.IsName(PlayerAnimations.PLAYER_FALLING);
+            isAttackingAnim = info.IsName(PlayerAnimations.PLAYER_ATTACK1);
             Flip();
             if (!isJumpingAnim && pv.isGrounded && !isAttackingAnim)
             {
                 if (movementDirection.x != 0)
                 {
-                    anim.Play(PlayerVariables.PLAYER_WALK);
+                    anim.Play(PlayerAnimations.PLAYER_WALK);
                     dustFootsteps.Play();
                 }
                 else
                 {
-                    anim.Play(PlayerVariables.PLAYER_IDLE);
+                    anim.Play(PlayerAnimations.PLAYER_IDLE);
                 }
             }
             if (pv.isJumping && !isJumpingAnim && !isFallingAnim)
             {
-                anim.Play(PlayerVariables.PLAYER_JUMP);
+                anim.Play(PlayerAnimations.PLAYER_JUMP);
             }
             if (rb.velocity.y < -0.2 && !pv.isGrounded)
             {
-                anim.Play(PlayerVariables.PLAYER_FALLING);
+                anim.Play(PlayerAnimations.PLAYER_FALLING);
             }
         }
 

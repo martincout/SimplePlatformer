@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimplePlatformer.Assets.Scripts.Player;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -12,16 +13,13 @@ namespace SimplePlatformer.Player
     /// - Input
     /// - Health, Damage, Knockback
     /// </summary>
-    public class PlayerController : MonoBehaviour, IDamageable, IItem
+    public partial class PlayerController : MonoBehaviour, IDamageable, IItem
     {
         [Header("Sub Behaviours")]
-        public PlayerMovement playerMovementBehaviour;
-        public PlayerCombat playerCombatBehaviour;
         public PlayerInteractable playerInteractableBehaviour;
         public float MaxHealth = 200;
 
         public HealthBar healthBar;
-        internal PlayerVariables pv;
 
         //Action Maps
         private string actionMapPlayerControls = "PlayerControlls";
@@ -41,63 +39,112 @@ namespace SimplePlatformer.Player
         protected Renderer render;
         private PlayerInput _playerInput;
 
+        public bool isJumping;
+        public bool movePrevent;
+        public bool cannotAttack;
+        public bool isFacingRight = true;
+        public bool isAttacking;
+        public bool isStunned;
+        public bool itsDying;
+        public bool invincible;
+        public bool airAttacked;
+        public bool isGrounded;
+        public bool canInteract = true;
+        public bool isBowAttacking;
 
         public float thrust = 10f;
         private string currentControlScheme;
 
         public bool GetPlayerItsDying()
         {
-            return pv.itsDying;
+            return itsDying;
         }
 
         private void Awake()
         {
+            //General
             _playerInput = GetComponent<PlayerInput>();
-            playerMovementBehaviour = GetComponent<PlayerMovement>();
-            playerCombatBehaviour = GetComponent<PlayerCombat>();
             playerInteractableBehaviour = GetComponent<PlayerInteractable>();
             healthSystem = gameObject.AddComponent<HealthSystem>();
             characterParticles = GetComponent<CharacterParticles>();
             anim = GetComponent<Animator>();
             rb2d = GetComponent<Rigidbody2D>();
             render = transform.GetChild(0).GetComponent<Renderer>();
-
+            //Combat
+            hitBoxPos = transform.GetChild(1).transform;
+            render = GetComponent<Renderer>();
+            comboState = ComboState.NONE;
+            //Movement
+            sprRender = GetComponent<SpriteRenderer>();
+            groundLayer = 1 << LayerMask.NameToLayer("Ground");
+            boxCollider = GetComponent<BoxCollider2D>();
+            footsteps = GetComponent<AudioSource>();
+            dustFootsteps = transform.GetChild(2).GetComponent<ParticleSystem>();
         }
         private void Start()
         {
-            pv = new PlayerVariables();
             if (healthBar == null) healthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
             healthSystem.SetHealthBar(healthBar);
             healthSystem.SetMaxHealth(MaxHealth);
-            playerCombatBehaviour.Setup(pv,this);
-            playerMovementBehaviour.Setup(pv);
-            playerInteractableBehaviour.Setup(pv);
         }
 
         private void Update()
         {
             if (Time.timeScale == 0) return;
-            UpdatePlayerMovement();
+
+            //Movement
+            if (!isStunned && !movePrevent)
+            {
+                if (!isAttacking)
+                {
+                    AnimationUpdate();
+                }
+            }
+
+            UpdateMovementData(rawInputMovement);
+
+            //Combat
+            CheckHitBoxColission();
+            //Suspend the player in air when air attacking
+            SuspendInAir();
+
+            //Used to exit the animation state when we are doing combos
+            anim.SetFloat("timeCombo", elapsedNextCombo);
+            //Combos
+            if (elapsedNextCombo > 0)
+            {
+                elapsedNextCombo -= Time.deltaTime;
+            }
+            //Finished Attacking
+            else if (!comboState.Equals(ComboState.NONE))
+            {
+                isAttacking = false;
+                airAttacked = true;
+                isBowAttacking = false;
+                comboState = ComboState.NONE;
+                elapsedAttackRate = attackRate;
+                rb.drag = initialDrag;
+            }
+
+            //Attack rate
+            if (elapsedAttackRate > 0)
+            {
+                elapsedAttackRate -= Time.deltaTime;
+            }
+
+           
         }
-
-        
-
-        void UpdatePlayerMovement()
-        {
-            playerMovementBehaviour.UpdateMovementData(rawInputMovement);
-        }
-
 
         internal IEnumerator InvinbibleCo()
         {
             yield return new WaitForSeconds(invincibleTime);
             SetAlpha(1f);
-            pv.invincible = false;
+            invincible = false;
         }
 
         internal void SetInvincible()
         {
-            pv.invincible = true;
+            invincible = true;
             SetAlpha(0.7f);
             StartCoroutine(InvinbibleCo());
         }
@@ -111,7 +158,7 @@ namespace SimplePlatformer.Player
 
         public void TakeDamage(float damage, Vector3 attackerPos)
         {
-            if (!pv.invincible && !pv.itsDying)
+            if (!invincible && !itsDying)
             {
                 //Decrease Health
                 healthSystem.DealDamage(damage);
@@ -121,7 +168,7 @@ namespace SimplePlatformer.Player
                 if (healthSystem.GetHealth() > 0)
                 {
                     SoundManager.instance.Play("Damage");
-                    anim.Play(PlayerVariables.PLAYER_HURT);
+                    anim.Play(PlayerAnimations.PLAYER_HURT);
                     Knockback(attackerPos, thrust);
                 }
                 else
@@ -145,7 +192,7 @@ namespace SimplePlatformer.Player
 
         private IEnumerator DieCo()
         {
-            pv.itsDying = true;
+            itsDying = true;
             GetComponent<PlayerMovement>().enabled = false;
             GetComponent<PlayerCombat>().enabled = false;
             rb2d.velocity = Vector2.zero;
@@ -153,13 +200,13 @@ namespace SimplePlatformer.Player
             yield return new WaitForSeconds(0.55f);
             GameEvents.OnPlayerDeath?.Invoke();
             GameManager.GetInstance().TogglePlayerDeath(true);
-            pv.itsDying = false;
+            itsDying = false;
             Destroy(gameObject);
         }
 
         internal void Knockback(Vector3 attackerPos, float thrust)
         {
-            if (!pv.isStunned)
+            if (!isStunned)
             {
                 StartCoroutine(StunCo());
                 StartCoroutine(KnockCo(attackerPos, thrust));
@@ -168,9 +215,9 @@ namespace SimplePlatformer.Player
 
         private IEnumerator StunCo()
         {
-            pv.isStunned = true;
+            isStunned = true;
             yield return new WaitForSeconds(stunTime);
-            pv.isStunned = false;
+            isStunned = false;
         }
 
         private IEnumerator KnockCo(Vector3 attackerPos, float _thrust)
@@ -209,16 +256,16 @@ namespace SimplePlatformer.Player
             switch (set)
             {
                 case true:
-                    pv.cannotAttack = true;
-                    pv.movePrevent = true;
-                    pv.canInteract = false;
+                    cannotAttack = true;
+                    movePrevent = true;
+                    canInteract = false;
                     GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-                    anim.Play(PlayerVariables.PLAYER_IDLE);
+                    anim.Play(PlayerAnimations.PLAYER_IDLE);
                     break;
                 case false:
-                    pv.cannotAttack = false;
-                    pv.movePrevent = false;
-                    pv.canInteract = true;
+                    cannotAttack = false;
+                    movePrevent = false;
+                    canInteract = true;
                     break;
             }
         }
