@@ -63,7 +63,7 @@ TextureImporter:
       213: -1584494183107171599
     second: TilesetDungeon_215
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -84,6 +84,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -93,8 +94,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -115,11 +116,14 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -135,6 +139,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -437,7 +453,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 53fb5c9b05f217600800000000000000
-      internalID: 464204260356505397
+      internalID: -644357962086140663
       vertices: []
       indices: 
       edges: []
@@ -458,7 +474,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 926809ece5864bc90800000000000000
-      internalID: -7154979151583082967
+      internalID: 6740314362244904869
       vertices: []
       indices: 
       edges: []
@@ -479,7 +495,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c9504668b618bc760800000000000000
-      internalID: 7479213904995026332
+      internalID: 2020829184956615498
       vertices: []
       indices: 
       edges: []
@@ -500,7 +516,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b90c4ce3c0d466600800000000000000
-      internalID: 461140726840082587
+      internalID: 381741567616390020
       vertices: []
       indices: 
       edges: []
@@ -521,7 +537,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 2481dc82992ffaa60800000000000000
-      internalID: 7687629828573173826
+      internalID: -7998899834151071643
       vertices: []
       indices: 
       edges: []
@@ -542,7 +558,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 5bda1b1c79f002a60800000000000000
-      internalID: 7647129311739227573
+      internalID: -5266299635417323849
       vertices: []
       indices: 
       edges: []
@@ -563,7 +579,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: dedeaf270d8e99a80800000000000000
-      internalID: -8459474443058876947
+      internalID: 4259997625781548274
       vertices: []
       indices: 
       edges: []
@@ -584,7 +600,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3c37005708e61f150800000000000000
-      internalID: 5904622084457264067
+      internalID: -5458137314937619543
       vertices: []
       indices: 
       edges: []
@@ -1256,7 +1272,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 4697c89cec4fdab30800000000000000
-      internalID: 4300362388190558564
+      internalID: 2528364917741140580
       vertices: []
       indices: 
       edges: []
@@ -1571,7 +1587,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9ff5076cccaa20740800000000000000
-      internalID: 5116839923125608441
+      internalID: 6378561041153341425
       vertices: []
       indices: 
       edges: []
@@ -2033,7 +2049,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f03f64e18af398930800000000000000
-      internalID: 4145914923266274063
+      internalID: 2262207466128781579
       vertices: []
       indices: 
       edges: []
@@ -2054,7 +2070,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6fc35234dc80a74a0800000000000000
-      internalID: -6594949026642838282
+      internalID: 8943757783767630458
       vertices: []
       indices: 
       edges: []
@@ -2138,7 +2154,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b3499b589cb206b80800000000000000
-      internalID: -8403668760141392837
+      internalID: -2618421162743573626
       vertices: []
       indices: 
       edges: []
@@ -2159,7 +2175,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6c413e91489e144d0800000000000000
-      internalID: -3151981510603369274
+      internalID: -8264069578264368362
       vertices: []
       indices: 
       edges: []
@@ -4694,6 +4710,223 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      TilesetDungeon_174: 5629854071568662092
+      TilesetDungeon_107: -2443867434603970411
+      TilesetDungeon_12: -8477136575932451567
+      goldKey: 2528364917741140580
+      TilesetDungeon_37: -3261963378668674441
+      TilesetDungeon_151: -1181261368573228236
+      TilesetDungeon_104: -3507398806841122340
+      TilesetDungeon_81: -2095839471950323288
+      TilesetDungeon_206: -7822225132055947846
+      TilesetDungeon_192: -8698869320317127454
+      TilesetDungeon_186: 1449495430220563649
+      TilesetDungeon_34: -6804721846924763151
+      TilesetDungeon_29: 8199221729226863787
+      TilesetDungeon_121: 4506568140478113639
+      TilesetDungeon_205: 212391906504415411
+      TilesetDungeon_185: -777503266374237413
+      TilesetDungeon_39: 9072222230373257543
+      cellBlue: -2955122633699412558
+      TilesetDungeon_132: 6380133581521925484
+      TilesetDungeon_40: 3209983941221578927
+      TilesetDungeon_168: 4920753211621884182
+      TilesetDungeon_21: 2672358423757576935
+      TilesetDungeon_180: 4404437812438972522
+      blueKey: 8335957216534444121
+      TilesetDungeon_152: -6443546573877611674
+      TilesetDungeon_170: -4788261813466927365
+      leverOn: 8943757783767630458
+      TilesetDungeon_150: -156714933831836852
+      TilesetDungeon_7: 8665267714623635322
+      TilesetDungeon_60: 2947418591994206523
+      TilesetDungeon_123: 1136081185064229370
+      TilesetDungeon_143: -347972771144809532
+      TilesetDungeon_108: 3215043137803685257
+      TilesetDungeon_70: -6762873003806524212
+      TilesetDungeon_6: -7645502787014099769
+      TilesetDungeon_59: 2615585466084791728
+      TilesetDungeon_128: 352699816414716650
+      TilesetDungeon_129: 1397994979646299211
+      TilesetDungeon_179: -3741765859445458710
+      leverOff: 2262207466128781579
+      TilesetDungeon_176: -4244499219255002502
+      TilesetDungeon_175: -8385378167634193950
+      TilesetDungeon_84: 7323973731122434606
+      pot02: -5266299635417323849
+      TilesetDungeon_80: 1828460655128499133
+      TilesetDungeon_63: -5124682423400017062
+      TilesetDungeon_92: -6151801020215936042
+      TilesetDungeon_163: 5464449591713095237
+      TilesetDungeon_43: 7429757440791194755
+      TilesetDungeon_35: 1493350576815946880
+      TilesetDungeon_103: 1239620899234798821
+      TilesetDungeon_77: -5044806891230759619
+      TilesetDungeon_42: 598429855952600546
+      TilesetDungeon_61: -5068767782855787845
+      TilesetDungeon_82: 2953552142706813414
+      TilesetDungeon_72: 7233238146726738219
+      TilesetDungeon_46: -7831837031119973077
+      TilesetDungeon_214: 2486972505558129319
+      cell2: -8264069578264368362
+      TilesetDungeon_62: 2060639167607036086
+      TilesetDungeon_79: 8279236597024715460
+      TilesetDungeon_99: -464749998765207400
+      TilesetDungeon_135: 6083683054605761539
+      TilesetDungeon_85: 4240398020495527469
+      TilesetDungeon_3: 4048352258371557026
+      TilesetDungeon_68: 5514615583209753418
+      TilesetDungeon_165: -5090298183984623060
+      TilesetDungeon_134: 4072101992451535846
+      TilesetDungeon_183: -8785132922019263758
+      coin2: 6740314362244904869
+      TilesetDungeon_203: -4204130347243549502
+      TilesetDungeon_166: -7082149558360121893
+      TilesetDungeon_187: -6385460694473628602
+      TilesetDungeon_204: -378666424352093139
+      TilesetDungeon_115: 6498876499626828819
+      TilesetDungeon_101: -68292877805589023
+      TilesetDungeon_157: 582040204925754101
+      TilesetDungeon_106: 8985043683653950455
+      TilesetDungeon_47: -5327610248306122178
+      TilesetDungeon_8: -1744063541047605592
+      grayKey: 6378561041153341425
+      TilesetDungeon_169: -7924446418253248178
+      TilesetDungeon_207: -8979395560954553095
+      TilesetDungeon_51: 6669482990117609517
+      TilesetDungeon_147: -1477751336189251403
+      TilesetDungeon_208: 5648880109263087627
+      TilesetDungeon_131: -2160299840465639830
+      TilesetDungeon_0: -2212121839739127393
+      TilesetDungeon_195: 823743912458945269
+      TilesetDungeon_78: 2099937026733601374
+      TilesetDungeon_102: -3526995272497737704
+      redKey: -5223729815921311345
+      TilesetDungeon_136: -3588877137088425278
+      TilesetDungeon_58: 7404668938360351520
+      TilesetDungeon_41: -4387478224052516175
+      TilesetDungeon_50: 4807204042206008504
+      TilesetDungeon_53: -1863994318257713830
+      TilesetDungeon_167: -7593216480392112483
+      TilesetDungeon_28: -6644478852627518922
+      TilesetDungeon_119: -2081962741966088891
+      TilesetDungeon_164: -7972923683304007294
+      TilesetDungeon_10: 6631600015877659165
+      cellRed: -357622718894266940
+      TilesetDungeon_11: -8888873947272832898
+      TilesetDungeon_160: -5205958060806509214
+      TilesetDungeon_188: -3305797992504154705
+      TilesetDungeon_65: 6043059419613702946
+      pot01: -7998899834151071643
+      TilesetDungeon_139: 8223548289411621966
+      TilesetDungeon_71: -1736778851903217338
+      TilesetDungeon_98: 783747171932992828
+      TilesetDungeon_87: 3326595595159209524
+      TilesetDungeon_177: 3377296221345362497
+      TilesetDungeon_55: -6508862786313798389
+      TilesetDungeon_126: -2470484573590939970
+      TilesetDungeon_76: 2932958772754941947
+      TilesetDungeon_23: -9197711887316790346
+      TilesetDungeon_142: 2003613375445479335
+      TilesetDungeon_83: 5132236021219575295
+      TilesetDungeon_88: -807311513564710902
+      TilesetDungeon_155: 7614186028126613573
+      TilesetDungeon_33: 7965746960996419586
+      TilesetDungeon_162: 3835920122629928768
+      TilesetDungeon_26: -7983951055560926976
+      TilesetDungeon_69: -8827645592201053333
+      TilesetDungeon_74: 6494281155207266816
+      TilesetDungeon_97: 710730000538082415
+      TilesetDungeon_44: 8401642849793076610
+      TilesetDungeon_181: -1129865377385630508
+      TilesetDungeon_31: 6431709286717564231
+      TilesetDungeon_171: 1488549413807498003
+      TilesetDungeon_159: 5813755141030715641
+      TilesetDungeon_36: -3876533950215229061
+      TilesetDungeon_56: -8428495405273925687
+      TilesetDungeon_148: 4610818764421706601
+      TilesetDungeon_45: -2088852880399906776
+      TilesetDungeon_127: 4889553239865513796
+      TilesetDungeon_144: -9053703853457197215
+      TilesetDungeon_125: -7630467035665396936
+      TilesetDungeon_96: -7149764653714699510
+      TilesetDungeon_118: 1269138295451981687
+      TilesetDungeon_138: 670804901700979976
+      TilesetDungeon_184: 2698589921117346854
+      TilesetDungeon_4: 6506456913937633195
+      TilesetDungeon_75: 429230410291663327
+      cellRed1: 2703920073661504268
+      TilesetDungeon_24: -8642430963537577178
+      TilesetDungeon_209: -6258227101488453958
+      TilesetDungeon_32: 3131906263470547061
+      TilesetDungeon_100: 8517923052595364285
+      TilesetDungeon_194: -5576044514386015225
+      TilesetDungeon_22: -9132493506678689650
+      TilesetDungeon_173: 1292811125145267694
+      TilesetDungeon_93: -8606613587627106008
+      TilesetDungeon_5: 3656308840554552165
+      TilesetDungeon_202: -107647186258165404
+      TilesetDungeon_212: -4253033814112895556
+      TilesetDungeon_117: 6780571631474053460
+      TilesetDungeon_178: -5412945413771942730
+      TilesetDungeon_30: 4479785945364249479
+      TilesetDungeon_191: -8792172950981678729
+      TilesetDungeon_140: 1056224751659687970
+      TilesetDungeon_137: -3302423949242247538
+      pot04: -5458137314937619543
+      TilesetDungeon_91: 507327800095123406
+      TilesetDungeon_189: 2909774496154306667
+      TilesetDungeon_112: 1697192412135762409
+      TilesetDungeon_193: -3232902546814516923
+      TilesetDungeon_213: 2823486682748904267
+      TilesetDungeon_122: -9001557737737388823
+      coin3: 2020829184956615498
+      TilesetDungeon_211: -7402266936172838181
+      TilesetDungeon_25: -3587366003657552102
+      TilesetDungeon_64: 4752182618414211614
+      TilesetDungeon_153: 4933954094555554519
+      TilesetDungeon_111: -3181278553503894206
+      TilesetDungeon_114: -8450346101662154672
+      TilesetDungeon_1: 1180490281886400076
+      TilesetDungeon_27: -712292683423455965
+      cell1: -2618421162743573626
+      TilesetDungeon_116: 9192509282057450609
+      TilesetDungeon_2: -3782033996869136869
+      TilesetDungeon_54: 627857321143846515
+      TilesetDungeon_110: 1350649641078056039
+      TilesetDungeon_48: -6526586952387309777
+      TilesetDungeon_73: -919902883081808517
+      TilesetDungeon_149: -5479662057309911280
+      TilesetDungeon_130: -803150159544907512
+      cellBlue1: -344927156898856652
+      TilesetDungeon_86: -797396340904695693
+      TilesetDungeon_141: 7066423798535069068
+      pot03: 4259997625781548274
+      TilesetDungeon_57: -8704596166562628456
+      TilesetDungeon_161: 2373349459924119871
+      TilesetDungeon_9: -6089607440607928424
+      TilesetDungeon_38: -6015318042030652071
+      TilesetDungeon_158: -7425675186128807566
+      TilesetDungeon_113: -1809641713769017556
+      TilesetDungeon_145: -5490180377073438601
+      TilesetDungeon_156: -3650625144572369784
+      TilesetDungeon_210: -6413211217004784168
+      TilesetDungeon_109: 4110241477348316504
+      TilesetDungeon_190: 2845823424031587029
+      TilesetDungeon_124: 3848869249632754839
+      TilesetDungeon_154: -7780475858915793394
+      TilesetDungeon_146: 1227489264023407428
+      TilesetDungeon_172: -681867035529911855
+      TilesetDungeon_133: 1184284594121056249
+      TilesetDungeon_215: -1584494183107171599
+      TilesetDungeon_49: -3451975963853548064
+      TilesetDungeon_105: -6052993566523985421
+      coin1: -644357962086140663
+      TilesetDungeon_120: -6885244330979218469
+      TilesetDungeon_182: 825496327451296105
+      coin4: 381741567616390020
+      TilesetDungeon_66: 70498667605483382
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

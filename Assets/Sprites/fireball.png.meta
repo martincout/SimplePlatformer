@@ -183,7 +183,7 @@ TextureImporter:
       213: -6902355571813324343
     second: fireball_59
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -204,6 +204,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -213,8 +214,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -235,11 +236,14 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -255,6 +259,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -1538,6 +1554,67 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      fireball_16: 2976651625009837358
+      fireball_45: 5933598567043950833
+      fireball_43: -880575968458674775
+      fireball_26: -4427245571067503559
+      fireball_0: 5353841184698615464
+      fireball_30: 4512844744580255268
+      fireball_6: 4329194733282418994
+      fireball_2: -8127487528002223245
+      fireball_36: 5312621516802930246
+      fireball_24: 6773467865247554094
+      fireball_53: 1631685342449885688
+      fireball_4: 342106534826215554
+      fireball_21: -9024769070819925253
+      fireball_7: -4844556833170069437
+      fireball_54: 4485327788166247331
+      fireball_33: 7577429325354464910
+      fireball_55: 6543190069721021540
+      fireball_9: 3791554358853368646
+      fireball_14: 6300660940365958969
+      fireball_20: -5355193679987871529
+      fireball_48: 67748584788737023
+      fireball_57: -1287658316406769950
+      fireball_58: 7507881695500763811
+      fireball_28: 1240614206225059266
+      fireball_34: -4351250329854083448
+      fireball_40: 3906904870331584581
+      fireball_39: -1931293355553255585
+      fireball_1: 750297706712597742
+      fireball_17: -6767273291772554136
+      fireball_8: 8526339922207196747
+      fireball_52: -274130346199375963
+      fireball_18: -2411634206777274208
+      fireball_31: 5764424888990221779
+      fireball_35: -1541427061897923518
+      fireball_49: 4992436013553755530
+      fireball_12: -4591213816777692672
+      fireball_5: 974706414023163499
+      fireball_59: -6902355571813324343
+      fireball_46: 2617257592656716376
+      fireball_51: 5336727209009261341
+      fireball_25: -2509508936723047590
+      fireball_19: 3606660524212982533
+      fireball_56: 6545402951794741917
+      fireball_50: -2345668572499711533
+      fireball_15: 8418122925153382967
+      fireball_27: 1427446737592727071
+      fireball_37: -4934057100256581400
+      fireball_13: -354346360812721997
+      fireball_23: 638236215289160506
+      fireball_10: -7508782147095202921
+      fireball_44: 580412772944799512
+      fireball_38: -5830003159913304085
+      fireball_3: -3915765450054648673
+      fireball_11: -2282305386548701117
+      fireball_47: 2627041780100765490
+      fireball_29: 869032460569554108
+      fireball_41: -5140037084084774791
+      fireball_42: -5500276636975544784
+      fireball_22: 4274090455757215932
+      fireball_32: -6982466882174477909
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -195,7 +195,7 @@ TextureImporter:
       213: 745663238170063161
     second: BringerOfDeath_63
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -216,6 +216,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -225,8 +226,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -247,11 +248,14 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -267,6 +271,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -1634,6 +1650,71 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      BringerOfDeath_28: -3893890864599920332
+      BringerOfDeath_51: 5744057626252873374
+      BringerOfDeath_30: -8332828411102942363
+      BringerOfDeath_41: 7947368085727708612
+      BringerOfDeath_32: 1806404823012135999
+      BringerOfDeath_63: 745663238170063161
+      BringerOfDeath_38: 3046082893271918157
+      BringerOfDeath_37: 6086406201732751033
+      BringerOfDeath_14: -8690723563916000675
+      BringerOfDeath_45: 4191897281181776515
+      BringerOfDeath_23: 7026971261218164171
+      BringerOfDeath_55: 751466556732364106
+      BringerOfDeath_46: 6851423805070018684
+      BringerOfDeath_29: 4338600075419364014
+      BringerOfDeath_26: 3921739877079163056
+      BringerOfDeath_9: 7076327113074444099
+      BringerOfDeath_0: -8353433489134569600
+      BringerOfDeath_49: 7493484160398446529
+      BringerOfDeath_57: -8385786144361451740
+      BringerOfDeath_3: 8972981277209747568
+      BringerOfDeath_39: 1377208654200928171
+      BringerOfDeath_58: -8505684733120356864
+      BringerOfDeath_7: -7949498868292621275
+      BringerOfDeath_40: 3027117722062194967
+      BringerOfDeath_42: 6359747928151018149
+      BringerOfDeath_21: -528238124276062568
+      BringerOfDeath_47: 705726332952653041
+      BringerOfDeath_20: 3335828584183225707
+      BringerOfDeath_12: 8866308627326541362
+      BringerOfDeath_25: -7911204366525566481
+      BringerOfDeath_1: 8449022311025477278
+      BringerOfDeath_6: 1969354084180364015
+      BringerOfDeath_61: 5476909569877077687
+      BringerOfDeath_10: 1072792290625121564
+      BringerOfDeath_13: -1692917118752261232
+      BringerOfDeath_18: -6386489125830367719
+      BringerOfDeath_50: 5859374276673278237
+      BringerOfDeath_43: 7209916772013365464
+      BringerOfDeath_19: 7499744476911562661
+      BringerOfDeath_59: 4780832656429521357
+      BringerOfDeath_5: 8303051090887225226
+      BringerOfDeath_27: 2841978369446594892
+      BringerOfDeath_24: -5286447517433443514
+      BringerOfDeath_31: -1363394828972661541
+      BringerOfDeath_60: 934428140412392487
+      BringerOfDeath_8: 75895971269992488
+      BringerOfDeath_2: -3725884634486188576
+      BringerOfDeath_35: -7244592138339702973
+      BringerOfDeath_33: -3915236226250383018
+      BringerOfDeath_4: 1487907507965309723
+      BringerOfDeath_34: -733770815225895613
+      BringerOfDeath_53: -7112312364724313297
+      BringerOfDeath_22: 7478249438773830
+      BringerOfDeath_16: 7671423683675089328
+      BringerOfDeath_15: -984759869887829052
+      BringerOfDeath_36: 2653058935189181017
+      BringerOfDeath_52: 9005626832676731866
+      BringerOfDeath_17: -1210341491558846478
+      BringerOfDeath_62: -2700557054102099808
+      BringerOfDeath_44: 2136184087636890830
+      BringerOfDeath_56: 218212882288762807
+      BringerOfDeath_48: 6833457978463611894
+      BringerOfDeath_54: 4892180458604428959
+      BringerOfDeath_11: -53657136569763902
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
