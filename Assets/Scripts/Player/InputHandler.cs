@@ -15,6 +15,7 @@ namespace SimplePlatformer.Assets.Scripts.Player
     public class InputHandler : MonoBehaviour
     {
         private PlayerInput _playerInput;
+
         // State
         private InputState CurrentInput { get; set; }
         // Actions
@@ -24,7 +25,7 @@ namespace SimplePlatformer.Assets.Scripts.Player
         public Action OnBowAttack { get; set; }
         public Action OnTogglePause { get; set; }
 
-        private string currentControlScheme = "";
+        private string currentControlScheme = "PlayerControlls";
 
         private string actionMapPlayerControls = "PlayerControlls";
         private string actionMapMenuControls = "UI";
@@ -37,6 +38,8 @@ namespace SimplePlatformer.Assets.Scripts.Player
 
         public InputState GetInputState()
         {
+            // TODO: Add middlewares...
+            // GameManager system
             return CurrentInput;
         }
 
@@ -69,11 +72,11 @@ namespace SimplePlatformer.Assets.Scripts.Player
             {
                 OnJump?.Invoke();
                 //playerMovementBehaviour.StartJumping();
-                CurrentInput.isJumping = true;
+                CurrentInput.IsJumping = true;
             }
             if (value.performed || value.canceled)
             {
-                CurrentInput.isJumping = false;
+                CurrentInput.IsJumping = false;
                 //playerMovementBehaviour.CancelJumping();
             }
 

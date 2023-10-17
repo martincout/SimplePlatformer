@@ -61,6 +61,7 @@
     <Compile Include="Assets\Scripts\Player\InputHandler.cs" />
     <Compile Include="Assets\Scripts\Player\Input\InputState.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerAnimations.cs" />
+    <Compile Include="Assets\Scripts\Player\States\PlayerState.cs" />
     <Compile Include="Assets\Scripts\Save\SerializableDictionary.cs" />
     <Compile Include="Assets\Scripts\Dialogues\Dialogue.cs" />
     <Compile Include="Assets\Scripts\Managers\DestroyEntityOnRespawn.cs" />
