@@ -13,10 +13,6 @@ namespace SimplePlatformer.Player
         private float buttonOffset;
         private Collider2D interact;
 
-        public void Setup(PlayerVariables pv)
-        {
-        }
-
         private void InteractableUpdate()
         {
             if (!pv.canInteract) return;
