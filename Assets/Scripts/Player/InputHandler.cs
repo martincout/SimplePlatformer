@@ -165,5 +165,25 @@ namespace SimplePlatformer.Assets.Scripts.Player
         {
             _playerInput.SwitchCurrentActionMap(actionMapMenuControls);
         }
+
+        private void OnEnable()
+        {
+            _playerInput.actions["Movement"].performed += Movement;
+            _playerInput.actions["Attack"].performed += Attack;
+            _playerInput.actions["Jump"].performed += Jump;
+            _playerInput.actions["Interact"].performed += Interact;
+            _playerInput.actions["Pause"].performed += TogglePause;
+            _playerInput.actions["Bow"].performed += BowAttack;
+        }
+
+        private void OnDisable()
+        {
+            _playerInput.actions["Movement"].performed -= Movement;
+            _playerInput.actions["Attack"].performed -= Attack;
+            _playerInput.actions["Jump"].performed -= Jump;
+            _playerInput.actions["Interact"].performed -= Interact;
+            _playerInput.actions["Pause"].performed -= TogglePause;
+            _playerInput.actions["Bow"].performed -= BowAttack;
+        }
     }
 }
