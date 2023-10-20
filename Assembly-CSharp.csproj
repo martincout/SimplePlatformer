@@ -58,10 +58,6 @@
     <Analyzer Include="D:\Unity\2022.3.10f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Player\InputHandler.cs" />
-    <Compile Include="Assets\Scripts\Player\Input\InputState.cs" />
-    <Compile Include="Assets\Scripts\Player\PlayerAnimations.cs" />
-    <Compile Include="Assets\Scripts\Player\States\PlayerState.cs" />
     <Compile Include="Assets\Scripts\Save\SerializableDictionary.cs" />
     <Compile Include="Assets\Scripts\Dialogues\Dialogue.cs" />
     <Compile Include="Assets\Scripts\Managers\DestroyEntityOnRespawn.cs" />
@@ -97,6 +93,7 @@
     <Compile Include="Assets\Scripts\Enemies\Dummy.cs" />
     <Compile Include="Assets\Scripts\Sound\FadeMixerGroup.cs" />
     <Compile Include="Assets\Scripts\Dialogues\DialogueTrigger.cs" />
+    <Compile Include="Assets\Scripts\Player\Player.cs" />
     <Compile Include="Assets\Scripts\Sound\SoundManager.cs" />
     <Compile Include="Assets\LeanTween\Examples\Archived\TestingRigidbodyCS.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralBasics2d.cs" />
@@ -121,6 +118,7 @@
     <Compile Include="Assets\LeanTween\Examples\Scripts\TestingZLegacy.cs" />
     <Compile Include="Assets\Scripts\Interfaces\Interactable.cs" />
     <Compile Include="Assets\DialogueYesNo.cs" />
+    <Compile Include="Assets\Scripts\Player\InputHandler.cs" />
     <Compile Include="Assets\Scripts\Enemies\BossData.cs" />
     <Compile Include="Assets\Scripts\Save\GameData.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\LogoCinematic.cs" />
@@ -146,6 +144,7 @@
     <Compile Include="Assets\Trader.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralEventsListeners.cs" />
     <Compile Include="Assets\Scripts\Health\HealthBar.cs" />
+    <Compile Include="Assets\Scripts\Player\Input\InputState.cs" />
     <Compile Include="Assets\Scripts\Projectiles\Arrow.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\PathSpline2d.cs" />
     <Compile Include="Assets\LeanTween\Framework\LTSeq.cs" />
@@ -161,6 +160,7 @@
     <Compile Include="Assets\Scripts\Managers\LevelManager.cs" />
     <Compile Include="Assets\LeanTween\Framework\LeanTweenExt.cs" />
     <Compile Include="Assets\Scripts\UI\PauseMenu.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerAnimations.cs" />
     <Compile Include="Assets\LeanTween\Framework\LeanSmooth.cs" />
     <Compile Include="Assets\LeanTween\Examples\Archived\TestingPunch.cs" />
     <Compile Include="Assets\Scripts\Projectiles\ManageArrows.cs" />
@@ -173,6 +173,7 @@
     <Compile Include="Assets\Scripts\Sound\Sound.cs" />
     <Compile Include="Assets\LeanTween\Framework\LTDescrOptional.cs" />
     <Compile Include="Assets\Scripts\Sound\MixLevels.cs" />
+    <Compile Include="Assets\Scripts\Player\States\PlayerState.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralUISpace.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerCombat.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralBasic.cs" />

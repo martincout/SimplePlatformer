@@ -1,4 +1,5 @@
 ﻿using SimplePlatformer.Assets.Scripts.Player;
+using SimplePlatformer.Assets.Scripts.Player.Input;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -19,8 +20,6 @@ namespace SimplePlatformer.Player
 
         public HealthBar healthBar;
 
-
-
         //Aux
         protected float invincibleTime = 1f;
         protected static Vector2 rawInputMovement;
@@ -33,6 +32,8 @@ namespace SimplePlatformer.Player
         protected Animator anim;
         protected Rigidbody2D rb2d;
         protected Renderer render;
+        protected InputHandler inputHandler;
+        protected InputState Input;
 
         public bool isJumping;
         public bool movePrevent;
@@ -55,8 +56,12 @@ namespace SimplePlatformer.Player
             return itsDying;
         }
 
+
+
         private void Awake()
         {
+            inputHandler = GetComponent<InputHandler>();
+            Input = new();
             //General
             healthSystem = gameObject.AddComponent<HealthSystem>();
             characterParticles = GetComponent<CharacterParticles>();
@@ -73,6 +78,7 @@ namespace SimplePlatformer.Player
             boxCollider = GetComponent<BoxCollider2D>();
             footsteps = GetComponent<AudioSource>();
             dustFootsteps = transform.GetChild(2).GetComponent<ParticleSystem>();
+            
         }
         private void Start()
         {
@@ -83,6 +89,8 @@ namespace SimplePlatformer.Player
 
         private void Update()
         {
+            Input = inputHandler.GetInputState();
+
             if (Time.timeScale == 0) return;
 
             //Movement
@@ -261,6 +269,15 @@ namespace SimplePlatformer.Player
                     canInteract = true;
                     break;
             }
+        }
+
+        private void OnEnable()
+        {
+        }
+
+        private void OnDisable()
+        {
+            
         }
 
     }
