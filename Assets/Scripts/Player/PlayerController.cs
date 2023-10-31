@@ -30,10 +30,10 @@ namespace SimplePlatformer.Player
 
         protected CharacterParticles characterParticles;
         protected Animator anim;
-        protected Rigidbody2D rb2d;
+        protected Rigidbody2D rb;
         protected Renderer render;
         protected InputHandler inputHandler;
-        protected InputState Input;
+        protected InputState CurrentInput;
 
         public bool isJumping;
         public bool movePrevent;
@@ -61,12 +61,12 @@ namespace SimplePlatformer.Player
         private void Awake()
         {
             inputHandler = GetComponent<InputHandler>();
-            Input = new();
+            CurrentInput = new();
             //General
             healthSystem = gameObject.AddComponent<HealthSystem>();
             characterParticles = GetComponent<CharacterParticles>();
             anim = GetComponent<Animator>();
-            rb2d = GetComponent<Rigidbody2D>();
+            rb = GetComponent<Rigidbody2D>();
             render = transform.GetChild(0).GetComponent<Renderer>();
             //Combat
             hitBoxPos = transform.GetChild(1).transform;
@@ -89,7 +89,7 @@ namespace SimplePlatformer.Player
 
         private void Update()
         {
-            Input = inputHandler.GetInputState();
+            CurrentInput = inputHandler.GetInputState();
 
             if (Time.timeScale == 0) return;
 
@@ -196,7 +196,7 @@ namespace SimplePlatformer.Player
             itsDying = true;
             //GetComponent<PlayerMovement>().enabled = false;
             //GetComponent<PlayerCombat>().enabled = false;
-            rb2d.velocity = Vector2.zero;
+            rb.velocity = Vector2.zero;
             anim.Play("playerDie");
             yield return new WaitForSeconds(0.55f);
             GameEvents.OnPlayerDeath?.Invoke();
@@ -234,10 +234,10 @@ namespace SimplePlatformer.Player
                 forceDirection = new Vector2(-force, forceDirection.normalized.y);
 
             }
-            rb2d.velocity = new Vector2();
-            rb2d.AddForce(forceDirection, ForceMode2D.Impulse);
+            rb.velocity = new Vector2();
+            rb.AddForce(forceDirection, ForceMode2D.Impulse);
             yield return new WaitForSeconds(stunTime);
-            rb2d.velocity = new Vector2();
+            rb.velocity = new Vector2();
         }
 
         /// <summary>
@@ -273,6 +273,7 @@ namespace SimplePlatformer.Player
 
         private void OnEnable()
         {
+            inputHandler.OnAttack += Attack;
         }
 
         private void OnDisable()

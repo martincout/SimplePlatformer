@@ -39,14 +39,6 @@ namespace SimplePlatformer.Player
         public LayerMask enemyLayer;
         public LayerMask damageableLayer;
 
-        private Rigidbody2D rb;
-
-        internal void Setup(PlayerVariables pv, PlayerController playerController)
-        {
-            this.pv = pv;
-            this.playerController = playerController;
-        }
-
         public void CheckHitBoxColission()
         {
             if (!hitboxEnable) return;
