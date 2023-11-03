@@ -44,7 +44,7 @@ namespace SimplePlatformer.Player
 
         public void Interact()
         {
-            if (!pv.canInteract) return;
+            if (!canInteract) return;
             //If there is an Interactable object near
             if (interact != null)
             {

@@ -131,7 +131,6 @@
     <Compile Include="Assets\Scripts\Respawn\RespawnEntityData.cs" />
     <Compile Include="Assets\Scripts\Managers\UIMenuBehaviour.cs" />
     <Compile Include="Assets\Scripts\Enemies\BossAnimationData.cs" />
-    <Compile Include="Assets\Scripts\Player\PlayerVariables.cs" />
     <Compile Include="Assets\Scripts\Managers\UIManager.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\TestingZLegacyExt.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralSequencer.cs" />

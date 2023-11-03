@@ -13,8 +13,8 @@ namespace SimplePlatformer.Player
         [SerializeField] private float jumpForce = 4f;
         [Tooltip("Hang time in the air"), SerializeField] private float hangTime = 0.2f;
         [Tooltip("Hang time counter, decreasing value"), SerializeField] private float hangTimeCounter = 0f;
-        
-        
+
+
         //Check Ground
         public float groundedHeight = 0.5f;
         public float heightOffset = 0.25f; // we dont want to cast from the players feet (may cast underground sometimes), so we offset it a bit
@@ -29,8 +29,6 @@ namespace SimplePlatformer.Player
         /// </summary>
         public Vector3 raycastLeftOffset = new Vector2(0.5f, 0);
         public Vector3 raycastRightOffset = new Vector2(0.5f, 0);
-
-        private PlayerVariables pv;
 
         //Movement
         private Vector2 movementDirection;
@@ -61,13 +59,11 @@ namespace SimplePlatformer.Player
         //Components
         private SpriteRenderer sprRender;
         private AudioSource footsteps;
-       
+
         public void FixedUpdate()
         {
-            if (pv.movePrevent) 
-                rb.velocity = Vector2.zero;
             CheckGround();
-            if (pv.isGrounded)
+            if (isGrounded)
             {
                 hangTimeCounter = hangTime;
             }
@@ -76,17 +72,9 @@ namespace SimplePlatformer.Player
                 hangTimeCounter -= Time.deltaTime;
             }
 
-            if (!pv.isStunned && !pv.movePrevent)
-            {
-                Move();
-                UpdateJump();
-                BetterJump();
-            }
-        }
-
-        public void UpdateMovementData(Vector2 newMovementDirection)
-        {
-            movementDirection = newMovementDirection;
+            Move();
+            UpdateJump();
+            BetterJump();
         }
 
         private void AnimationUpdate()
@@ -97,7 +85,7 @@ namespace SimplePlatformer.Player
             isFallingAnim = info.IsName(PlayerAnimations.PLAYER_FALLING);
             isAttackingAnim = info.IsName(PlayerAnimations.PLAYER_ATTACK1);
             Flip();
-            if (!isJumpingAnim && pv.isGrounded && !isAttackingAnim)
+            if (!isJumpingAnim && isGrounded && !isAttackingAnim)
             {
                 if (movementDirection.x != 0)
                 {
@@ -113,7 +101,7 @@ namespace SimplePlatformer.Player
             {
                 anim.Play(PlayerAnimations.PLAYER_JUMP);
             }
-            if (rb.velocity.y < -0.2 && !pv.isGrounded)
+            if (rb.velocity.y < -0.2 && !isGrounded)
             {
                 anim.Play(PlayerAnimations.PLAYER_FALLING);
             }
@@ -149,15 +137,15 @@ namespace SimplePlatformer.Player
             //Check if grounded
             if (raycastLeft.collider != null || raycastRight.collider != null)
             {
-                pv.isGrounded = true;
-                pv.airAttacked = false;
+                isGrounded = true;
+                airAttacked = false;
                 color = Color.green;
                 Debug.DrawRay(raycastPositionLeft, Vector2.down * groundedHeight, color);
                 Debug.DrawRay(raycastPositionRight, Vector2.down * groundedHeight, color);
             }
             else
             {
-                pv.isGrounded = false;
+                isGrounded = false;
                 color = Color.red;
                 Debug.DrawRay(raycastPositionLeft, Vector2.down * groundedHeight, color);
                 Debug.DrawRay(raycastPositionRight, Vector2.down * groundedHeight, color);
@@ -182,7 +170,7 @@ namespace SimplePlatformer.Player
 
         public void StartJumping()
         {
-            if (pv.isGrounded && !pv.movePrevent) SoundManager.instance.Play("Jump");
+            if (isGrounded) SoundManager.instance.Play("Jump");
             this.jumpingHeld = true;
         }
 

@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
             position.z = GlobalControl.Instance.LocalCopyOfData.position[2];
 
             player.transform.position = position;
-            player.playerCombatBehaviour.hasBow = GlobalControl.Instance.LocalCopyOfData.hasBow;
+            //player.playerCombatBehaviour.hasBow = GlobalControl.Instance.LocalCopyOfData.hasBow;
             player.healthSystem.SetHealth(GlobalControl.Instance.LocalCopyOfData.health);
             levelManager.SetCelldoors();
             levelManager.SetLevelKeys();

@@ -1,5 +1,6 @@
 ﻿using SimplePlatformer.Assets.Scripts.Player;
 using SimplePlatformer.Assets.Scripts.Player.Input;
+using SimplePlatformer.Assets.Scripts.Player.States;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -22,7 +23,6 @@ namespace SimplePlatformer.Player
 
         //Aux
         protected float invincibleTime = 1f;
-        protected static Vector2 rawInputMovement;
 
         //Take damage
         private float stunTime = 0.3f;
@@ -34,9 +34,10 @@ namespace SimplePlatformer.Player
         protected Renderer render;
         protected InputHandler inputHandler;
         protected InputState CurrentInput;
+        protected PlayerState CurrentState;
 
-        public bool movePrevent;
-        public bool cannotAttack;
+        public bool movePrevent; // Inpunt Hanlder
+        public bool cannotAttack; // Input Handler
         public bool isFacingRight = true;
         public bool isAttacking;
         public bool isStunned;
@@ -59,6 +60,7 @@ namespace SimplePlatformer.Player
 
         private void Awake()
         {
+            CurrentState = PlayerState.IDLE;
             inputHandler = GetComponent<InputHandler>();
             CurrentInput = new();
             //General
@@ -90,9 +92,16 @@ namespace SimplePlatformer.Player
         {
             CurrentInput = inputHandler.GetInputState();
 
-            if (Time.timeScale == 0) return;
+            movementDirection = CurrentInput.MovementDirection;
 
-            //Movement
+            // Movement and Idle States
+            if (rb.velocity.magnitude > 0)
+                CurrentState = PlayerState.MOVEMENT;
+            else
+                CurrentState = PlayerState.IDLE;
+
+            //if (Time.timeScale == 0) return;
+
             if (!isStunned && !movePrevent)
             {
                 if (!isAttacking)
@@ -101,15 +110,15 @@ namespace SimplePlatformer.Player
                 }
             }
 
-            UpdateMovementData(rawInputMovement);
-
             //Combat
             CheckHitBoxColission();
+
             //Suspend the player in air when air attacking
             SuspendInAir();
 
             //Used to exit the animation state when we are doing combos
             anim.SetFloat("timeCombo", elapsedNextCombo);
+
             //Combos
             if (elapsedNextCombo > 0)
             {
@@ -192,6 +201,9 @@ namespace SimplePlatformer.Player
 
         private IEnumerator DieCo()
         {
+            // Set to a Dying State and Prevent Input
+            // Fade player
+            // INFO: Only these two things it's enough then delegate to a LevelManager to respawn
             itsDying = true;
             //GetComponent<PlayerMovement>().enabled = false;
             //GetComponent<PlayerCombat>().enabled = false;
@@ -201,7 +213,7 @@ namespace SimplePlatformer.Player
             GameEvents.OnPlayerDeath?.Invoke();
             GameManager.GetInstance().TogglePlayerDeath(true);
             itsDying = false;
-            Destroy(gameObject);
+            Destroy(gameObject); // TODO: don't destroy gameobject
         }
 
         internal void Knockback(Vector3 attackerPos, float thrust)

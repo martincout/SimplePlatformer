@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace SimplePlatformer.Assets.Scripts.Player.States
 {
-    public class PlayerState
+    public enum PlayerState
     {
-        
+        IDLE,
+        MOVEMENT,
+        ATTACK,
+        JUMP,
+        STUN,
+        DEAD
     }
 }

@@ -37,11 +37,13 @@ namespace SimplePlatformer.Assets.Scripts.Player
             CurrentInput = new();
             CurrentInput.CanJump = true;
             CurrentInput.CanAttack = true;
+            CurrentInput.CanInteract = true;
         }
 
         public InputState GetInputState()
         {
             // TODO: Add middlewares...
+            // Dead Middle ware.
             // GameManager system
             return CurrentInput;
         }

@@ -67,7 +67,7 @@ namespace SimplePlatformer.Player
         /// </summary>
         public void Attack()
         {
-            if (!pv.isStunned && !pv.itsDying && !pv.cannotAttack && !pv.isBowAttacking)
+            if (!isStunned && !isBowAttacking)
             {
                 #region Attack
                 //Cooldown of the attack finished and if we are not in a Combo
@@ -75,9 +75,9 @@ namespace SimplePlatformer.Player
                 {
 
                     //If i'm grounded
-                    if (pv.isGrounded)
+                    if (isGrounded)
                     {
-                        pv.isAttacking = true;
+                        isAttacking = true;
                         //Check for the Combo state
                         switch (comboState)
                         {
@@ -102,9 +102,9 @@ namespace SimplePlatformer.Player
                         rb.drag = attackDrag;
                     }
                     //If I'm in the Air
-                    else if (!pv.airAttacked)
+                    else if (!airAttacked)
                     {
-                        pv.isAttacking = true;
+                        isAttacking = true;
                         //Check for the Combo state
                         switch (comboState)
                         {
@@ -136,23 +136,23 @@ namespace SimplePlatformer.Player
         /// </summary>
         public void BowAttack()
         {
-            if (pv.isStunned || pv.itsDying || pv.cannotAttack || !hasBow) return;
+            if (isStunned || !hasBow) return;
 
             if (elapsedAttackRate <= 0)
             {
-                pv.isAttacking = true;
-                pv.isBowAttacking = true;
+                isAttacking = true;
+                isBowAttacking = true;
                 StartCoroutine(EnableMovementAfter(0.7f));
 
                 //Animation
-                if (pv.isGrounded)
+                if (isGrounded)
                 {
-                    anim.Play(PlayerVariables.PLAYER_BOW);
+                    anim.Play(PlayerAnimations.PLAYER_BOW);
 
                 }
                 else
                 {
-                    anim.Play(PlayerVariables.PLAYER_BOWAIR);
+                    anim.Play(PlayerAnimations.PLAYER_BOWAIR);
                 }
 
                 //Instatiate
@@ -164,7 +164,7 @@ namespace SimplePlatformer.Player
                 elapsedNextCombo = 0.7f;
 
                 //Sets gravity to 0 when in the air
-                if (!pv.isGrounded)
+                if (!isGrounded)
                 {
                     SetSuspendInAir();
                 }
@@ -176,7 +176,7 @@ namespace SimplePlatformer.Player
         {
             yield return new WaitForSeconds(_sec);
             GameObject instance = Instantiate(arrowPF, arrowTR.position, Quaternion.identity);
-            instance.GetComponent<Arrow>().Setup(pv.isFacingRight);
+            instance.GetComponent<Arrow>().Setup(isFacingRight);
             ManageArrows.AddArrow(instance.GetComponent<Arrow>());
         }
 
@@ -187,9 +187,9 @@ namespace SimplePlatformer.Player
 
         private void SuspendInAir()
         {
-            if (pv.isAttacking && !pv.isGrounded)
+            if (isAttacking && !isGrounded)
             {
-                if (!pv.isStunned) rb.velocity = Vector2.zero;
+                rb.velocity = Vector2.zero;
             }
             else
             {
@@ -204,9 +204,9 @@ namespace SimplePlatformer.Player
 
         private IEnumerator EnableMovementAfter(float _sec)
         {
-            pv.movePrevent = true;
+            movePrevent = true;
             yield return new WaitForSeconds(_sec);
-            pv.movePrevent = false;
+            movePrevent = false;
         }
 
 

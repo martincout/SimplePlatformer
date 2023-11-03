@@ -8,5 +8,6 @@ namespace SimplePlatformer.Assets.Scripts.Player.Input
         public bool IsJumping { get; set; }
         public bool CanJump { get; set; }
         public bool CanAttack { get; set; }
+        public bool CanInteract { get; set; }
     }
 }
