@@ -63,7 +63,7 @@ namespace SimplePlatformer.Assets.Scripts.Player
         //This is called from PlayerInput, when a button has been pushed, that corresponds with the 'Attack' action
         public void Attack(InputAction.CallbackContext value)
         {
-            if (value.started && CurrentInput.CanAttack)
+            if (value.started && GetInputState().CanAttack)
             {
                 OnAttack?.Invoke();
                 //playerCombatBehaviour.Attack();
@@ -89,7 +89,7 @@ namespace SimplePlatformer.Assets.Scripts.Player
 
         public void Interact(InputAction.CallbackContext value)
         {
-            if (value.started)
+            if (value.started && GetInputState().CanInteract)
             {
                 OnInteract?.Invoke();
                 //playerInteractableBehaviour.Interact();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimplePlatformer.Assets.Scripts.Player;
+using System;
 using UnityEngine;
 
 namespace SimplePlatformer.Player
@@ -15,7 +16,7 @@ namespace SimplePlatformer.Player
 
         private void InteractableUpdate()
         {
-            if (!pv.canInteract) return;
+            if (!canInteract) return;
             interact = Physics2D.OverlapBox(transform.position, size, 0, 1 << LayerMask.NameToLayer("Interactable"));
             if (interact != null && interact.GetComponent<Interactable>() != null && !interact.GetComponent<Interactable>().interacted)
             {
@@ -44,7 +45,6 @@ namespace SimplePlatformer.Player
 
         public void Interact()
         {
-            if (!canInteract) return;
             //If there is an Interactable object near
             if (interact != null)
             {
@@ -52,7 +52,6 @@ namespace SimplePlatformer.Player
                 DestroyButton(buttonRef);
                 btnInstantiated = false;
             }
-
         }
 
         private void DestroyButton(GameObject btn)

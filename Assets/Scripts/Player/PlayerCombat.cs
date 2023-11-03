@@ -136,7 +136,7 @@ namespace SimplePlatformer.Player
         /// </summary>
         public void BowAttack()
         {
-            if (isStunned || !hasBow) return;
+            if (!hasBow) return;
 
             if (elapsedAttackRate <= 0)
             {

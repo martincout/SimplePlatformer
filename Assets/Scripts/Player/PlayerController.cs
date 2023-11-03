@@ -288,6 +288,7 @@ namespace SimplePlatformer.Player
             inputHandler.OnAttack += Attack;
             inputHandler.OnJumpStarted += StartJumping;
             inputHandler.OnJumpPerformed += CancelJumping;
+            inputHandler.OnInteract += Interact;
         }
 
         private void OnDisable()
@@ -295,6 +296,7 @@ namespace SimplePlatformer.Player
             inputHandler.OnAttack -= Attack;
             inputHandler.OnJumpStarted -= StartJumping;
             inputHandler.OnJumpPerformed -= CancelJumping;
+            inputHandler.OnInteract -= Interact;
         }
 
         public void OnDrawGizmosSelected()
