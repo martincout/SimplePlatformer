@@ -58,17 +58,6 @@ namespace SimplePlatformer.Player
             }
         }
 
-        public void OnDrawGizmosSelected()
-        {
-            if (hitBoxPos == null)
-                return;
-            Gizmos.color = Color.red;
-
-            Gizmos.matrix = Matrix4x4.TRS(hitBoxPos.position, hitBoxPos.rotation, hitBoxPos.localScale);
-
-            Gizmos.DrawCube(Vector3.zero, boxSize); // Because size is halfExtents
-        }
-
         /// <summary>
         /// Handles all the attack behaviour, is called by the Input System
         /// - Checks for states

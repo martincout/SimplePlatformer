@@ -63,11 +63,7 @@ namespace SimplePlatformer.Player
             }
         }
 
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.DrawWireCube(transform.position, size);
-            Gizmos.color = Color.white;
-        }
+        
     }
 }
 

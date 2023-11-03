@@ -56,16 +56,12 @@ namespace SimplePlatformer.Player
         private bool isFallingAnim = false;
         private bool isAttackingAnim = false;
         private bool jumpingHeld;
+        private bool isJumping;
 
         //Components
         private SpriteRenderer sprRender;
         private AudioSource footsteps;
        
-        public void Setup(PlayerVariables pv)
-        {
-            this.pv = pv;
-        }
-
         public void FixedUpdate()
         {
             if (pv.movePrevent) 
@@ -83,7 +79,7 @@ namespace SimplePlatformer.Player
             if (!pv.isStunned && !pv.movePrevent)
             {
                 Move();
-                JumpUpdate();
+                UpdateJump();
                 BetterJump();
             }
         }
@@ -113,7 +109,7 @@ namespace SimplePlatformer.Player
                     anim.Play(PlayerAnimations.PLAYER_IDLE);
                 }
             }
-            if (pv.isJumping && !isJumpingAnim && !isFallingAnim)
+            if (isJumping && !isJumpingAnim && !isFallingAnim)
             {
                 anim.Play(PlayerAnimations.PLAYER_JUMP);
             }
@@ -193,29 +189,26 @@ namespace SimplePlatformer.Player
         public void CancelJumping()
         {
             jumpingHeld = false;
-            pv.isJumping = false;
+            isJumping = false;
         }
 
-        public void JumpUpdate()
+        public void UpdateJump()
         {
             if (hangTimeCounter > 0 && !jumpingHeld)
             {
-                pv.isJumping = false;
+                isJumping = false;
             }
             if (hangTimeCounter > 0 && jumpingHeld)
             {
-                pv.isJumping = true;
+                isJumping = true;
             }
 
-            if (pv.isJumping)
+            if (isJumping)
             {
                 hangTimeCounter = 0f;
-                float multiplies = 50;
-                rb.velocity = new Vector2(rb.velocity.x, jumpForce * (Time.deltaTime * multiplies));
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             }
-
         }
-
 
         private void Move()
         {

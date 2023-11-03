@@ -21,7 +21,8 @@ namespace SimplePlatformer.Assets.Scripts.Player
         // Actions
         public Action OnAttack { get; set; }
         public Action OnInteract { get; set; }
-        public Action OnJump { get; set; }
+        public Action OnJumpStarted { get; set; }
+        public Action OnJumpPerformed { get; set; }
         public Action OnBowAttack { get; set; }
         public Action OnTogglePause { get; set; }
 
@@ -34,6 +35,8 @@ namespace SimplePlatformer.Assets.Scripts.Player
         {
             _playerInput = GetComponent<PlayerInput>();
             CurrentInput = new();
+            CurrentInput.CanJump = true;
+            CurrentInput.CanAttack = true;
         }
 
         public InputState GetInputState()
@@ -58,7 +61,7 @@ namespace SimplePlatformer.Assets.Scripts.Player
         //This is called from PlayerInput, when a button has been pushed, that corresponds with the 'Attack' action
         public void Attack(InputAction.CallbackContext value)
         {
-            if (value.started)
+            if (value.started && CurrentInput.CanAttack)
             {
                 OnAttack?.Invoke();
                 //playerCombatBehaviour.Attack();
@@ -70,13 +73,13 @@ namespace SimplePlatformer.Assets.Scripts.Player
         {
             if (value.started)
             {
-                OnJump?.Invoke();
-                //playerMovementBehaviour.StartJumping();
-                CurrentInput.IsJumping = true;
+                OnJumpStarted?.Invoke();
+                //CurrentInput.IsJumping = true;
             }
             if (value.performed || value.canceled)
             {
-                CurrentInput.IsJumping = false;
+                OnJumpPerformed?.Invoke();
+                //CurrentInput.IsJumping = false;
                 //playerMovementBehaviour.CancelJumping();
             }
 

@@ -35,7 +35,6 @@ namespace SimplePlatformer.Player
         protected InputHandler inputHandler;
         protected InputState CurrentInput;
 
-        public bool isJumping;
         public bool movePrevent;
         public bool cannotAttack;
         public bool isFacingRight = true;
@@ -163,7 +162,7 @@ namespace SimplePlatformer.Player
             {
                 //Decrease Health
                 healthSystem.DealDamage(damage);
-                characterParticles.PlayParticle(Type.HURT);
+                characterParticles.PlayParticle(Assets.Scripts.Player.Type.HURT);
                 SetInvincible();
                 //Check
                 if (healthSystem.GetHealth() > 0)
@@ -185,7 +184,7 @@ namespace SimplePlatformer.Player
         public void DieInstantly()
         {
             SoundManager.instance.Play("Death");
-            characterParticles.PlayParticle(Type.HURT);
+            characterParticles.PlayParticle(Assets.Scripts.Player.Type.HURT);
             healthSystem.SetHealth(0);
             StopAllCoroutines();
             StartCoroutine(DieCo());
@@ -274,11 +273,29 @@ namespace SimplePlatformer.Player
         private void OnEnable()
         {
             inputHandler.OnAttack += Attack;
+            inputHandler.OnJumpStarted += StartJumping;
+            inputHandler.OnJumpPerformed += CancelJumping;
         }
 
         private void OnDisable()
         {
-            
+            inputHandler.OnAttack -= Attack;
+            inputHandler.OnJumpStarted -= StartJumping;
+            inputHandler.OnJumpPerformed -= CancelJumping;
+        }
+
+        public void OnDrawGizmosSelected()
+        {
+            Gizmos.DrawWireCube(transform.position, size);
+            Gizmos.color = Color.white;
+
+            if (hitBoxPos == null)
+                return;
+            Gizmos.color = Color.red;
+
+            Gizmos.matrix = Matrix4x4.TRS(hitBoxPos.position, hitBoxPos.rotation, hitBoxPos.localScale);
+
+            Gizmos.DrawCube(Vector3.zero, boxSize); // Because size is halfExtents
         }
 
     }
