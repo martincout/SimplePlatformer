@@ -61,6 +61,7 @@ namespace SimplePlatformer.Player
         private void Awake()
         {
             CurrentState = PlayerState.IDLE;
+            comboState = ComboState.NONE;
             inputHandler = GetComponent<InputHandler>();
             CurrentInput = new();
             //General
@@ -72,7 +73,6 @@ namespace SimplePlatformer.Player
             //Combat
             hitBoxPos = transform.GetChild(1).transform;
             render = GetComponent<Renderer>();
-            comboState = ComboState.NONE;
             //Movement
             sprRender = GetComponent<SpriteRenderer>();
             groundLayer = 1 << LayerMask.NameToLayer("Ground");
