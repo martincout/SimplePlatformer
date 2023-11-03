@@ -205,6 +205,7 @@ namespace SimplePlatformer.Player
             // Fade player
             // INFO: Only these two things it's enough then delegate to a LevelManager to respawn
             itsDying = true;
+            CurrentState = PlayerState.DEAD;
             //GetComponent<PlayerMovement>().enabled = false;
             //GetComponent<PlayerCombat>().enabled = false;
             rb.velocity = Vector2.zero;

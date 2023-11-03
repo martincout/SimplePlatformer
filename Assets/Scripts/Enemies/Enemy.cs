@@ -172,7 +172,7 @@ namespace SimplePlatformer.Enemy
 
         protected virtual void Update()
         {
-            notFollow = currentState.Equals(State.DEATH) || GameManager.GetInstance().playerDeath || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().GetPlayerItsDying();
+            notFollow = currentState.Equals(State.DEATH) || GameManager.GetInstance().playerIsDead || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().GetPlayerItsDying();
             StunTimeReset();
             CooldownAttack();
 
@@ -233,7 +233,7 @@ namespace SimplePlatformer.Enemy
         /// <param name="col"></param>
         private void OnTriggerEnter2D(Collider2D col)
         {
-            if (col.CompareTag("Player") && !currentState.Equals(State.DEATH) && !GameManager.GetInstance().playerDeath)
+            if (col.CompareTag("Player") && !currentState.Equals(State.DEATH) && !GameManager.GetInstance().playerIsDead)
             {
                 col.GetComponent<IDamageable>().TakeDamage(_enemyData.damage, transform.position);
             }

@@ -10,9 +10,10 @@ using SimplePlatformer.Player;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+    // If it's multiplier this props should not be shared
     protected int score = 0;
     public bool isPaused = false;
-    public bool playerDeath = false;
+    public bool playerIsDead = false; 
     public bool hasBow;
     public PlayerController player;
     public RespawnManager respawnManager;
@@ -110,20 +111,19 @@ public class GameManager : MonoBehaviour
 
     private void UpdateUIDeath()
     {
-        UIManager.GetInstance().UpdateUIDeathState(playerDeath);
+        UIManager.GetInstance().UpdateUIDeathState(playerIsDead);
     }
-
 
     public void TogglePlayerDeath(bool death)
     {
         if(death == true)
         {
-            playerDeath = true;
+            playerIsDead = true;
             UpdateUIDeath();
         }
         else
         {
-            playerDeath = false;
+            playerIsDead = false;
             UpdateUIDeath();
         }
     }
