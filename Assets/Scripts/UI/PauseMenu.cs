@@ -96,8 +96,8 @@ public class PauseMenu : MonoBehaviour
     private void DisablePlayer()
     {
         disablePlayer = !disablePlayer;
-        player.GetComponent<PlayerMovement>().enabled = !disablePlayer;
-        player.GetComponent<PlayerCombat>().enabled = !disablePlayer;
+        //player.GetComponent<PlayerMovement>().enabled = !disablePlayer;
+        //player.GetComponent<PlayerCombat>().enabled = !disablePlayer;
     }
 
 }

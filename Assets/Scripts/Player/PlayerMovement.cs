@@ -109,17 +109,17 @@ namespace SimplePlatformer.Player
 
         private void Flip()
         {
-            if (movementDirection.x != 0 && !pv.isAttacking)
+            if (movementDirection.x != 0 && !isAttacking)
             {
                 if (movementDirection.x > 0)
                 {
                     transform.localScale = new Vector3(1, 1, 1);
-                    pv.isFacingRight = true;
+                    isFacingRight = true;
                 }
                 else
                 {
                     transform.localScale = new Vector3(-1, 1, 1);
-                    pv.isFacingRight = false;
+                    isFacingRight = false;
                 }
             }
         }

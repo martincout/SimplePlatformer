@@ -68,7 +68,7 @@ public class DialogueYesNo : MonoBehaviour
         {
             if (GameManager.GetInstance().GetScore() >= cost)
             {
-                player.playerCombatBehaviour.hasBow = true;
+                //player.playerCombatBehaviour.hasBow = true;
                 GameManager.GetInstance().AddScore(-cost);
             }
             else
@@ -76,7 +76,7 @@ public class DialogueYesNo : MonoBehaviour
                 dontHaveEnoughGO.SetActive(true);
             }
             player.DisablePlayerState(false);
-            player.EnableGameplayControls();
+            //player.EnableGameplayControls();
             gameObject.SetActive(false);
         }
     }
@@ -86,7 +86,7 @@ public class DialogueYesNo : MonoBehaviour
         if (!activated)
         {
             player.DisablePlayerState(false);
-            player.EnableGameplayControls();
+            //player.EnableGameplayControls();
             gameObject.SetActive(false);
         }
     }
@@ -98,7 +98,7 @@ public class DialogueYesNo : MonoBehaviour
         if (!activated)
         {
             player.DisablePlayerState(false);
-            player.EnableGameplayControls();
+            //player.EnableGameplayControls();
             gameObject.SetActive(false);
         }
     }

@@ -30,7 +30,7 @@ public class GameData
         position[0] = player.transform.position.x;
         position[1] = player.transform.position.y;
         position[2] = player.transform.position.z;
-        hasBow = player.playerCombatBehaviour.hasBow;
+        //hasBow = player.playerCombatBehaviour.hasBow;
         this.score = score;
         //Clear
         this.campFires.Clear();
