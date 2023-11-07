@@ -10,12 +10,6 @@ namespace SimplePlatformer.Player
         //Attack    
         [Header("Attack")]
         public Transform hitBoxPos;
-        [SerializeField] private float attackRate = 0.3f;
-        [SerializeField] private float attackDamage = 10f;
-        //The time elapsed for the next hit with the hit box (attack)
-        [SerializeField] private float initialDrag;
-        [SerializeField] private float attackDrag;
-        [SerializeField] private GameObject arrowPF;
         [SerializeField] private Transform arrowTR;
         [SerializeField] public bool hasBow = false;
         [Header("HitBox")]
@@ -47,7 +41,7 @@ namespace SimplePlatformer.Player
             {
                 if (col.GetComponent<IDamageable>() != null)
                 {
-                    col.GetComponent<IDamageable>().TakeDamage(attackDamage, transform.position);
+                    col.GetComponent<IDamageable>().TakeDamage(PlayerSO.AttackDamage, transform.position);
                     if (col.GetComponent<FallingCellCage>())
                     {
                         playerController.Knockback(col.transform.position, 15f);
@@ -99,7 +93,7 @@ namespace SimplePlatformer.Player
                                 break;
                         }
                         //don't slide on the floor
-                        rb.drag = attackDrag;
+                        rb.drag = PlayerSO.AttackDrag;
                     }
                     //If I'm in the Air
                     else if (!airAttacked)
@@ -175,7 +169,7 @@ namespace SimplePlatformer.Player
         private IEnumerator InstantiateArrow(float _sec)
         {
             yield return new WaitForSeconds(_sec);
-            GameObject instance = Instantiate(arrowPF, arrowTR.position, Quaternion.identity);
+            GameObject instance = Instantiate(PlayerSO.PF_Arrow, arrowTR.position, Quaternion.identity);
             instance.GetComponent<Arrow>().Setup(isFacingRight);
             ManageArrows.AddArrow(instance.GetComponent<Arrow>());
         }

@@ -35,6 +35,7 @@ namespace SimplePlatformer.Player
         protected InputHandler inputHandler;
         protected InputState CurrentInput;
         protected PlayerState CurrentState;
+        [SerializeField] private PlayerSO PlayerSO;
 
         public bool movePrevent; // Inpunt Hanlder
         public bool cannotAttack; // Input Handler

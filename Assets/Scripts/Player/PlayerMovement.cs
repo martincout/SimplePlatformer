@@ -7,17 +7,7 @@ namespace SimplePlatformer.Player
     public partial class PlayerController : MonoBehaviour
     {
         //Jump
-
-        [Tooltip("Multipies the fall after jump"), SerializeField] private float fallMultiplier = 2f;
-        [Tooltip("When the player Stops Pressing Jump in mid air, multiplies the fall"), SerializeField] private float lowFallMultiplier = 8f;
-        [SerializeField] private float jumpForce = 4f;
-        [Tooltip("Hang time in the air"), SerializeField] private float hangTime = 0.2f;
         [Tooltip("Hang time counter, decreasing value"), SerializeField] private float hangTimeCounter = 0f;
-
-
-        //Check Ground
-        public float groundedHeight = 0.5f;
-        public float heightOffset = 0.25f; // we dont want to cast from the players feet (may cast underground sometimes), so we offset it a bit
         public LayerMask groundLayer;
         /// <summary>
         /// Raycast to check if it's grounded
@@ -32,17 +22,8 @@ namespace SimplePlatformer.Player
 
         //Movement
         private Vector2 movementDirection;
-        [Tooltip("The maximum speed that can perform gradually.")]
-        [SerializeField] private float maxSpeed = 10f;
-
         [Tooltip("Current speed of the object.")]
         [SerializeField] private float speed = 0f;
-
-        [Tooltip("The acceleration is how fast will the object reach the maximum speed.")]
-        [SerializeField] private float acceleration = 5f;
-
-        [Tooltip("The decelaration is how fast will the object reach a speed of 0.")]
-        [SerializeField] private float decelaration = 5f;
 
         //Hurt Collider
         BoxCollider2D boxCollider;
@@ -65,7 +46,7 @@ namespace SimplePlatformer.Player
             CheckGround();
             if (isGrounded)
             {
-                hangTimeCounter = hangTime;
+                hangTimeCounter = PlayerSO.HangTime;
             }
             else
             {
@@ -130,8 +111,8 @@ namespace SimplePlatformer.Player
             Vector3 raycastPositionLeft = boxCollider.bounds.center - new Vector3(0, boxCollider.bounds.extents.y, 0) - raycastLeftOffset;
             Vector3 raycastPositionRight = boxCollider.bounds.center - new Vector3(0, boxCollider.bounds.extents.y, 0) + raycastRightOffset;
             //Raycast2d
-            raycastLeft = Physics2D.Raycast(raycastPositionLeft, Vector2.down, groundedHeight, groundLayer);
-            raycastRight = Physics2D.Raycast(raycastPositionRight, Vector2.down, groundedHeight, groundLayer);
+            raycastLeft = Physics2D.Raycast(raycastPositionLeft, Vector2.down, PlayerSO.GroundedHeight, groundLayer);
+            raycastRight = Physics2D.Raycast(raycastPositionRight, Vector2.down, PlayerSO.GroundedHeight, groundLayer);
 
             Color color;
             //Check if grounded
@@ -140,15 +121,15 @@ namespace SimplePlatformer.Player
                 isGrounded = true;
                 airAttacked = false;
                 color = Color.green;
-                Debug.DrawRay(raycastPositionLeft, Vector2.down * groundedHeight, color);
-                Debug.DrawRay(raycastPositionRight, Vector2.down * groundedHeight, color);
+                Debug.DrawRay(raycastPositionLeft, Vector2.down * PlayerSO.GroundedHeight, color);
+                Debug.DrawRay(raycastPositionRight, Vector2.down * PlayerSO.GroundedHeight, color);
             }
             else
             {
                 isGrounded = false;
                 color = Color.red;
-                Debug.DrawRay(raycastPositionLeft, Vector2.down * groundedHeight, color);
-                Debug.DrawRay(raycastPositionRight, Vector2.down * groundedHeight, color);
+                Debug.DrawRay(raycastPositionLeft, Vector2.down * PlayerSO.GroundedHeight, color);
+                Debug.DrawRay(raycastPositionRight, Vector2.down * PlayerSO.GroundedHeight, color);
             }
 
         }
@@ -159,11 +140,11 @@ namespace SimplePlatformer.Player
         {
             if (rb.velocity.y < 0)
             {
-                rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+                rb.velocity += Vector2.up * Physics2D.gravity.y * (PlayerSO.FallMultiplier - 1) * Time.deltaTime;
             }
             else if (rb.velocity.y > 0 && !jumpingHeld)
             {
-                rb.velocity += Vector2.up * Physics2D.gravity.y * (lowFallMultiplier - 1) * Time.deltaTime;
+                rb.velocity += Vector2.up * Physics2D.gravity.y * (PlayerSO.LowFallMultiplier - 1) * Time.deltaTime;
             }
 
         }
@@ -194,7 +175,7 @@ namespace SimplePlatformer.Player
             if (isJumping)
             {
                 hangTimeCounter = 0f;
-                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                rb.velocity = new Vector2(rb.velocity.x, PlayerSO.JumpForce);
             }
         }
 
@@ -214,15 +195,15 @@ namespace SimplePlatformer.Player
         /// </summary>
         private void CalculateSpeed()
         {
-            if ((speed < maxSpeed) && movementDirection.x != 0)
+            if ((speed < PlayerSO.MaxSpeed) && movementDirection.x != 0)
             {
-                speed += acceleration * Time.deltaTime;
+                speed += PlayerSO.Acceleration * Time.deltaTime;
             }
             else
             {
-                if (speed > decelaration * Time.deltaTime)
+                if (speed > PlayerSO.Decelaration * Time.deltaTime)
                 {
-                    speed -= decelaration * Time.deltaTime;
+                    speed -= PlayerSO.Decelaration * Time.deltaTime;
                 }
                 else
                 {

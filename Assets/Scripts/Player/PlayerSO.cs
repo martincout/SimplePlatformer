@@ -27,15 +27,15 @@ namespace SimplePlatformer.Assets.Scripts.Player
         public float HangTime = 0.2f;
         [Header("Ground")]
         [Tooltip("Ground raycast height.")]
-        public float groundedHeight = 0.5f;
+        public float GroundedHeight = 0.5f;
         [Tooltip("Ground raycast offset.")]
-        public float heightOffset = 0.25f; // we dont want to cast from the players feet (may cast underground sometimes), so we offset it a bit
+        public float HeightOffset = 0.25f; // we dont want to cast from the players feet (may cast underground sometimes), so we offset it a bit
         [Tooltip("Ground Layer")]
-        public LayerMask groundLayer;
+        public LayerMask GroundLayer;
         [Tooltip("Left Raycast Offset")]
-        public Vector3 raycastLeftOffset = new Vector2(0.5f, 0);
+        public Vector3 RaycastLeftOffset = new Vector2(0.5f, 0);
         [Tooltip("Right Raycast Offset")]
-        public Vector3 raycastRightOffset = new Vector2(0.5f, 0);
+        public Vector3 RaycastRightOffset = new Vector2(0.5f, 0);
         [Header("Combat")]
         [Tooltip("Attack cooldown for the next attack")] 
         public float AttackRate = 0.3f;
