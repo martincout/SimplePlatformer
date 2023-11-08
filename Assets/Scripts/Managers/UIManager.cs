@@ -39,7 +39,8 @@ public class UIManager : MonoBehaviour
 
     public void UpdateUIMenuState(bool newState)
     {
-        if(!GameManager.GetInstance().playerIsDead) pauseMenu.UpdateUIMenuState(newState);
+        //if(!GameManager.GetInstance().PlayerIsDead) 
+            pauseMenu.UpdateUIMenuState(newState);
     }
     public void MainMenu()
     {

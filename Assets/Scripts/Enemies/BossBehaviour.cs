@@ -95,13 +95,13 @@ namespace SimplePlatformer.Enemy
         }
         private void Update()
         {
-            if (_currentState.Equals(State.WAITING) || _currentState.Equals(State.DEAD) || GameManager.GetInstance().playerIsDead) return;
+            if (_currentState.Equals(State.WAITING) || _currentState.Equals(State.DEAD) || GameManager.GetInstance().PlayerIsDead) return;
             CheckPlayer();
         }
 
         private void FixedUpdate()
         {
-            if (_currentState.Equals(State.WAITING) || _currentState.Equals(State.DEAD) || GameManager.GetInstance().playerIsDead) return;
+            if (_currentState.Equals(State.WAITING) || _currentState.Equals(State.DEAD) || GameManager.GetInstance().PlayerIsDead) return;
             Movement();
         }
 

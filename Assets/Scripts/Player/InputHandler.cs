@@ -43,8 +43,15 @@ namespace SimplePlatformer.Assets.Scripts.Player
         public InputState GetInputState()
         {
             // TODO: Add middlewares...
-            // Dead Middle ware.
             // GameManager system
+
+            if (GameManager.GetInstance().PlayerIsDead) {
+                CurrentInput.CanInteract = false;
+                CurrentInput.CanJump = false;
+                CurrentInput.CanAttack = false;
+                CurrentInput.MovementDirection = Vector2.zero;
+            }
+
             return CurrentInput;
         }
 

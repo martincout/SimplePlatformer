@@ -13,9 +13,8 @@ public class GameManager : MonoBehaviour
     // If it's multiplier this props should not be shared
     protected int score = 0;
     public bool isPaused = false;
-    public bool playerIsDead = false; 
+    public bool PlayerIsDead = false; 
     public bool hasBow;
-    public PlayerController player;
     public RespawnManager respawnManager;
     public LevelManager levelManager;
 
@@ -49,9 +48,9 @@ public class GameManager : MonoBehaviour
             position.y = GlobalControl.Instance.LocalCopyOfData.position[1];
             position.z = GlobalControl.Instance.LocalCopyOfData.position[2];
 
-            player.transform.position = position;
+            //player.transform.position = position;
             //player.playerCombatBehaviour.hasBow = GlobalControl.Instance.LocalCopyOfData.hasBow;
-            player.healthSystem.SetHealth(GlobalControl.Instance.LocalCopyOfData.health);
+            //player.healthSystem.SetHealth(GlobalControl.Instance.LocalCopyOfData.health);
             levelManager.SetCelldoors();
             levelManager.SetLevelKeys();
             levelManager.SetChests();
@@ -111,22 +110,29 @@ public class GameManager : MonoBehaviour
 
     private void UpdateUIDeath()
     {
-        UIManager.GetInstance().UpdateUIDeathState(playerIsDead);
+        UIManager.GetInstance().UpdateUIDeathState(PlayerIsDead);
     }
 
     public void TogglePlayerDeath(bool death)
     {
         if(death == true)
         {
-            playerIsDead = true;
-            UpdateUIDeath();
+            PlayerIsDead = true;
+            StartCoroutine(DieCo());
         }
         else
         {
-            playerIsDead = false;
-            UpdateUIDeath();
+            PlayerIsDead = false;
+            StartCoroutine(DieCo());
         }
     }
+
+    private IEnumerator DieCo()
+    {
+        yield return new WaitForSeconds(2f);
+        UpdateUIDeath();
+    }
+
 
     /// <summary>
     /// Initialize the keys Dictionary.
@@ -198,16 +204,6 @@ public class GameManager : MonoBehaviour
             return false;
         }
         
-    }
-
-    private void OnEnable() => GameEvents.RespawnHandler += UpdatePlayer;
-
-    private void OnDisable() => GameEvents.RespawnHandler -= UpdatePlayer;
-
-
-    public void UpdatePlayer(GameObject p_player)
-    {
-        player = p_player.GetComponent<PlayerController>();
     }
 
     void OnDestroy()

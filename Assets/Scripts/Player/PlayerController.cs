@@ -42,7 +42,7 @@ namespace SimplePlatformer.Player
         public bool isFacingRight = true;
         public bool isAttacking;
         public bool isStunned;
-        public bool itsDying;
+        //public bool itsDying;
         public bool invincible;
         public bool airAttacked;
         public bool isGrounded;
@@ -132,8 +132,8 @@ namespace SimplePlatformer.Player
                 airAttacked = true;
                 isBowAttacking = false;
                 comboState = ComboState.NONE;
-                elapsedAttackRate = attackRate;
-                rb.drag = initialDrag;
+                elapsedAttackRate = PlayerSO.AttackRate;
+                rb.drag = PlayerSO.InitialDrag;
             }
 
             //Attack rate
@@ -168,7 +168,7 @@ namespace SimplePlatformer.Player
 
         public void TakeDamage(float damage, Vector3 attackerPos)
         {
-            if (!invincible && !itsDying)
+            if (!invincible)
             {
                 //Decrease Health
                 healthSystem.DealDamage(damage);
@@ -186,7 +186,7 @@ namespace SimplePlatformer.Player
                     SoundManager.instance.Play("Death");
                     StopAllCoroutines();
                     Knockback(attackerPos, thrust);
-                    StartCoroutine(DieCo());
+                    Die();
                 }
             }
         }
@@ -197,25 +197,24 @@ namespace SimplePlatformer.Player
             characterParticles.PlayParticle(Assets.Scripts.Player.Type.HURT);
             healthSystem.SetHealth(0);
             StopAllCoroutines();
-            StartCoroutine(DieCo());
+            Die();
         }
 
-        private IEnumerator DieCo()
+        private void Die()
         {
             // Set to a Dying State and Prevent Input
             // Fade player
             // INFO: Only these two things it's enough then delegate to a LevelManager to respawn
-            itsDying = true;
+            //itsDying = true;
+            GameManager.GetInstance().TogglePlayerDeath(true);
             CurrentState = PlayerState.DEAD;
             //GetComponent<PlayerMovement>().enabled = false;
             //GetComponent<PlayerCombat>().enabled = false;
             rb.velocity = Vector2.zero;
             anim.Play("playerDie");
-            yield return new WaitForSeconds(0.55f);
             GameEvents.OnPlayerDeath?.Invoke();
-            GameManager.GetInstance().TogglePlayerDeath(true);
-            itsDying = false;
-            Destroy(gameObject); // TODO: don't destroy gameobject
+            //itsDying = false;
+            //Destroy(gameObject); // TODO: don't destroy gameobject
         }
 
         internal void Knockback(Vector3 attackerPos, float thrust)
