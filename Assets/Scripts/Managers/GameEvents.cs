@@ -5,7 +5,7 @@ public static class GameEvents
     /// <summary>
     /// Handles the player respawn. After it gets Instantiated
     /// </summary>
-    public static Action<GameObject> RespawnHandler; 
+    public static Action RespawnHandler; 
     /// <summary>
     /// Player got a new Respawn waypoint
     /// </summary>

@@ -265,23 +265,10 @@ namespace SimplePlatformer.Player
             }
         }
 
-        public void DisablePlayerState(bool set)
+        public void Respawn()
         {
-            switch (set)
-            {
-                case true:
-                    cannotAttack = true;
-                    movePrevent = true;
-                    canInteract = false;
-                    GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-                    anim.Play(PlayerAnimations.PLAYER_IDLE);
-                    break;
-                case false:
-                    cannotAttack = false;
-                    movePrevent = false;
-                    canInteract = true;
-                    break;
-            }
+            this.healthSystem.SetHealth(PlayerSO.MaxHealth);
+            this.transform.position = LevelManager.instance.currentRespawnPoint.position;
         }
 
         private void OnEnable()
@@ -290,6 +277,7 @@ namespace SimplePlatformer.Player
             inputHandler.OnJumpStarted += StartJumping;
             inputHandler.OnJumpPerformed += CancelJumping;
             inputHandler.OnInteract += Interact;
+            GameEvents.RespawnHandler += Respawn;
         }
 
         private void OnDisable()
@@ -298,6 +286,7 @@ namespace SimplePlatformer.Player
             inputHandler.OnJumpStarted -= StartJumping;
             inputHandler.OnJumpPerformed -= CancelJumping;
             inputHandler.OnInteract -= Interact;
+            GameEvents.RespawnHandler -= Respawn;
         }
 
         public void OnDrawGizmosSelected()

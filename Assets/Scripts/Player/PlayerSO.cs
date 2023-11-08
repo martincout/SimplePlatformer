@@ -10,6 +10,8 @@ namespace SimplePlatformer.Assets.Scripts.Player
 {
     public class PlayerSO : ScriptableObject
     {
+        [Header("Health")]
+        public float MaxHealth;
         [Header("Movement")]
         [Tooltip("The maximum speed that can perform gradually.")]
         public float MaxSpeed = 10f;

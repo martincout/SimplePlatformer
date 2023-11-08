@@ -25,8 +25,7 @@ public class LevelManager : MonoBehaviour
     public Room currentRoom;
     public CanvasGroup bossHealthbar;
     public AudioMixer audioMixer;
-    [SerializeField] private GameObject player;
-    
+
 
     public CinemachineVirtualCameraBase virtualCamera;
 
@@ -68,19 +67,19 @@ public class LevelManager : MonoBehaviour
             celldoors.Add(child.gameObject.GetComponent<CellDoor>());
         }
         levelKeys = new List<GameObject>();
-        foreach(Transform child in keysContainer.transform)
+        foreach (Transform child in keysContainer.transform)
         {
             levelKeys.Add(child.gameObject);
         }
         chests = new List<Chest>();
-        foreach(Transform child in chestsContainer.transform)
+        foreach (Transform child in chestsContainer.transform)
         {
             chests.Add(child.gameObject.GetComponent<Chest>());
         }
 
         //Instance
         instance = this;
-        
+
     }
 
     private void Start()
@@ -128,32 +127,30 @@ public class LevelManager : MonoBehaviour
 
     public void Respawn()
     {
-        if (player == null)
+        //TODO: If player is not dead
+        //Set an event to respawn all enemies because every enemy handles his own destruction
+        GameEvents.RespawnEnemiesHandler();
+        foreach (RespawnEntityData ed in enemies)
         {
-            //Set an event to respawn all enemies because every enemy handles his own destruction
-            GameEvents.RespawnEnemiesHandler();
-            foreach (RespawnEntityData ed in enemies)
-            {
-                GameObject instance = Instantiate(ed.enemy._enemyData.prefab, ed.position, Quaternion.identity, enemyContainer.transform);
-                instance.GetComponent<Enemy>().dropItem = ed.enemy.dropItem;
-                instance.GetComponent<Enemy>().dropChance = ed.enemy.dropChance;
-                instance.GetComponent<Enemy>().patrollingEnabled = ed.enemy.patrollingEnabled;
-            }
-            foreach (RespawnEntityData bs in bosses)
-            {
-                GameObject instance = Instantiate(bs.boss._bossData.prefab, bs.position, Quaternion.identity, bossContainer.transform);
-            }
-
-            player = Instantiate(playerPrefab, currentRespawnPoint.position, Quaternion.identity);
-
-            //Set the follow to the actual virtual camera (don't know why I did this)
-            virtualCamera.Follow = player.transform;
-            //Set the follow to all virtual cameras with the respawn Event
-            GameEvents.RespawnHandler?.Invoke(player);
-            GameManager.GetInstance().TogglePlayerDeath(false);
-            StartCoroutine(FadeMixerGroup.StartFadeOut(audioMixer, "vol2", 1f, 0f));
-            StartCoroutine(FadeMixerGroup.StartFadeIn(audioMixer, "vol1", 2f, 0f));
+            GameObject instance = Instantiate(ed.enemy._enemyData.prefab, ed.position, Quaternion.identity, enemyContainer.transform);
+            instance.GetComponent<Enemy>().dropItem = ed.enemy.dropItem;
+            instance.GetComponent<Enemy>().dropChance = ed.enemy.dropChance;
+            instance.GetComponent<Enemy>().patrollingEnabled = ed.enemy.patrollingEnabled;
         }
+        foreach (RespawnEntityData bs in bosses)
+        {
+            GameObject instance = Instantiate(bs.boss._bossData.prefab, bs.position, Quaternion.identity, bossContainer.transform);
+        }
+
+        //player = Instantiate(playerPrefab, currentRespawnPoint.position, Quaternion.identity);
+
+        //Set the follow to the actual virtual camera (don't know why I did this)
+        //virtualCamera.Follow = player.transform;
+        //Set the follow to all virtual cameras with the respawn Event
+        GameEvents.RespawnHandler?.Invoke();
+        //GameManager.GetInstance().TogglePlayerDeath(false);
+        StartCoroutine(FadeMixerGroup.StartFadeOut(audioMixer, "vol2", 1f, 0f));
+        StartCoroutine(FadeMixerGroup.StartFadeIn(audioMixer, "vol1", 2f, 0f));
 
     }
 
