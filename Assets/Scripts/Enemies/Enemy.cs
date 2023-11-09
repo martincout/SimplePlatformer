@@ -156,11 +156,6 @@ namespace SimplePlatformer.Enemy
             GameEvents.RespawnHandler -= UpdatePlayer;
         }
 
-        private void UpdatePlayer(GameObject player)
-        {
-            target = player;
-        }
-
         protected virtual void FixedUpdate()
         {
 
@@ -172,7 +167,7 @@ namespace SimplePlatformer.Enemy
 
         protected virtual void Update()
         {
-            notFollow = currentState.Equals(State.DEATH) || GameManager.GetInstance().PlayerIsDead || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().GetPlayerItsDying();
+            notFollow = currentState.Equals(State.DEATH) || GameManager.GetInstance().PlayerIsDead;
             StunTimeReset();
             CooldownAttack();
 
@@ -188,8 +183,6 @@ namespace SimplePlatformer.Enemy
             cooldownAttack = _enemyData.attackRate;
         }
 
-
-
         protected void CooldownAttack()
         {
             //Cooldown Attack
@@ -202,9 +195,6 @@ namespace SimplePlatformer.Enemy
                 isAttacking = false;
             }
         }
-
-
-
 
         protected void PlayAnimation(string name)
         {
