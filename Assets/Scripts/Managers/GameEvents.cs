@@ -1,5 +1,8 @@
 ﻿using System;
 using UnityEngine;
+/// <summary>
+/// TODO: Remove static behaviour for Network purposes.
+/// </summary>
 public static class GameEvents
 {
     /// <summary>

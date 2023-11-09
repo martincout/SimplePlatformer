@@ -17,19 +17,6 @@ public class Room : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        GameEvents.RespawnHandler += SetFollow;
-    }private void OnDisable()
-    {
-        GameEvents.RespawnHandler -= SetFollow;
-    }
-
-    private void SetFollow(GameObject playerGO)
-    {
-        virtualCamera.GetComponent<CinemachineVirtualCamera>().Follow = playerGO.transform;
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))

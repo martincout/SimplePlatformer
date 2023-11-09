@@ -37,6 +37,7 @@ public class HealthSystem : MonoBehaviour
     public void SetHealth(float hp)
     {
         currentHealth = hp;
+        UpdateHealthBar();
     }
     public void SetMaxHealth(float maxHp)
     {

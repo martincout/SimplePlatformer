@@ -52,13 +52,6 @@ namespace SimplePlatformer.Player
         public float thrust = 10f;
         private string currentControlScheme;
 
-        public bool GetPlayerItsDying()
-        {
-            return itsDying;
-        }
-
-
-
         private void Awake()
         {
             CurrentState = PlayerState.IDLE;
@@ -205,16 +198,11 @@ namespace SimplePlatformer.Player
             // Set to a Dying State and Prevent Input
             // Fade player
             // INFO: Only these two things it's enough then delegate to a LevelManager to respawn
-            //itsDying = true;
             GameManager.GetInstance().TogglePlayerDeath(true);
             CurrentState = PlayerState.DEAD;
-            //GetComponent<PlayerMovement>().enabled = false;
-            //GetComponent<PlayerCombat>().enabled = false;
             rb.velocity = Vector2.zero;
             anim.Play("playerDie");
             GameEvents.OnPlayerDeath?.Invoke();
-            //itsDying = false;
-            //Destroy(gameObject); // TODO: don't destroy gameobject
         }
 
         internal void Knockback(Vector3 attackerPos, float thrust)
@@ -266,7 +254,9 @@ namespace SimplePlatformer.Player
 
         public void Respawn()
         {
+            // Restore health
             this.healthSystem.SetHealth(PlayerSO.MaxHealth);
+            // Respawn to position
             this.transform.position = LevelManager.instance.currentRespawnPoint.position;
         }
 

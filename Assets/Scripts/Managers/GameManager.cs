@@ -6,6 +6,7 @@ using System;
 using SimplePlatformer.Player;
 
 /// <summary>
+/// TODO: Remove static behaviour for Network purposes (netcode)
 /// Manages alot of things...
 /// </summary>
 public class GameManager : MonoBehaviour
