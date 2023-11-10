@@ -14,7 +14,7 @@ namespace SimplePlatformer.Player
         [SerializeField] public bool hasBow = false;
         [Header("HitBox")]
         public Vector3 boxSize;
-        public float rotation; 
+        public float rotation;
         [HideInInspector] public bool hitboxEnable;
 
         //Combos
@@ -33,24 +33,7 @@ namespace SimplePlatformer.Player
         public LayerMask enemyLayer;
         public LayerMask damageableLayer;
 
-        public void CheckHitBoxColission()
-        {
-            if (!hitboxEnable) return;
-            Collider2D[] hit = Physics2D.OverlapBoxAll(hitBoxPos.position, boxSize, rotation, enemyLayer | damageableLayer);
-            foreach (Collider2D col in hit)
-            {
-                if (col.GetComponent<IDamageable>() != null)
-                {
-                    col.GetComponent<IDamageable>().TakeDamage(PlayerSO.AttackDamage, transform.position);
-                    if (col.GetComponent<FallingCellCage>())
-                    {
-                        playerController.Knockback(col.transform.position, 15f);
-                    }
-                    hitboxEnable = false;
-                    //if (!isJumping) StartCoroutine(ImpulseBackwards());
-                }
-            }
-        }
+
 
         /// <summary>
         /// Handles all the attack behaviour, is called by the Input System
@@ -115,10 +98,29 @@ namespace SimplePlatformer.Player
                                 break;
                         }
                     }
-
+                    CheckHitBoxColission();
                 }
             }
             #endregion
+        }
+        /// <summary>
+        /// TODO: Set hitbox trigger always turned on.
+        /// </summary>
+        public void CheckHitBoxColission()
+        {
+            Collider2D[] hit = Physics2D.OverlapBoxAll(hitBoxPos.position, boxSize, rotation, enemyLayer | damageableLayer);
+            foreach (Collider2D col in hit)
+            {
+                if (col.GetComponent<IDamageable>() != null)
+                {
+                    col.GetComponent<IDamageable>().TakeDamage(PlayerSO.AttackDamage, transform.position);
+                    if (col.GetComponent<FallingCellCage>())
+                    {
+                        playerController.Knockback(col.transform.position, 15f);
+                    }
+                    //if (!isJumping) StartCoroutine(ImpulseBackwards());
+                }
+            }
         }
 
         /// <summary>
