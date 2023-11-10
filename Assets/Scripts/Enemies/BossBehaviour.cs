@@ -1,4 +1,6 @@
-﻿using SimplePlatformer.ExpandableAttributes;
+﻿using SimplePlatformer.Assets.Scripts.Player;
+using SimplePlatformer.ExpandableAttributes;
+using SimplePlatformer.Player;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -28,7 +30,6 @@ namespace SimplePlatformer.Enemy
         /// Player
         /// </summary>
         private Vector2 playerDirection;
-        [SerializeField] private GameObject playerGO;
 
         public static Action<GameObject> OnBossRespawn;
 
@@ -86,7 +87,6 @@ namespace SimplePlatformer.Enemy
 
         private void Start()
         {
-            playerGO = GameManager.GetInstance().player.gameObject;
             healthSystem = GetComponent<HealthSystem>();
             healthSystem.SetMaxHealth(_bossData.maxHealth);
             _currentState = State.WAITING;
@@ -154,7 +154,15 @@ namespace SimplePlatformer.Enemy
         private void CheckPlayer()
         {
             Collider2D[] boxAttackRadius = Physics2D.OverlapBoxAll(transform.position, _bossData.attackRadius, 0, 1 << LayerMask.NameToLayer("Player"));
-            playerDirection = (playerGO.transform.position - transform.position).normalized;
+
+            foreach (Collider2D col in boxAttackRadius)
+            {
+                if (col.GetComponent<IPlayer>() != null)
+                {
+                    playerDirection = (col.transform.position - transform.position).normalized;
+                }
+            }
+            
             if (!isAttacking)
             {
                 //Player IN RANGE

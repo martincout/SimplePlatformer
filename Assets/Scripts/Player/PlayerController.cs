@@ -15,7 +15,7 @@ namespace SimplePlatformer.Player
     /// - Input
     /// - Health, Damage, Knockback
     /// </summary>
-    public partial class PlayerController : MonoBehaviour, IDamageable, IItem
+    public partial class PlayerController : MonoBehaviour, IDamageable, IItem, IPlayer
     {
         public float MaxHealth = 200;
 
