@@ -104,9 +104,6 @@ namespace SimplePlatformer.Player
                 }
             }
 
-            //Combat
-            CheckHitBoxColission();
-
             //Suspend the player in air when air attacking
             SuspendInAir();
 
