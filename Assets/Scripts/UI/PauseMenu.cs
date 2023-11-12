@@ -25,12 +25,6 @@ public class PauseMenu : MonoBehaviour
         disablePlayer = false;
     }
 
-    private void OnEnable()
-    {
-        GameEvents.RespawnHandler += UpdatePlayer;
-
-    }
-
     internal void UpdateUIMenuState(bool newState)
     {
         DisablePlayer();
@@ -49,16 +43,6 @@ public class PauseMenu : MonoBehaviour
                 SetInactive(Settings);
                 break;
         }
-    }
-
-    private void OnDisable()
-    {
-        GameEvents.RespawnHandler -= UpdatePlayer;
-    }
-
-    private void UpdatePlayer(GameObject playerGO)
-    {
-        player = playerGO;
     }
 
     public void SetActive(CanvasGroup cg)

@@ -28,7 +28,7 @@ public class PotsRespawner : MonoBehaviour
         GameEvents.RespawnHandler -= Respawn;
     }
 
-    private void Respawn(GameObject player)
+    private void Respawn()
     {
         foreach (RespawnEntityData ed in pots)
         {

@@ -30,6 +30,7 @@ namespace SimplePlatformer.Enemy
         /// Player
         /// </summary>
         private Vector2 playerDirection;
+        private Vector2 playerPosition;
 
         public static Action<GameObject> OnBossRespawn;
 
@@ -160,6 +161,7 @@ namespace SimplePlatformer.Enemy
                 if (col.GetComponent<IPlayer>() != null)
                 {
                     playerDirection = (col.transform.position - transform.position).normalized;
+                    playerPosition = col.transform.position;
                 }
             }
             
@@ -301,7 +303,7 @@ namespace SimplePlatformer.Enemy
             float position_y = 3.87f;
             float destroyAfter = 1.4f;
             yield return new WaitForSeconds(_waitSeconds);
-            Vector2 position = new Vector2(playerGO.transform.position.x, position_y);
+            Vector2 position = new Vector2(playerPosition.x, position_y);
             GameObject instance1 = Instantiate(_bossData.mageHandGO,position,Quaternion.identity);
             Destroy(instance1, destroyAfter);
             _xOffset = PlayerDirNormalizedNoZero() * _xOffset;
@@ -390,9 +392,9 @@ namespace SimplePlatformer.Enemy
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireCube(transform.position, _bossData.attackRadius);
             Gizmos.color = Color.yellow;
-            if (playerGO != null)
+            if (playerPosition != null)
             {
-                Gizmos.DrawLine(transform.position, playerGO.transform.position);
+                Gizmos.DrawLine(transform.position, playerPosition);
             }
         }
         #endregion

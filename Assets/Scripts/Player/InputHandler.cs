@@ -31,7 +31,7 @@ namespace SimplePlatformer.Assets.Scripts.Player
         private string actionMapPlayerControls = "PlayerControlls";
         private string actionMapMenuControls = "UI";
 
-        public InputHandler()
+        private void Awake()
         {
             _playerInput = GetComponent<PlayerInput>();
             CurrentInput = new();
@@ -62,6 +62,7 @@ namespace SimplePlatformer.Assets.Scripts.Player
 
         public void Movement(InputAction.CallbackContext value)
         {
+            Debug.Log("move");
             Vector2 inputMovement = value.ReadValue<Vector2>();
             CurrentInput.MovementDirection = inputMovement;
             //rawInputMovement = new Vector2(inputMovement.x, rb2d.velocity.y);
@@ -70,6 +71,7 @@ namespace SimplePlatformer.Assets.Scripts.Player
         //This is called from PlayerInput, when a button has been pushed, that corresponds with the 'Attack' action
         public void Attack(InputAction.CallbackContext value)
         {
+            Debug.Log(GetInputState().ToString());
             if (value.started && GetInputState().CanAttack)
             {
                 OnAttack?.Invoke();
@@ -181,8 +183,12 @@ namespace SimplePlatformer.Assets.Scripts.Player
         private void OnEnable()
         {
             _playerInput.actions["Movement"].performed += Movement;
+            _playerInput.actions["Movement"].canceled += Movement;
             _playerInput.actions["Attack"].performed += Attack;
+            _playerInput.actions["Attack"].started += Attack;
             _playerInput.actions["Jump"].performed += Jump;
+            _playerInput.actions["Jump"].started += Jump;
+            _playerInput.actions["Jump"].canceled += Jump;
             _playerInput.actions["Interact"].performed += Interact;
             _playerInput.actions["Pause"].performed += TogglePause;
             _playerInput.actions["Bow"].performed += BowAttack;
@@ -191,8 +197,12 @@ namespace SimplePlatformer.Assets.Scripts.Player
         private void OnDisable()
         {
             _playerInput.actions["Movement"].performed -= Movement;
+            _playerInput.actions["Movement"].canceled -= Movement;
             _playerInput.actions["Attack"].performed -= Attack;
+            _playerInput.actions["Attack"].started -= Attack;
             _playerInput.actions["Jump"].performed -= Jump;
+            _playerInput.actions["Jump"].started -= Jump;
+            _playerInput.actions["Jump"].canceled -= Jump;
             _playerInput.actions["Interact"].performed -= Interact;
             _playerInput.actions["Pause"].performed -= TogglePause;
             _playerInput.actions["Bow"].performed -= BowAttack;

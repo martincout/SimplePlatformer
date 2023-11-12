@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 9d407223ba5df834f975f5b81bdb44f9, type: 3}
-  m_NotificationBehavior: 2
+  m_NotificationBehavior: 3
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -269,9 +269,9 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 668373913}
+      - m_Target: {fileID: 540259816510785635}
         m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerController, Assembly-CSharp
-        m_MethodName: OnAttack
+        m_MethodName: 
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -285,9 +285,10 @@ MonoBehaviour:
     m_ActionName: PlayerControlls/Attack[/Keyboard/z]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 668373913}
-        m_TargetAssemblyTypeName: SimplePlatformer.Player.PlayerController, Assembly-CSharp
-        m_MethodName: OnMovement
+      - m_Target: {fileID: 1434831059}
+        m_TargetAssemblyTypeName: SimplePlatformer.Assets.Scripts.Player.InputHandler,
+          Assembly-CSharp
+        m_MethodName: Movement
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -489,11 +490,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitBoxPos: {fileID: 0}
-  attackRate: 0.3
-  attackDamage: 10
-  initialDrag: 0
-  attackDrag: 0
-  arrowPF: {fileID: 0}
   arrowTR: {fileID: 0}
   hasBow: 0
   boxSize: {x: 0, y: 0, z: 0}
@@ -509,12 +505,12 @@ MonoBehaviour:
     m_Bits: 4096
   MaxHealth: 200
   healthBar: {fileID: 0}
+  PlayerSO: {fileID: 0}
   movePrevent: 0
   cannotAttack: 0
   isFacingRight: 1
   isAttacking: 0
   isStunned: 0
-  itsDying: 0
   invincible: 0
   airAttacked: 0
   isGrounded: 0
@@ -523,22 +519,13 @@ MonoBehaviour:
   thrust: 10
   buttonInteract: {fileID: 0}
   size: {x: 0, y: 0}
-  fallMultiplier: 2
-  lowFallMultiplier: 8
-  jumpForce: 4
-  hangTime: 0.2
   hangTimeCounter: 0
-  groundedHeight: 0.5
-  heightOffset: 0.25
   groundLayer:
     serializedVersion: 2
     m_Bits: 0
   raycastLeftOffset: {x: 0.5, y: 0, z: 0}
   raycastRightOffset: {x: 0.5, y: 0, z: 0}
-  maxSpeed: 10
   speed: 0
-  acceleration: 5
-  decelaration: 5
   dustFootsteps: {fileID: 0}
 --- !u!1 &2400351565626025960
 GameObject:

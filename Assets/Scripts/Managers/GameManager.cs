@@ -16,8 +16,9 @@ public class GameManager : MonoBehaviour
     public bool isPaused = false;
     public bool PlayerIsDead = false; 
     public bool hasBow;
-    public RespawnManager respawnManager;
-    public LevelManager levelManager;
+    private RespawnManager respawnManager;
+    private LevelManager levelManager;
+    private PlayerController player;
 
     /// <summary>
     /// Type of key and quantity
@@ -57,6 +58,8 @@ public class GameManager : MonoBehaviour
             levelManager.SetChests();
         }
 
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+
         //Loads the spawns or start from the first spawn (if it is a new game)
         respawnManager.LoadSpawns(GlobalControl.Instance.IsSceneBeingLoaded);
 
@@ -83,7 +86,7 @@ public class GameManager : MonoBehaviour
     public void TogglePauseState()
     {
         isPaused = !isPaused;
-        player.DisablePlayerState(isPaused);
+        //player.DisablePlayerState(isPaused);
         ToggleTimeScale();
         SwitchFocusedPlayerControlScheme();
         UpdateUIMenu();

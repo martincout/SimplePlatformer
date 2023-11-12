@@ -10,16 +10,6 @@ public class Projectile : MonoBehaviour, IDamageable
     private Vector2 direction;
     private Rigidbody2D rb;
 
-    private void OnEnable()
-    {
-        GameEvents.RespawnHandler += UpdatePlayer;
-    }
-
-    void UpdatePlayer(GameObject _player)
-    {
-        player = _player;
-    }
-
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();

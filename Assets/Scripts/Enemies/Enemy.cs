@@ -147,15 +147,6 @@ namespace SimplePlatformer.Enemy
 
         }
 
-        private void OnEnable()
-        {
-            GameEvents.RespawnHandler += UpdatePlayer;
-        }
-        private void OnDisable()
-        {
-            GameEvents.RespawnHandler -= UpdatePlayer;
-        }
-
         protected virtual void FixedUpdate()
         {
 
