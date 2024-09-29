@@ -41,6 +41,10 @@ public class GameManager : MonoBehaviour
     public void Start()
     {
         instance = this;
+
+        this.levelManager = GameObject.FindObjectOfType<LevelManager>();
+        this.respawnManager = GameObject.FindObjectOfType<RespawnManager>();
+
         //Loading Data
         if (GlobalControl.Instance.IsSceneBeingLoaded)
         {
