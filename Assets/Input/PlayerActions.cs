@@ -339,7 +339,7 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Stick"",
                     ""id"": ""c398caff-7514-4031-8876-cd39062782bc"",
-                    ""path"": ""2DVector"",
+                    ""path"": ""2DVector(mode=2)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

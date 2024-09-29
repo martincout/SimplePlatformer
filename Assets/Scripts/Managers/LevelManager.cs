@@ -25,7 +25,7 @@ public class LevelManager : MonoBehaviour
     public Room currentRoom;
     public CanvasGroup bossHealthbar;
     public AudioMixer audioMixer;
-
+    private GameObject player;
 
     public CinemachineVirtualCameraBase virtualCamera;
 
@@ -49,6 +49,8 @@ public class LevelManager : MonoBehaviour
 
     private void Awake()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+
         //Gets enemies
         enemies = new List<RespawnEntityData>();
         foreach (Transform child in enemyContainer.transform)
@@ -152,6 +154,9 @@ public class LevelManager : MonoBehaviour
         StartCoroutine(FadeMixerGroup.StartFadeOut(audioMixer, "vol2", 1f, 0f));
         StartCoroutine(FadeMixerGroup.StartFadeIn(audioMixer, "vol1", 2f, 0f));
 
+        player.GetComponent<PlayerController>().Respawn();
+
+        GameManager.GetInstance().TogglePlayerDeath(false);
     }
 
     public void FadeBossHealthBar()

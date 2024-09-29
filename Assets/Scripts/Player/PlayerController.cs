@@ -66,7 +66,6 @@ namespace SimplePlatformer.Player
             render = transform.GetChild(0).GetComponent<Renderer>();
             //Combat
             hitBoxPos = transform.GetChild(1).transform;
-            render = GetComponent<Renderer>();
             //Movement
             sprRender = GetComponent<SpriteRenderer>();
             groundLayer = 1 << LayerMask.NameToLayer("Ground");
