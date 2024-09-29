@@ -26,6 +26,10 @@ namespace SimplePlatformer.Assets.Scripts.Player
         public Action OnBowAttack { get; set; }
         public Action OnTogglePause { get; set; }
 
+        public FixedJoystick fixedJoystick;
+
+        public bool androidMode = false;
+
         private string currentControlScheme = "PlayerControlls";
 
         private string actionMapPlayerControls = "PlayerControlls";
@@ -40,16 +44,23 @@ namespace SimplePlatformer.Assets.Scripts.Player
             CurrentInput.CanInteract = true;
         }
 
+        private void Update()
+        {
+            if (fixedJoystick != null && androidMode) { 
+                CurrentInput.MovementDirection = fixedJoystick.Direction;
+            }
+        }
+
         public InputState GetInputState()
         {
             // TODO: Add middlewares...
             // GameManager system
 
             if (GameManager.GetInstance().PlayerIsDead) {
-                CurrentInput.CanInteract = false;
-                CurrentInput.CanJump = false;
-                CurrentInput.CanAttack = false;
-                CurrentInput.MovementDirection = Vector2.zero;
+                //CurrentInput.CanInteract = false;
+                //CurrentInput.CanJump = false;
+                //CurrentInput.CanAttack = false;
+                //CurrentInput.MovementDirection = Vector2.zero;
             }
 
             return CurrentInput;
@@ -62,7 +73,6 @@ namespace SimplePlatformer.Assets.Scripts.Player
 
         public void Movement(InputAction.CallbackContext value)
         {
-            Debug.Log("move");
             Vector2 inputMovement = value.ReadValue<Vector2>();
             CurrentInput.MovementDirection = inputMovement;
             //rawInputMovement = new Vector2(inputMovement.x, rb2d.velocity.y);

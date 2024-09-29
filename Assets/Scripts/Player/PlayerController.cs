@@ -252,6 +252,8 @@ namespace SimplePlatformer.Player
         {
             // Restore health
             this.healthSystem.SetHealth(PlayerSO.MaxHealth);
+            this.invincible = false;
+            SetAlpha(1);
             // Respawn to position
             this.transform.position = LevelManager.instance.currentRespawnPoint.position;
         }

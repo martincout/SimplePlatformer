@@ -23,9 +23,9 @@ public class DialogueYesNo : MonoBehaviour
 
     private void OnEnable()
     {
-        cancel = playerInput.UI.Cancel;
+        //cancel = playerInput.UI.Cancel;
         cancel.Enable();
-        playerInput.UI.Cancel.performed += No;
+        //playerInput.UI.Cancel.performed += No;
         //if (player == null) player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         //player.DisablePlayerState(true);
         //Interctable false because Select doesn't work the second time
@@ -47,7 +47,7 @@ public class DialogueYesNo : MonoBehaviour
     private void OnDisable()
     {
         cancel.Disable();
-        playerInput.UI.Cancel.performed -= No;
+        //playerInput.UI.Cancel.performed -= No;
         transform.localScale = Vector2.zero;
     }
 
