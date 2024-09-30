@@ -36,22 +36,40 @@ namespace SimplePlatformer.Assets.Scripts.Player
         private string actionMapPlayerControls = "PlayerControlls";
         private string actionMapMenuControls = "UI";
 
-        private void Awake()
+        public override void OnNetworkSpawn()
         {
+            base.OnNetworkSpawn();
+
+            Debug.Log("Local player: " + IsLocalPlayer);
+            Debug.Log(IsOwner);
+
+            if (!IsLocalPlayer)
+            {
+                GetComponent<PlayerInput>().enabled = false;
+                return;
+            };
             _playerInput = GetComponent<PlayerInput>();
             CurrentInput = new();
             CurrentInput.CanJump = true;
             CurrentInput.CanAttack = true;
             CurrentInput.CanInteract = true;
-        }
 
-        public override void OnNetworkSpawn()
-        {
-            if (!IsLocalPlayer) enabled = false;
+            _playerInput.actions["Movement"].performed += Movement;
+            _playerInput.actions["Movement"].canceled += Movement;
+            _playerInput.actions["Attack"].performed += Attack;
+            _playerInput.actions["Attack"].started += Attack;
+            _playerInput.actions["Jump"].performed += Jump;
+            _playerInput.actions["Jump"].started += Jump;
+            _playerInput.actions["Jump"].canceled += Jump;
+            _playerInput.actions["Interact"].started += Interact;
+            _playerInput.actions["Pause"].started += TogglePause;
+            _playerInput.actions["Bow"].performed += BowAttack;
+
         }
 
         private void Update()
         {
+            if (!IsLocalPlayer) return;
             if (fixedJoystick != null && androidMode) { 
                 CurrentInput.MovementDirection = fixedJoystick.Direction;
             }
@@ -79,6 +97,7 @@ namespace SimplePlatformer.Assets.Scripts.Player
 
         public void Movement(InputAction.CallbackContext value)
         {
+            Debug.Log("move");
             Vector2 inputMovement = value.ReadValue<Vector2>();
             CurrentInput.MovementDirection = inputMovement;
             //rawInputMovement = new Vector2(inputMovement.x, rb2d.velocity.y);
@@ -87,7 +106,6 @@ namespace SimplePlatformer.Assets.Scripts.Player
         //This is called from PlayerInput, when a button has been pushed, that corresponds with the 'Attack' action
         public void Attack(InputAction.CallbackContext value)
         {
-            Debug.Log(GetInputState().ToString());
             if (value.started && GetInputState().CanAttack)
             {
                 OnAttack?.Invoke();
