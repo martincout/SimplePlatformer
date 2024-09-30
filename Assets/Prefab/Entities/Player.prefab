@@ -478,7 +478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fixedJoystick: {fileID: 0}
-  androidMode: 0
+  androidMode: 1
 --- !u!114 &668373913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -520,7 +520,7 @@ MonoBehaviour:
   isBowAttacking: 0
   thrust: 10
   buttonInteract: {fileID: 4778406685189288635, guid: 1378888f90720814492fbfb4860632b2, type: 3}
-  size: {x: 0, y: 0}
+  size: {x: 1.49, y: 2.68}
   hangTimeCounter: 0
   groundLayer:
     serializedVersion: 2
