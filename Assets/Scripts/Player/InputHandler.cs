@@ -199,7 +199,7 @@ namespace SimplePlatformer.Assets.Scripts.Player
             _playerInput.actions["Jump"].performed += Jump;
             _playerInput.actions["Jump"].started += Jump;
             _playerInput.actions["Jump"].canceled += Jump;
-            _playerInput.actions["Interact"].performed += Interact;
+            _playerInput.actions["Interact"].started += Interact;
             _playerInput.actions["Pause"].performed += TogglePause;
             _playerInput.actions["Bow"].performed += BowAttack;
         }
@@ -213,7 +213,7 @@ namespace SimplePlatformer.Assets.Scripts.Player
             _playerInput.actions["Jump"].performed -= Jump;
             _playerInput.actions["Jump"].started -= Jump;
             _playerInput.actions["Jump"].canceled -= Jump;
-            _playerInput.actions["Interact"].performed -= Interact;
+            _playerInput.actions["Interact"].started -= Interact;
             _playerInput.actions["Pause"].performed -= TogglePause;
             _playerInput.actions["Bow"].performed -= BowAttack;
         }

@@ -477,6 +477,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1fc8b35c1decdb49a7701e8528fc2b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fixedJoystick: {fileID: 0}
+  androidMode: 0
 --- !u!114 &668373913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,10 +491,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2555202df39dcef4e9bc76fbb68d3cae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitBoxPos: {fileID: 0}
-  arrowTR: {fileID: 0}
+  hitBoxPos: {fileID: 1308520645}
+  arrowTR: {fileID: 404100619}
   hasBow: 0
-  boxSize: {x: 0, y: 0, z: 0}
+  boxSize: {x: 2.56, y: 1, z: 0}
   rotation: 0
   hitboxEnable: 0
   elapsedNextCombo: 0
@@ -505,7 +507,7 @@ MonoBehaviour:
     m_Bits: 4096
   MaxHealth: 200
   healthBar: {fileID: 0}
-  PlayerSO: {fileID: 0}
+  PlayerSO: {fileID: 11400000, guid: f49eac4c99c7de847a280cbc254f2b41, type: 2}
   movePrevent: 0
   cannotAttack: 0
   isFacingRight: 1
@@ -517,7 +519,7 @@ MonoBehaviour:
   canInteract: 1
   isBowAttacking: 0
   thrust: 10
-  buttonInteract: {fileID: 0}
+  buttonInteract: {fileID: 4778406685189288635, guid: 1378888f90720814492fbfb4860632b2, type: 3}
   size: {x: 0, y: 0}
   hangTimeCounter: 0
   groundLayer:
