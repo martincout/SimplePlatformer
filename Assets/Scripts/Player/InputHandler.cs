@@ -8,11 +8,12 @@ using UnityEngine.InputSystem;
 using UnityEngine;
 using SimplePlatformer.Player;
 using SimplePlatformer.Assets.Scripts.Player.Input;
+using Unity.Netcode;
 
 namespace SimplePlatformer.Assets.Scripts.Player
 {
     [RequireComponent(typeof(PlayerInput))]
-    public class InputHandler : MonoBehaviour
+    public class InputHandler : NetworkBehaviour
     {
         private PlayerInput _playerInput;
 
@@ -28,7 +29,7 @@ namespace SimplePlatformer.Assets.Scripts.Player
 
         public FixedJoystick fixedJoystick;
 
-        public bool androidMode = false;
+        private bool androidMode = false;
 
         private string currentControlScheme = "PlayerControlls";
 
@@ -42,6 +43,11 @@ namespace SimplePlatformer.Assets.Scripts.Player
             CurrentInput.CanJump = true;
             CurrentInput.CanAttack = true;
             CurrentInput.CanInteract = true;
+        }
+
+        public override void OnNetworkSpawn()
+        {
+            if (!IsLocalPlayer) enabled = false;
         }
 
         private void Update()
@@ -199,8 +205,8 @@ namespace SimplePlatformer.Assets.Scripts.Player
             _playerInput.actions["Jump"].performed += Jump;
             _playerInput.actions["Jump"].started += Jump;
             _playerInput.actions["Jump"].canceled += Jump;
-            _playerInput.actions["Interact"].performed += Interact;
-            _playerInput.actions["Pause"].performed += TogglePause;
+            _playerInput.actions["Interact"].started += Interact;
+            _playerInput.actions["Pause"].started += TogglePause;
             _playerInput.actions["Bow"].performed += BowAttack;
         }
 
@@ -213,8 +219,8 @@ namespace SimplePlatformer.Assets.Scripts.Player
             _playerInput.actions["Jump"].performed -= Jump;
             _playerInput.actions["Jump"].started -= Jump;
             _playerInput.actions["Jump"].canceled -= Jump;
-            _playerInput.actions["Interact"].performed -= Interact;
-            _playerInput.actions["Pause"].performed -= TogglePause;
+            _playerInput.actions["Interact"].started -= Interact;
+            _playerInput.actions["Pause"].started -= TogglePause;
             _playerInput.actions["Bow"].performed -= BowAttack;
         }
     }

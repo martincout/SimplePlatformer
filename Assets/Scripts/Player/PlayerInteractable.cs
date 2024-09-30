@@ -1,13 +1,15 @@
 ﻿using SimplePlatformer.Assets.Scripts.Player;
 using System;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace SimplePlatformer.Player
 {
     //need to change to fixedUpdate
-    public partial class PlayerController : MonoBehaviour
+    public partial class PlayerController : NetworkBehaviour
     {
         public GameObject buttonInteract;
+        [InspectorName("Interactable Size")]
         public Vector2 size;
         private bool btnInstantiated = false;
         private GameObject buttonRef;

@@ -28,20 +28,44 @@ namespace SimplePlatformer.Enemy
         Vector2 CapsuleColliderCenter;
 
 
-        protected override void Start()
+        //protected override void Start()
+        //{
+        //    //base.Start();
+        //    rb2d.gravityScale = gravity;
+        //    groundDetector = transform.GetChild(2)?.GetComponent<Transform>();
+        //    negativeAngle = -angle;
+        //    try
+        //    {
+        //        bodyHitbox = transform.GetChild(3).GetComponent<BoxCollider2D>();
+        //    }catch(UnityException)
+        //    {
+
+        //    }
+        //}
+
+        public override void OnNetworkSpawn()
         {
-            base.Start();
+            base.OnNetworkSpawn();
+
+            if(!IsServer)
+            {
+                enabled = false;
+                return;
+            }
+            
             rb2d.gravityScale = gravity;
             groundDetector = transform.GetChild(2)?.GetComponent<Transform>();
             negativeAngle = -angle;
             try
             {
                 bodyHitbox = transform.GetChild(3).GetComponent<BoxCollider2D>();
-            }catch(UnityException)
+            }
+            catch (UnityException)
             {
 
             }
         }
+
 
         /// <summary>
         /// Updates Hitbox

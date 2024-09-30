@@ -3,6 +3,7 @@ using SimplePlatformer.Assets.Scripts.Player.Input;
 using SimplePlatformer.Assets.Scripts.Player.States;
 using System;
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -15,7 +16,7 @@ namespace SimplePlatformer.Player
     /// - Input
     /// - Health, Damage, Knockback
     /// </summary>
-    public partial class PlayerController : MonoBehaviour, IDamageable, IItem, IPlayer
+    public partial class PlayerController : NetworkBehaviour, IDamageable, IItem, IPlayer
     {
         public float MaxHealth = 200;
 
@@ -72,7 +73,7 @@ namespace SimplePlatformer.Player
             boxCollider = GetComponent<BoxCollider2D>();
             footsteps = GetComponent<AudioSource>();
             dustFootsteps = transform.GetChild(2).GetComponent<ParticleSystem>();
-            
+
         }
         private void Start()
         {
@@ -83,6 +84,8 @@ namespace SimplePlatformer.Player
 
         private void Update()
         {
+            if (!IsOwner) return;
+
             CurrentInput = inputHandler.GetInputState();
 
             movementDirection = CurrentInput.MovementDirection;

@@ -79,6 +79,10 @@ GameObject:
   - component: {fileID: 668373916}
   - component: {fileID: 1434831059}
   - component: {fileID: 668373913}
+  - component: {fileID: 1620701782}
+  - component: {fileID: 1620701783}
+  - component: {fileID: 7430323461681486422}
+  - component: {fileID: 3329644955394395029}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -477,6 +481,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1fc8b35c1decdb49a7701e8528fc2b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fixedJoystick: {fileID: 0}
+  androidMode: 0
 --- !u!114 &668373913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,10 +495,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2555202df39dcef4e9bc76fbb68d3cae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitBoxPos: {fileID: 0}
-  arrowTR: {fileID: 0}
+  hitBoxPos: {fileID: 1308520645}
+  arrowTR: {fileID: 404100619}
   hasBow: 0
-  boxSize: {x: 0, y: 0, z: 0}
+  boxSize: {x: 2.56, y: 1, z: 0}
   rotation: 0
   hitboxEnable: 0
   elapsedNextCombo: 0
@@ -505,7 +511,7 @@ MonoBehaviour:
     m_Bits: 4096
   MaxHealth: 200
   healthBar: {fileID: 0}
-  PlayerSO: {fileID: 0}
+  PlayerSO: {fileID: 11400000, guid: f49eac4c99c7de847a280cbc254f2b41, type: 2}
   movePrevent: 0
   cannotAttack: 0
   isFacingRight: 1
@@ -517,8 +523,8 @@ MonoBehaviour:
   canInteract: 1
   isBowAttacking: 0
   thrust: 10
-  buttonInteract: {fileID: 0}
-  size: {x: 0, y: 0}
+  buttonInteract: {fileID: 4778406685189288635, guid: 1378888f90720814492fbfb4860632b2, type: 3}
+  size: {x: 1, y: 1}
   hangTimeCounter: 0
   groundLayer:
     serializedVersion: 2
@@ -527,6 +533,74 @@ MonoBehaviour:
   raycastRightOffset: {x: 0.5, y: 0, z: 0}
   speed: 0
   dustFootsteps: {fileID: 0}
+--- !u!114 &1620701782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540259816510785635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &1620701783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540259816510785635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 540259816510785641}
+--- !u!114 &7430323461681486422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540259816510785635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b30a5c7ab25ee24c97f3e8f6eb44db3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 0
+  SyncRotAngleX: 0
+  SyncRotAngleY: 0
+  SyncRotAngleZ: 0
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  InLocalSpace: 0
+  Interpolate: 1
+--- !u!114 &3329644955394395029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540259816510785635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2400351565626025960
 GameObject:
   m_ObjectHideFlags: 0

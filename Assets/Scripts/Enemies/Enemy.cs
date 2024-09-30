@@ -4,9 +4,10 @@ using System.Collections;
 using Pathfinding;
 using SimplePlatformer.ExpandableAttributes;
 using SimplePlatformer.Player;
+using Unity.Netcode;
 namespace SimplePlatformer.Enemy
 {
-    public class Enemy : MonoBehaviour, IDamageable
+    public class Enemy : NetworkBehaviour, IDamageable
     {
         [Expandable]
         public EnemyData _enemyData;
@@ -70,9 +71,16 @@ namespace SimplePlatformer.Enemy
         public bool headingRight;
         public bool knockbackDontInterruptAttack = false;
 
-
-        protected virtual void Start()
+        public override void OnNetworkSpawn()
         {
+            base.OnNetworkSpawn();
+
+            if (!IsServer)
+            {
+                enabled = false;
+                return;
+            }
+
             playerGO = GameObject.FindGameObjectWithTag("Player");
             target = playerGO;
             GFX = transform.GetChild(0).gameObject;
@@ -84,6 +92,23 @@ namespace SimplePlatformer.Enemy
             healthSystem.SetMaxHealth(_enemyData.maxHealth);
             currentVisionRadius = _enemyData.visionRadius;
             SetInitialState();
+        }
+
+        protected virtual void FixedUpdate()
+        {
+            if (!IsServer) return;
+            if (!notFollow && !friendly)
+            {
+                Move();
+            }
+        }
+
+        protected virtual void Update()
+        {
+            if (!IsServer) return;
+            notFollow = currentState.Equals(State.DEATH) || GameManager.GetInstance().PlayerIsDead;
+            StunTimeReset();
+            CooldownAttack();
         }
 
         /// <summary>
@@ -147,22 +172,7 @@ namespace SimplePlatformer.Enemy
 
         }
 
-        protected virtual void FixedUpdate()
-        {
-
-            if (!notFollow && !friendly)
-            {
-                Move();
-            }
-        }
-
-        protected virtual void Update()
-        {
-            notFollow = currentState.Equals(State.DEATH) || GameManager.GetInstance().PlayerIsDead;
-            StunTimeReset();
-            CooldownAttack();
-
-        }
+        
 
         protected virtual void Move()
         {

@@ -16,9 +16,24 @@ namespace SimplePlatformer.Enemy
         float distanceToPlayer;
         public bool noShooting;
 
-        protected override void Start()
+        //protected override void Start()
+        //{
+        //    base.Start();
+        //    seeker = GetComponent<Seeker>();
+        //    distanceToPlayer = Vector3.Distance(transform.position, target.transform.position);
+        //    InvokeRepeating("UpdatePath", 0, .5f);
+        //}
+
+        public override void OnNetworkSpawn()
         {
-            base.Start();
+            base.OnNetworkSpawn();
+
+            if (!IsServer)
+            {
+                enabled = false;
+                return;
+            }
+
             seeker = GetComponent<Seeker>();
             distanceToPlayer = Vector3.Distance(transform.position, target.transform.position);
             InvokeRepeating("UpdatePath", 0, .5f);
@@ -56,7 +71,7 @@ namespace SimplePlatformer.Enemy
 
         protected override void FixedUpdate()
         {
-
+            base.FixedUpdate();
             //No path
             if (path == null) return;
             //Check reached end of path

@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using SimplePlatformer.Enemy;
 using UnityEngine.Audio;
 using SimplePlatformer.Player;
+using Unity.Netcode;
 
-public class LevelManager : MonoBehaviour
+public class LevelManager : NetworkBehaviour
 {
     public static LevelManager instance;
     public Transform currentRespawnPoint;
@@ -40,6 +41,18 @@ public class LevelManager : MonoBehaviour
 
         GameEvents.NewSpawnHandler -= UpdateNewSpawn;
         GameEvents.OnPlayerDeath -= FadeBossHealthBar;
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        if (!IsServer)
+        {
+            enabled = false;
+            return;
+        }
+
     }
 
     public void UpdateCurrentRoom(GameObject room)
@@ -142,6 +155,7 @@ public class LevelManager : MonoBehaviour
         foreach (RespawnEntityData bs in bosses)
         {
             GameObject instance = Instantiate(bs.boss._bossData.prefab, bs.position, Quaternion.identity, bossContainer.transform);
+            instance.GetComponent<NetworkObject>().Spawn();
         }
 
         //player = Instantiate(playerPrefab, currentRespawnPoint.position, Quaternion.identity);

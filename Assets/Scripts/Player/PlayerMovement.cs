@@ -1,10 +1,11 @@
 ﻿using SimplePlatformer.Assets.Scripts.Player;
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace SimplePlatformer.Player
 {
-    public partial class PlayerController : MonoBehaviour
+    public partial class PlayerController : NetworkBehaviour
     {
         //Jump
         [Tooltip("Hang time counter, decreasing value"), SerializeField] private float hangTimeCounter = 0f;
